@@ -11,390 +11,305 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* ══════════════════════════════
+   カラーシステム
+══════════════════════════════ */
 :root {
-  --font: 'Nunito', 'Noto Sans JP', sans-serif;
-
-  /* ── #005D4D ブランドカラー体系 ── */
-  --brand:      #005D4D;
-  --brand-dark: #003D33;
-  --brand-deep: #002820;
-  --brand-mid:  #007A66;
-  --brand-lit:  #00A88A;
-
-  --bg-start:   #A8D8D0;
-  --bg-end:     #7ABFB4;
-  --body-bg:    #F0FBF9;
-  --stage-a:    #D8F0EB;
-  --stage-b:    #C4E8E0;
-  --disp-bg:    #C8EDE8;
-  --disp-bd:    #8ACDC4;
-
-  --card-a:     #00B896;
-  --card-b:     #007A66;
-  --card-sh:    #004D40;
-
-  --bn-a:       #00A070;
-  --bn-b:       #007050;
-  --bn-sh:      #004030;
-
-  --op-bg:      #FFFFFF;
-  --op-bd:      #A0D0C8;
-  --op-tx:      #005D4D;
-
-  --ut-a:       #70B8B0;
-  --ut-b:       #4A9890;
-  --ut-sh:      #2E7068;
-
-  --eq-a:       #F05040;
-  --eq-sh:      #A02010;
-
-  --cl-a:       #9060D8;
-  --cl-sh:      #5030A0;
-
-  --ga-a:       #00A070;
-  --ga-b:       #007050;
-  --ga-sh:      #003828;
-
-  --tax-a:      #50A890;
-  --tax-b:      #388070;
-  --tax-sh:     #205848;
-
-  --td: #001A14;
-  --tm: #003830;
-  --tp: #48988A;
-}
-
-html, body {
-  height: 100%;
-  width: 100%;
-}
-
-body {
-  font-family: var(--font);
-  background: linear-gradient(150deg, var(--bg-start) 0%, var(--bg-end) 100%);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px 16px 40px;
+  --font:      'Nunito','Noto Sans JP',sans-serif;
+  --brand:     #005D4D;  --brand-mid: #007A66;  --brand-deep: #002820;
+  --bg-s:      #9CCEC6;  --bg-e:      #6AAFAA;
+  --body-bg:   #F0FBF9;
+  --stage-a:   #D4EEE9;  --stage-b:   #BFE4DC;
+  --disp-bg:   #C4EAE4;  --disp-bd:   #84C8C0;
+  --card-a:    #00B896;  --card-b:    #007A66;  --card-sh: #004D40;
+  --bn-a:      #00A070;  --bn-b:      #006850;  --bn-sh:   #003828;
+  --op-bg:     #FFFFFF;  --op-bd:     #9CCEC6;  --op-tx:   #005D4D;
+  --ut-a:      #68B4AC;  --ut-b:      #46948C;  --ut-sh:   #2A6860;
+  --eq-a:      #F04838;  --eq-sh:     #9E2010;
+  --cl-a:      #8858D0;  --cl-sh:     #4C2898;
+  --ga-a:      #009C6A;  --ga-b:      #006C48;  --ga-sh:   #003828;
+  --tax-a:     #4CA488;  --tax-b:     #347C68;  --tax-sh:  #1C5040;
+  --td:        #001A12;  --tm:        #003428;  --tp:      #469080;
 }
 
 /* ══════════════════════════════
-   電卓カード — 幅を厳密に管理
+   ページ全体
+   スマホ: 全画面ぴったり
+   PC    : 中央に電卓
+══════════════════════════════ */
+html {
+  height: 100%;
+  /* スクロールバーで幅が変わらないように */
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar { display: none; }
+
+body {
+  font-family: var(--font);
+  min-height: 100dvh;
+  background: linear-gradient(150deg, var(--bg-s), var(--bg-e));
+  background-attachment: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: max(16px, 2vh) max(12px, 2vw);
+}
+
+/* ══════════════════════════════
+   電卓カード
+   幅: スマホは余白込みで100%, PCは480px上限
+   キーパッド: 内包する .kpad が実際の幅を決める
 ══════════════════════════════ */
 .calc {
+  --inner-w: min(
+    calc(100vw - 24px),   /* スマホ: 左右12px余白 */
+    480px                  /* PC上限 */
+  );
+  /* ボタン直径 = (内幅 - gap×4) / 5 */
+  --gap:  clamp(7px, 1.8vw, 11px);
+  --btn:  calc((var(--inner-w) - 32px - var(--gap) * 4) / 5);
+  /* ステージ高さ = 利用可能な縦の余白から動的に */
+  --stage-h: clamp(160px, 28dvh, 280px);
+
   background: var(--body-bg);
-  width: 100%;
-  max-width: 360px;           /* ★ 上限を明確に */
-  border-radius: 32px;
-  padding: 18px 16px 22px;
+  width: var(--inner-w);
+  border-radius: clamp(20px, 4vw, 34px);
+  padding: clamp(14px, 3vh, 20px) clamp(14px, 2vw, 18px) clamp(16px, 3vh, 22px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1.2vh, 10px);
   box-shadow:
-    0 0 0 1.5px rgba(255,255,255,.9) inset,
-    0 20px 56px rgba(0,25,20,.28),
-    0 6px 16px rgba(0,25,20,.12);
-  /* overflow:hidden で子要素の飛び出しを防ぐ */
+    0 0 0 1.5px rgba(255,255,255,.88) inset,
+    0 20px 60px rgba(0,20,16,.28),
+    0 6px 18px rgba(0,20,16,.12);
   overflow: hidden;
 }
 
 /* タイトル */
 .app-title {
   text-align: center;
-  font-size: .58rem; font-weight: 900;
-  letter-spacing: .25em; text-transform: uppercase;
-  color: var(--tp); margin-bottom: 12px; user-select: none;
+  font-size: clamp(.5rem, 1.2vw, .62rem);
+  font-weight: 900; letter-spacing: .26em; text-transform: uppercase;
+  color: var(--tp); user-select: none; flex-shrink: 0;
 }
 
 /* ══════════════════════════════
-   カードステージ — 固定高さ
+   カードステージ
 ══════════════════════════════ */
 .stage {
   position: relative;
   width: 100%;
-  height: 262px;
-  background: linear-gradient(140deg, var(--stage-a), var(--stage-b));
-  border-radius: 18px;
+  height: var(--stage-h);
+  flex-shrink: 0;
+  background: linear-gradient(138deg, var(--stage-a), var(--stage-b));
+  border-radius: clamp(12px, 2.5vw, 20px);
   border: 2px dashed rgba(0,93,77,.2);
-  margin-bottom: 8px;
   overflow: hidden;
 }
 
+/* ヒント */
 .stage-hint {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%);
-  text-align: center; pointer-events: none;
-  transition: opacity .3s; user-select: none; width: 90%;
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 5px;
+  pointer-events: none; transition: opacity .28s; user-select: none;
 }
-.stage-hint .si { font-size: 1.4rem; opacity: .25; display: block; margin-bottom: 4px; }
-.stage-hint .st { font-size: .62rem; font-weight: 700; color: var(--tp); line-height: 1.8; }
+.stage-hint .si {
+  font-size: clamp(1rem, 4vw, 1.5rem); opacity: .24; line-height: 1;
+}
+.stage-hint .st {
+  font-size: clamp(.54rem, 1.4vw, .64rem);
+  font-weight: 700; color: var(--tp); line-height: 1.8; text-align: center;
+}
 
 /* ── 数字カード ── */
 .ncard {
   position: absolute;
   background: linear-gradient(145deg, var(--card-a), var(--card-b));
-  border-radius: 13px;
-  padding: 7px 11px 7px 8px;
-  min-width: 68px;
-  box-shadow: 0 4px 0 var(--card-sh), 0 5px 12px rgba(0,35,25,.28);
+  border-radius: clamp(9px, 2vw, 13px);
+  padding: clamp(5px,1.2vw,8px) clamp(9px,2.2vw,12px) clamp(5px,1.2vw,8px) clamp(6px,1.6vw,9px);
+  min-width: clamp(58px, 13vw, 76px);
+  box-shadow: 0 3px 0 var(--card-sh), 0 4px 10px rgba(0,30,20,.26);
   cursor: grab; user-select: none; touch-action: none;
-  display: flex; align-items: center; gap: 4px;
-  z-index: 10;
-  transition: box-shadow .1s, transform .1s;
+  display: flex; align-items: center; gap: 3px;
+  z-index: 10; transition: box-shadow .1s, transform .1s;
 }
 .ncard.dragging {
   cursor: grabbing;
-  box-shadow: 0 7px 0 var(--card-sh), 0 12px 26px rgba(0,35,25,.4);
-  transform: scale(1.07) rotate(-1.5deg);
-  z-index: 80;
+  box-shadow: 0 6px 0 var(--card-sh), 0 10px 24px rgba(0,30,20,.38);
+  transform: scale(1.07) rotate(-1.5deg); z-index: 80;
 }
-.ncard.enter   { animation: cIn  .32s cubic-bezier(.34,1.56,.64,1); }
-.ncard.leaving { animation: cOut .18s ease-in forwards; }
-@keyframes cIn  { from { transform: scale(.3) translateY(18px); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-@keyframes cOut { to   { transform: scale(.4); opacity: 0; } }
-
-.clbl { font-size: .46rem; font-weight: 900; color: rgba(255,255,255,.55); letter-spacing: .06em; white-space: nowrap; }
-.cval { font-size: 1.1rem; font-weight: 900; color: #fff; letter-spacing: -.02em; white-space: nowrap; flex: 1; text-align: right; }
+.ncard.enter   { animation: cIn  .3s cubic-bezier(.34,1.56,.64,1); }
+.ncard.leaving { animation: cOut .17s ease-in forwards; }
+@keyframes cIn  { from { transform:scale(.3) translateY(16px); opacity:0; } to { transform:scale(1); opacity:1; } }
+@keyframes cOut { to   { transform:scale(.4); opacity:0; } }
+.clbl { font-size: clamp(.4rem,.9vw,.5rem); font-weight:900; color:rgba(255,255,255,.5); letter-spacing:.06em; white-space:nowrap; }
+.cval { font-size: clamp(.88rem,2.2vw,1.1rem); font-weight:900; color:#fff; letter-spacing:-.02em; white-space:nowrap; flex:1; text-align:right; }
 .cdel {
-  width: 16px; height: 16px;
-  background: rgba(255,255,255,.2); border: none; border-radius: 50%;
-  color: rgba(255,255,255,.8); font-size: .55rem; font-weight: 900;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; line-height: 1; transition: background .12s;
+  width:15px; height:15px; flex-shrink:0;
+  background:rgba(255,255,255,.18); border:none; border-radius:50%;
+  color:rgba(255,255,255,.78); font-size:.5rem; font-weight:900;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  line-height:1; transition:background .12s;
 }
-.cdel:hover { background: rgba(220,50,30,.55); }
-
-/* ══════════════════════════════
-   集計結果オーバーレイ（ステージ内）
-══════════════════════════════ */
-.result-overlay {
-  position: absolute; inset: 0;
-  background: rgba(210,245,238,.95);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-radius: 16px;
-  display: flex; flex-direction: column;
-  justify-content: center;
-  padding: 14px 16px 12px;
-  z-index: 200;
-  opacity: 0; pointer-events: none;
-  transform: scale(.95);
-  transition: opacity .26s ease, transform .26s cubic-bezier(.34,1.3,.64,1);
-}
-.result-overlay.show { opacity: 1; pointer-events: auto; transform: scale(1); }
-
-.ro-label {
-  font-size: .52rem; font-weight: 900; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--tm); opacity: .55; margin-bottom: 4px;
-}
-.ro-formula {
-  font-size: .76rem; font-weight: 700; color: var(--tm);
-  line-height: 1.7; word-break: break-all; overflow-y: auto;
-  max-height: 70px;
-}
-.ro-formula .pl { color: var(--brand-mid); font-weight: 900; margin: 0 2px; }
-.ro-total {
-  font-size: 1.85rem; font-weight: 900; color: var(--td);
-  text-align: right; letter-spacing: -.03em;
-  border-top: 1.5px solid rgba(0,93,77,.16);
-  padding-top: 5px; margin-top: 5px; line-height: 1;
-}
-.ro-close {
-  margin-top: 7px; display: block; width: 100%;
-  background: rgba(0,93,77,.1); border: none; border-radius: 9px;
-  padding: 5px; font-family: var(--font); font-size: .64rem; font-weight: 800;
-  color: var(--tm); cursor: pointer; transition: background .13s;
-}
-.ro-close:hover { background: rgba(0,93,77,.22); }
-
-/* total-bar 削除済 */
+.cdel:hover { background:rgba(210,45,25,.52); }
 
 /* カード枚数バッジ */
 .card-count {
-  position: absolute;
-  top: 10px; right: 12px;
-  background: rgba(0,93,77,.18);
-  border-radius: 20px;
-  padding: 3px 10px;
-  font-size: .6rem; font-weight: 900;
-  color: var(--tm);
-  letter-spacing: .06em;
-  pointer-events: none;
-  z-index: 5;
-  backdrop-filter: blur(4px);
+  position:absolute; top:9px; right:10px; display:none;
+  background:rgba(0,93,77,.15); border-radius:20px; padding:2px 9px;
+  font-size:clamp(.5rem,1.2vw,.6rem); font-weight:900; color:var(--tm);
+  letter-spacing:.05em; pointer-events:none; z-index:5;
 }
 
 /* ══════════════════════════════
+   集計結果オーバーレイ
+══════════════════════════════ */
+.result-overlay {
+  position:absolute; inset:0;
+  background:rgba(208,244,236,.94);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-radius:inherit;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:clamp(10px,2.5vw,16px);
+  z-index:200; opacity:0; pointer-events:none; transform:scale(.94);
+  transition:opacity .24s ease, transform .24s cubic-bezier(.34,1.3,.64,1);
+}
+.result-overlay.show { opacity:1; pointer-events:auto; transform:scale(1); }
+.ro-label {
+  font-size:clamp(.44rem,1.1vw,.54rem); font-weight:900; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--tm); opacity:.5; margin-bottom:3px;
+}
+.ro-formula {
+  font-size:clamp(.64rem,1.7vw,.8rem); font-weight:700; color:var(--tm);
+  line-height:1.7; word-break:break-all; overflow-y:auto; max-height:34%;
+}
+.ro-formula .pl { color:var(--brand-mid); font-weight:900; margin:0 2px; }
+.ro-total {
+  font-size:clamp(1.4rem,4.5vw,2rem); font-weight:900; color:var(--td);
+  text-align:right; letter-spacing:-.03em;
+  border-top:1.5px solid rgba(0,93,77,.14);
+  padding-top:4px; margin-top:4px; line-height:1;
+}
+.ro-close {
+  margin-top:6px; display:block; width:100%;
+  background:rgba(0,93,77,.09); border:none; border-radius:clamp(6px,1.5vw,9px);
+  padding:clamp(4px,1vh,6px); font-family:var(--font);
+  font-size:clamp(.54rem,1.4vw,.66rem); font-weight:800; color:var(--tm);
+  cursor:pointer; transition:background .13s;
+}
+.ro-close:hover { background:rgba(0,93,77,.2); }
+
+/* ══════════════════════════════
    コントロールバー
-   C(56px) | display(flex:1) | gather(56px)
-   ※ 固定px + 1fr構成 → 幅が確定
+   C(--btn) | disp(1fr) | Σ(--btn)
 ══════════════════════════════ */
 .ctrl {
-  width: 100%;
   display: grid;
-  grid-template-columns: 56px 1fr 56px;
-  gap: 8px;
+  grid-template-columns: var(--btn) 1fr var(--btn);
+  gap: var(--gap);
   align-items: center;
-  margin-bottom: 11px;
+  flex-shrink: 0;
 }
 
 /* ディスプレイ */
 .disp {
   background: var(--disp-bg);
   border: 2px solid var(--disp-bd);
-  border-radius: 16px;
-  height: 56px;
-  padding: 4px 13px;
+  border-radius: clamp(10px,2vw,16px);
+  height: var(--btn);
+  padding: 4px clamp(10px,2.2vw,14px);
   display: flex; flex-direction: column;
   justify-content: center; align-items: flex-end;
   overflow: hidden;
   cursor: grab; user-select: none; touch-action: none;
   transition: transform .12s, box-shadow .12s, border-color .13s;
-  min-width: 0;   /* ← grid内でのはみ出し防止 */
+  min-width: 0;
 }
-.disp:hover   { border-color: var(--brand-mid); box-shadow: 0 0 0 3px rgba(0,93,77,.12); }
-.disp.lift    { cursor: grabbing; transform: scale(1.04) translateY(-3px); box-shadow: 0 10px 24px rgba(0,35,25,.26); border-color: var(--brand); }
-
-.d-expr { font-size: .55rem; font-weight: 600; color: var(--tp); min-height: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-.d-num  {
-  font-size: 1.75rem; font-weight: 900; color: var(--td);
-  letter-spacing: -.03em; white-space: nowrap; overflow: hidden;
-  text-overflow: ellipsis; max-width: 100%; line-height: 1.05;
-  transition: font-size .1s;
+.disp:hover  { border-color: var(--brand-mid); box-shadow: 0 0 0 3px rgba(0,93,77,.1); }
+.disp.lift   { cursor:grabbing; transform:scale(1.03) translateY(-3px); box-shadow:0 9px 22px rgba(0,30,20,.24); border-color:var(--brand); }
+.d-expr {
+  font-size: clamp(.46rem,1.2vw,.58rem); font-weight:600; color:var(--tp);
+  min-height:10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;
 }
-.d-num.sm { font-size: 1.35rem; }
-.d-num.xs { font-size: 1rem; }
-@keyframes dfl { 0%,100%{background:var(--disp-bg)} 40%{background:#80DDD0} }
-.disp.flash { animation: dfl .38s ease; }
+.d-num {
+  font-size: clamp(1.3rem,4vw,1.8rem); font-weight:900; color:var(--td);
+  letter-spacing:-.03em; white-space:nowrap; overflow:hidden;
+  text-overflow:ellipsis; max-width:100%; line-height:1.05; transition:font-size .1s;
+}
+.d-num.sm { font-size: clamp(1rem,3vw,1.35rem); }
+.d-num.xs { font-size: clamp(.78rem,2.3vw,1rem); }
+@keyframes dfl { 0%,100%{background:var(--disp-bg)} 40%{background:#78D8CC} }
+.disp.flash { animation:dfl .36s ease; }
 
 /* ゴーストカード */
 .ghost-card {
-  position: fixed; pointer-events: none; z-index: 9999;
-  background: linear-gradient(145deg, var(--card-a), var(--card-b));
-  border-radius: 13px; padding: 7px 14px;
-  font-family: var(--font); font-size: 1.1rem; font-weight: 900; color: #fff;
-  box-shadow: 0 8px 20px rgba(0,35,25,.42);
-  transform: scale(1.06) rotate(-2deg); opacity: .88; white-space: nowrap;
+  position:fixed; pointer-events:none; z-index:9999;
+  background:linear-gradient(145deg,var(--card-a),var(--card-b));
+  border-radius:clamp(9px,2vw,13px); padding:clamp(5px,1.2vw,8px) clamp(9px,2.2vw,12px);
+  font-family:var(--font); font-size:clamp(.88rem,2.2vw,1.1rem); font-weight:900; color:#fff;
+  box-shadow:0 7px 18px rgba(0,30,20,.4); transform:scale(1.06) rotate(-2deg); opacity:.87; white-space:nowrap;
 }
-
 .stage.drop-ready {
-  border-color: rgba(0,93,77,.48);
-  background: linear-gradient(140deg, #B8EAE4, #A0E0D8);
-  box-shadow: inset 0 0 16px rgba(0,93,77,.1);
+  border-color:rgba(0,93,77,.46);
+  background:linear-gradient(138deg,#B4E8E0,#9CDDD4);
+  box-shadow:inset 0 0 14px rgba(0,93,77,.1);
 }
 
 /* ══════════════════════════════
-   ボタン共通
-   ★ width/height を固定px(56px)に統一
-     → vw依存をやめてはみ出しゼロに
+   ボタン
+   直径 = --btn（コンテナ幅から逆算）
 ══════════════════════════════ */
 .btn {
-  border: none; border-radius: 50%;
-  width: 56px; height: 56px;
-  font-family: var(--font);
-  font-size: 1rem; font-weight: 800;
-  cursor: pointer;
-  display: flex; justify-content: center; align-items: center;
-  margin: 0 auto;
-  user-select: none; flex-shrink: 0;
-  transition: transform .08s ease, box-shadow .08s ease;
-  -webkit-tap-highlight-color: transparent;
+  border:none; border-radius:50%;
+  width:var(--btn); height:var(--btn);
+  font-family:var(--font); font-weight:800;
+  cursor:pointer;
+  display:flex; justify-content:center; align-items:center;
+  margin:0 auto; user-select:none; flex-shrink:0;
+  transition:transform .08s ease, box-shadow .08s ease;
 }
-.btn:active { transform: scale(.87) translateY(2px); }
+.btn:active { transform:scale(.86) translateY(2px); }
 
-/* 数字：#005D4D 系 */
-.bn {
-  background: linear-gradient(170deg, var(--bn-a), var(--bn-b));
-  color: #fff; font-size: 1.45rem;
-  box-shadow: 0 4px 0 var(--bn-sh), 0 5px 13px rgba(0,35,25,.32);
-}
-.bn:active { box-shadow: 0 1px 0 var(--bn-sh); }
+/* フォントサイズもbtnに連動 */
+.bn  { background:linear-gradient(170deg,var(--bn-a),var(--bn-b)); color:#fff; font-size:calc(var(--btn)*.38); box-shadow:0 4px 0 var(--bn-sh),0 5px 12px rgba(0,30,20,.3); }
+.bn:active  { box-shadow:0 1px 0 var(--bn-sh); }
+.bop { background:var(--op-bg); color:var(--op-tx); font-size:calc(var(--btn)*.34); border:2px solid var(--op-bd); box-shadow:0 3px 0 #88C0B8,0 4px 8px rgba(0,0,0,.06); }
+.bop:active { box-shadow:0 1px 0 #88C0B8; }
+.bu  { background:linear-gradient(170deg,var(--ut-a),var(--ut-b)); color:#fff; font-size:calc(var(--btn)*.24); box-shadow:0 3px 0 var(--ut-sh),0 4px 8px rgba(0,30,20,.2); }
+.bu:active  { box-shadow:0 1px 0 var(--ut-sh); }
+.bc  { background:linear-gradient(170deg,var(--cl-a),#5A38B0); color:#fff; font-size:calc(var(--btn)*.28); box-shadow:0 4px 0 var(--cl-sh),0 5px 12px rgba(60,25,120,.32); }
+.bc:active  { box-shadow:0 1px 0 var(--cl-sh); }
+.beq { background:linear-gradient(170deg,var(--eq-a),#B82008); color:#fff; font-size:calc(var(--btn)*.36); box-shadow:0 4px 0 var(--eq-sh),0 5px 12px rgba(190,45,25,.34); }
+.beq:active { box-shadow:0 1px 0 var(--eq-sh); }
+.bga { background:linear-gradient(170deg,var(--ga-a),var(--ga-b)); color:#fff; box-shadow:0 4px 0 var(--ga-sh),0 5px 12px rgba(0,25,16,.36); }
+.bga:active { box-shadow:0 1px 0 var(--ga-sh); }
+.btax { background:linear-gradient(170deg,var(--tax-a),var(--tax-b)); color:#fff; font-size:calc(var(--btn)*.19); letter-spacing:.03em; box-shadow:0 3px 0 var(--tax-sh),0 4px 9px rgba(0,30,20,.22); }
+.btax:active { box-shadow:0 1px 0 var(--tax-sh); }
 
-/* 演算子：白 */
-.bop {
-  background: var(--op-bg); color: var(--op-tx);
-  font-size: 1.3rem;
-  border: 2px solid var(--op-bd);
-  box-shadow: 0 3px 0 #90C8C0, 0 4px 8px rgba(0,0,0,.06);
-}
-.bop:active { box-shadow: 0 1px 0 #90C8C0; }
-
-/* ユーティリティ */
-.bu {
-  background: linear-gradient(170deg, var(--ut-a), var(--ut-b));
-  color: #fff; font-size: .92rem;
-  box-shadow: 0 3px 0 var(--ut-sh), 0 4px 8px rgba(0,35,25,.22);
-}
-.bu:active { box-shadow: 0 1px 0 var(--ut-sh); }
-
-/* C：パープル */
-.bc {
-  background: linear-gradient(170deg, var(--cl-a), #6040B8);
-  color: #fff; font-size: 1.1rem;
-  box-shadow: 0 4px 0 var(--cl-sh), 0 5px 13px rgba(70,30,130,.34);
-}
-.bc:active { box-shadow: 0 1px 0 var(--cl-sh); }
-
-/* ＝：コーラル */
-.beq {
-  background: linear-gradient(170deg, var(--eq-a), #C02810);
-  color: #fff; font-size: 1.4rem;
-  box-shadow: 0 4px 0 var(--eq-sh), 0 5px 13px rgba(200,50,30,.36);
-}
-.beq:active { box-shadow: 0 1px 0 var(--eq-sh); }
-
-/* ★ 集計ボタン：「まとめる」を直感的に伝えるデザイン */
-.bga {
-  background: linear-gradient(170deg, var(--ga-a), var(--ga-b));
-  color: #fff;
-  box-shadow: 0 4px 0 var(--ga-sh), 0 6px 14px rgba(0,30,20,.38);
-  position: relative;
-}
-.bga:active { box-shadow: 0 1px 0 var(--ga-sh); }
-
-/* 集計アイコン：内向き矢印4本 + 中央の合計記号 */
+/* 集計ボタンアイコン */
 .gather-icon {
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 1px;
-  pointer-events: none;
+  display:flex; flex-direction:column; align-items:center; gap:0;
+  pointer-events:none; line-height:1;
 }
-.gi-top {
-  font-size: .6rem; font-weight: 900; color: rgba(255,255,255,.85);
-  letter-spacing: .04em; line-height: 1;
-}
-.gi-symbol {
-  font-size: 1.3rem; font-weight: 900; color: #fff;
-  line-height: 1; letter-spacing: -.04em;
-}
-.gi-bottom {
-  font-size: .52rem; font-weight: 900; color: rgba(255,255,255,.75);
-  letter-spacing: .03em; line-height: 1;
-}
-
-/* TAX */
-.btax {
-  background: linear-gradient(170deg, var(--tax-a), var(--tax-b));
-  color: #fff; font-size: .72rem; letter-spacing: .03em;
-  box-shadow: 0 3px 0 var(--tax-sh), 0 4px 9px rgba(0,35,25,.24);
-}
-.btax:active { box-shadow: 0 1px 0 var(--tax-sh); }
+.gi-label  { font-size:calc(var(--btn)*.14); font-weight:900; color:rgba(255,255,255,.75); letter-spacing:.05em; }
+.gi-symbol { font-size:calc(var(--btn)*.38); font-weight:900; color:#fff; }
 
 /* ══════════════════════════════
    キーパッド
-   ★ 5列 × 56px + gap4本 = 280 + 44 = 324px
-     max-width 360px から padding 32px = 328px ← ギリギリ収まる
-     gap を 10px に調整: 280 + 40 = 320px ✓
+   5列 × --btn、gap連動、中央揃え
 ══════════════════════════════ */
 .kpad {
-  width: 100%;
   display: grid;
-  grid-template-columns: repeat(5, 56px);
-  gap: 10px;
-  justify-content: center;   /* ★ 中央揃え → はみ出しなし */
+  grid-template-columns: repeat(5, var(--btn));
+  gap: var(--gap);
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 /* ポップ */
-@keyframes tpop { 0%{transform:scale(1)} 45%{transform:scale(1.12)} 100%{transform:scale(1)} }
-.t-val.pop { animation: tpop .2s ease-out; }
+@keyframes tpop { 0%{transform:scale(1)} 45%{transform:scale(1.1)} 100%{transform:scale(1)} }
 </style>
 </head>
 <body>
@@ -408,11 +323,7 @@ body {
       <span class="si">🃏</span>
       <span class="st">数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加</span>
     </div>
-    <!-- カード枚数バッジ（右上） -->
-    <div class="card-count" id="cardCount" style="display:none;">
-      <span id="cardCountNum">0</span> 件
-    </div>
-    <!-- 集計結果オーバーレイ -->
+    <div class="card-count" id="cardCount"><span id="cardCountNum">0</span> 件</div>
     <div class="result-overlay" id="resultOverlay">
       <div class="ro-label">集計結果</div>
       <div class="ro-formula" id="roFormula"></div>
@@ -428,10 +339,9 @@ body {
       <div class="d-expr" id="exprLine">&nbsp;</div>
       <div class="d-num"  id="numLine">0</div>
     </div>
-    <!-- ★ 集計ボタン：Σ（合計記号）で「まとめる」を直感的に表現 -->
     <button class="btn bga" onclick="gatherAll()" title="全カードを合計">
       <div class="gather-icon">
-        <span class="gi-top">TOTAL</span>
+        <span class="gi-label">TOTAL</span>
         <span class="gi-symbol">Σ</span>
       </div>
     </button>
@@ -465,259 +375,122 @@ body {
   </div>
 
 </div>
-
 <script>
-/* ══ ステート ══ */
-let cur='0', prev='', op=null, rst=false;
-
-const NL  = document.getElementById('numLine');
-const EL  = document.getElementById('exprLine');
-const DB  = document.getElementById('dispBox');
-const ST  = document.getElementById('stage');
-const SH  = document.getElementById('stageHint');
-const ROV = document.getElementById('resultOverlay');
-const ROF = document.getElementById('roFormula');
-const ROT = document.getElementById('roTotal');
-
-let cards=[], cid=0;
+let cur='0',prev='',op=null,rst=false;
+const NL=document.getElementById('numLine'),EL=document.getElementById('exprLine'),
+      DB=document.getElementById('dispBox'),ST=document.getElementById('stage'),
+      SH=document.getElementById('stageHint'),ROV=document.getElementById('resultOverlay'),
+      ROF=document.getElementById('roFormula'),ROT=document.getElementById('roTotal'),
+      CCB=document.getElementById('cardCount'),CCN=document.getElementById('cardCountNum');
+let cards=[],cid=0;
 
 function updD(v){
-  const s=String(v);
-  NL.textContent=s;
-  NL.classList.remove('sm','xs');
+  const s=String(v);NL.textContent=s;NL.classList.remove('sm','xs');
   const l=s.replace(/[^0-9.]/g,'').length;
-  if(l>12)NL.classList.add('xs');
-  else if(l>8)NL.classList.add('sm');
+  if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm');
 }
-
 function inp(ch){
   if(rst){cur='';rst=false;}
   if(cur==='0'&&ch!='.')cur='';
   if(ch==='.'&&cur.includes('.'))return;
   if(cur.replace('-','').length>=13)return;
-  cur+=ch; if(!cur||cur==='-')cur='0';
-  updD(cur);
+  cur+=ch;if(!cur||cur==='-')cur='0';updD(cur);
 }
-
-function setOp(o){
-  if(op&&!rst)calcOnly(true);
-  prev=cur; op=o;
-  EL.textContent=cur+' '+o;
-  rst=true;
-}
-
+function setOp(o){if(op&&!rst)calcOnly(true);prev=cur;op=o;EL.textContent=cur+' '+o;rst=true;}
 function calcOnly(chain){
   if(!op)return false;
-  const p=parseFloat(prev), c=parseFloat(cur);
+  const p=parseFloat(prev),c=parseFloat(cur);
   if(isNaN(p)||isNaN(c))return false;
   let res;
-  switch(op){
-    case '＋':res=p+c;break; case '−':res=p-c;break;
-    case '×':res=p*c;break;  case '÷':res=c===0?null:p/c;break;
-  }
+  switch(op){case '＋':res=p+c;break;case '−':res=p-c;break;case '×':res=p*c;break;case '÷':res=c===0?null:p/c;break;}
   if(res===null){EL.textContent='0除算エラー';cur='0';op=null;updD('Error');return false;}
   res=parseFloat(res.toPrecision(12));
   EL.textContent=prev+' '+op+' '+cur+' ＝';
-  prev=String(res); cur=String(res);
-  op=chain?op:null; rst=!chain;
-  updD(res); return res;
+  prev=String(res);cur=String(res);op=chain?op:null;rst=!chain;updD(res);return res;
 }
-
 function clearAll(){cur='0';prev='';op=null;rst=false;updD('0');EL.textContent='';}
 function bspc(){if(rst)return;cur=cur.slice(0,-1)||'0';updD(cur);}
 function tglSign(){const n=parseFloat(cur);if(!isNaN(n)&&n!==0){cur=String(n*-1);updD(cur);}}
 function pct(){const n=parseFloat(cur);if(!isNaN(n)){cur=String(n/100);updD(cur);}}
-function doTax(){
-  const n=parseFloat(cur);if(isNaN(n))return;
-  const r=Math.floor(n*1.1);
-  EL.textContent=cur+'×1.1（税10%）＝';
-  cur=String(r);rst=true;updD(r);
-}
+function doTax(){const n=parseFloat(cur);if(isNaN(n))return;const r=Math.floor(n*1.1);EL.textContent=cur+'×1.1（税10%）＝';cur=String(r);rst=true;updD(r);}
+function fmt(v){if(Number.isInteger(v))return v.toLocaleString('ja-JP');return parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:6});}
 
-/* ══ カード追加 ══ */
 function addCard(value){
-  cid++;
-  const id=cid;
-  const sw=ST.offsetWidth;
-  const cw=Math.max(68, fmt(value).length*13+48);
+  cid++;const id=cid,sw=ST.offsetWidth,cw=Math.max(58,fmt(value).length*12+44);
   let x,y;
-  if(cards.length===0){
-    x=Math.min(8+Math.random()*28, sw-cw-8); y=8;
-  } else {
-    const last=cards[cards.length-1];
-    x=last.x+10+Math.random()*18-9;
-    y=last.y+46+Math.random()*6-3;
-    x=Math.max(4,Math.min(x,sw-cw-6));
-    y=Math.max(4,Math.min(y,ST.clientHeight-44-6));
-  }
+  if(cards.length===0){x=Math.min(8+Math.random()*24,sw-cw-8);y=8;}
+  else{const l=cards[cards.length-1];x=l.x+9+Math.random()*16-8;y=l.y+44+Math.random()*6-3;x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,ST.clientHeight-42-5));}
   const el=document.createElement('div');
   el.className='ncard enter';
-  el.innerHTML=
-    `<span class="clbl">#${id}</span>`+
-    `<span class="cval">${fmt(value)}</span>`+
-    `<button class="cdel" onclick="removeCard(${id})">✕</button>`;
-  el.style.left=x+'px'; el.style.top=y+'px';
+  el.innerHTML=`<span class="clbl">#${id}</span><span class="cval">${fmt(value)}</span><button class="cdel" onclick="removeCard(${id})">✕</button>`;
+  el.style.left=x+'px';el.style.top=y+'px';
   ST.appendChild(el);
-  const c={id,value,x,y,el};
-  cards.push(c);
+  const c={id,value,x,y,el};cards.push(c);
   el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});
-  makeDrag(el,c);
-  updStage(); updTotal(); closeResult();
+  makeDrag(el,c);updStage();closeResult();
 }
-
 function removeCard(id){
-  const i=cards.findIndex(c=>c.id===id);
-  if(i<0)return;
-  const {el}=cards[i];
-  el.classList.add('leaving');
-  setTimeout(()=>{el.remove();cards.splice(i,1);updStage();updTotal();},200);
+  const i=cards.findIndex(c=>c.id===id);if(i<0)return;
+  const{el}=cards[i];el.classList.add('leaving');
+  setTimeout(()=>{el.remove();cards.splice(i,1);updStage();},200);
 }
-
 function gatherAll(){
   if(cards.length===0)return;
-  const cnt=cards.length;
-  const sum=cards.reduce((a,c)=>a+c.value,0);
-  const total=parseFloat(sum.toPrecision(12));
-  let html='';
-  cards.forEach((c,i)=>{
-    if(i>0)html+=`<span class="pl"> ＋ </span>`;
-    html+=`<strong>${fmt(c.value)}</strong>`;
-  });
-  ROF.innerHTML=html+'<span class="pl"> ＝ </span>';
-  ROT.textContent=fmt(total);
-  ROV.classList.add('show');
+  const cnt=cards.length,sum=cards.reduce((a,c)=>a+c.value,0),total=parseFloat(sum.toPrecision(12));
+  let html='';cards.forEach((c,i)=>{if(i>0)html+=`<span class="pl"> ＋ </span>`;html+=`<strong>${fmt(c.value)}</strong>`;});
+  ROF.innerHTML=html+'<span class="pl"> ＝ </span>';ROT.textContent=fmt(total);ROV.classList.add('show');
   cards.forEach(c=>c.el.classList.add('leaving'));
-  setTimeout(()=>{cards.forEach(c=>c.el.remove());cards=[];updStage();updTotal();},210);
-  cur=String(total);rst=true;op=null;
-  updD(fmt(total));
-  EL.textContent=cnt+'件 合計 ＝';
+  setTimeout(()=>{cards.forEach(c=>c.el.remove());cards=[];updStage();},210);
+  cur=String(total);rst=true;op=null;updD(fmt(total));EL.textContent=cnt+'件 合計 ＝';
 }
-
-function closeResult(){ ROV.classList.remove('show'); }
-
+function closeResult(){ROV.classList.remove('show');}
 function updStage(){
-  SH.style.opacity = cards.length === 0 ? '1' : '0';
-  const badge = document.getElementById('cardCount');
-  const num   = document.getElementById('cardCountNum');
-  if(cards.length === 0){
-    badge.style.display = 'none';
-  } else {
-    badge.style.display = 'block';
-    num.textContent = cards.length;
-  }
-}
-function updTotal(){
-  /* 合計バーは廃止。集計オーバーレイで確認 */
-}
-function fmt(v){
-  if(Number.isInteger(v))return v.toLocaleString('ja-JP');
-  return parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:6});
+  SH.style.opacity=cards.length===0?'1':'0';
+  CCB.style.display=cards.length===0?'none':'block';
+  if(cards.length)CCN.textContent=cards.length;
 }
 
-/* ══ ディスプレイドラッグ → カード追加 ══ */
+/* ── ディスプレイドラッグ ── */
 (function(){
-  let dragging=false, ghost=null, startY=0;
-  const THR=30;
-
-  function getVal(){
-    if(op&&!rst){const r=calcOnly(false);return r===false?null:r;}
-    const n=parseFloat(cur); return isNaN(n)?null:n;
-  }
-  function mkGhost(val){
-    const g=document.createElement('div');
-    g.className='ghost-card'; g.textContent=fmt(val);
-    document.body.appendChild(g); return g;
-  }
-  function mvGhost(cx,cy){
-    if(!ghost)return;
-    ghost.style.left=(cx-ghost.offsetWidth/2)+'px';
-    ghost.style.top=(cy-ghost.offsetHeight/2)+'px';
-  }
-  function onStage(cx,cy){
-    const r=ST.getBoundingClientRect();
-    return cx>=r.left&&cx<=r.right&&cy>=r.top&&cy<=r.bottom;
-  }
-  function start(cx,cy){
-    const val=getVal(); if(val===null)return;
-    dragging=true; startY=cy;
-    DB.classList.add('lift');
-    ghost=mkGhost(val); mvGhost(cx,cy);
-  }
-  function move(cx,cy){
-    if(!dragging)return;
-    mvGhost(cx,cy);
-    ST.classList.toggle('drop-ready', onStage(cx,cy)||cy<startY-THR);
-  }
+  let dragging=false,ghost=null,startY=0;
+  const THR=28;
+  function getVal(){if(op&&!rst){const r=calcOnly(false);return r===false?null:r;}const n=parseFloat(cur);return isNaN(n)?null:n;}
+  function mkG(val){const g=document.createElement('div');g.className='ghost-card';g.textContent=fmt(val);document.body.appendChild(g);return g;}
+  function mvG(cx,cy){if(!ghost)return;ghost.style.left=(cx-ghost.offsetWidth/2)+'px';ghost.style.top=(cy-ghost.offsetHeight/2)+'px';}
+  function onSt(cx,cy){const r=ST.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top&&cy<=r.bottom;}
+  function start(cx,cy){const v=getVal();if(v===null)return;dragging=true;startY=cy;DB.classList.add('lift');ghost=mkG(v);mvG(cx,cy);}
+  function move(cx,cy){if(!dragging)return;mvG(cx,cy);ST.classList.toggle('drop-ready',onSt(cx,cy)||cy<startY-THR);}
   function end(cx,cy){
-    if(!dragging)return;
-    dragging=false;
-    DB.classList.remove('lift');
-    ST.classList.remove('drop-ready');
+    if(!dragging)return;dragging=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');
     if(ghost){ghost.remove();ghost=null;}
-    if(onStage(cx,cy)||cy<startY-THR){
-      const val=getVal();
-      if(val!==null){
-        addCard(val);
-        cur='0';rst=false;op=null;
-        updD('0');EL.textContent='';
-        DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');
-      }
-    }
+    if(onSt(cx,cy)||cy<startY-THR){const v=getVal();if(v!==null){addCard(v);cur='0';rst=false;op=null;updD('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}}
   }
-
   DB.addEventListener('mousedown',e=>{e.preventDefault();start(e.clientX,e.clientY);});
   document.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
-  document.addEventListener('mouseup',  e=>end(e.clientX,e.clientY));
-
-  DB.addEventListener('touchstart',e=>{
-    e.preventDefault();const t=e.touches[0];start(t.clientX,t.clientY);
-  },{passive:false});
-  document.addEventListener('touchmove',e=>{
-    if(!dragging)return;e.preventDefault();
-    const t=e.touches[0];move(t.clientX,t.clientY);
-  },{passive:false});
-  document.addEventListener('touchend',e=>{
-    const t=e.changedTouches[0];end(t.clientX,t.clientY);
-  });
+  document.addEventListener('mouseup',e=>end(e.clientX,e.clientY));
+  DB.addEventListener('touchstart',e=>{e.preventDefault();const t=e.touches[0];start(t.clientX,t.clientY);},{passive:false});
+  document.addEventListener('touchmove',e=>{if(!dragging)return;e.preventDefault();const t=e.touches[0];move(t.clientX,t.clientY);},{passive:false});
+  document.addEventListener('touchend',e=>{const t=e.changedTouches[0];end(t.clientX,t.clientY);});
 })();
 
-/* ══ カードドラッグ ══ */
+/* ── カードドラッグ ── */
 function makeDrag(el,card){
   let sx,sy,drag=false;
-  el.addEventListener('mousedown',e=>{
-    if(e.target.classList.contains('cdel'))return;
-    e.preventDefault();drag=true;el.classList.add('dragging');
-    const r=ST.getBoundingClientRect();
-    sx=e.clientX-r.left-card.x;sy=e.clientY-r.top-card.y;
-    front(el);
-  });
+  el.addEventListener('mousedown',e=>{if(e.target.classList.contains('cdel'))return;e.preventDefault();drag=true;el.classList.add('dragging');const r=ST.getBoundingClientRect();sx=e.clientX-r.left-card.x;sy=e.clientY-r.top-card.y;front(el);});
   document.addEventListener('mousemove',e=>{if(!drag)return;mv(e.clientX,e.clientY,sx,sy,card,el);});
   document.addEventListener('mouseup',()=>{if(!drag)return;drag=false;el.classList.remove('dragging');});
-  el.addEventListener('touchstart',e=>{
-    if(e.target.classList.contains('cdel'))return;
-    e.preventDefault();drag=true;el.classList.add('dragging');
-    const r=ST.getBoundingClientRect(),t=e.touches[0];
-    sx=t.clientX-r.left-card.x;sy=t.clientY-r.top-card.y;
-    front(el);
-  },{passive:false});
-  document.addEventListener('touchmove',e=>{
-    if(!drag)return;e.preventDefault();
-    const t=e.touches[0];mv(t.clientX,t.clientY,sx,sy,card,el);
-  },{passive:false});
+  el.addEventListener('touchstart',e=>{if(e.target.classList.contains('cdel'))return;e.preventDefault();drag=true;el.classList.add('dragging');const r=ST.getBoundingClientRect(),t=e.touches[0];sx=t.clientX-r.left-card.x;sy=t.clientY-r.top-card.y;front(el);},{passive:false});
+  document.addEventListener('touchmove',e=>{if(!drag)return;e.preventDefault();const t=e.touches[0];mv(t.clientX,t.clientY,sx,sy,card,el);},{passive:false});
   document.addEventListener('touchend',()=>{if(!drag)return;drag=false;el.classList.remove('dragging');});
 }
 function mv(cx,cy,sx,sy,card,el){
   const r=ST.getBoundingClientRect();
-  let nx=cx-r.left-sx, ny=cy-r.top-sy;
+  let nx=cx-r.left-sx,ny=cy-r.top-sy;
   nx=Math.max(4,Math.min(nx,ST.clientWidth-el.offsetWidth-4));
   ny=Math.max(4,Math.min(ny,ST.clientHeight-el.offsetHeight-4));
-  card.x=nx;card.y=ny;
-  el.style.left=nx+'px';el.style.top=ny+'px';
+  card.x=nx;card.y=ny;el.style.left=nx+'px';el.style.top=ny+'px';
 }
-function front(el){
-  document.querySelectorAll('.ncard').forEach(c=>c.style.zIndex=10);
-  el.style.zIndex=80;
-}
+function front(el){document.querySelectorAll('.ncard').forEach(c=>c.style.zIndex=10);el.style.zIndex=80;}
 
 updD('0');
 </script>
