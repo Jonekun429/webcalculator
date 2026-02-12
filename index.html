@@ -3,8 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Green Gathering Calculator</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="集める電卓">
+<meta name="theme-color" content="#005D4D">
+<title>集める電卓 - Green Gathering Calculator</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoi6ZuG44KB44KL6Zu75Y2TIiwic2hvcnRfbmFtZSI6IumbhuOCgeOCi+mbu+WNkyIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMDA1RDREIiwidGhlbWVfY29sb3IiOiIjMDA1RDREIn0=">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<script>
+// Generate app icon as canvas → apple-touch-icon & favicon
+(function generateAppIcon(){
+  const sizes = [180, 192, 512];
+  sizes.forEach(s => {
+    const c = document.createElement('canvas');
+    c.width = s; c.height = s;
+    const ctx = c.getContext('2d');
+    const r = s * 0.22; // corner radius
+
+    // Rounded rect background
+    ctx.beginPath();
+    ctx.moveTo(r, 0);
+    ctx.lineTo(s - r, 0); ctx.quadraticCurveTo(s, 0, s, r);
+    ctx.lineTo(s, s - r); ctx.quadraticCurveTo(s, s, s - r, s);
+    ctx.lineTo(r, s); ctx.quadraticCurveTo(0, s, 0, s - r);
+    ctx.lineTo(0, r); ctx.quadraticCurveTo(0, 0, r, 0);
+    ctx.closePath();
+    const bg = ctx.createLinearGradient(0, 0, s, s);
+    bg.addColorStop(0, '#00B896');
+    bg.addColorStop(1, '#005D4D');
+    ctx.fillStyle = bg;
+    ctx.fill();
+
+    const u = s / 100; // unit
+
+    // Calculator body (white rounded rect)
+    const bx = 22*u, by = 15*u, bw = 56*u, bh = 70*u, br = 8*u;
+    ctx.beginPath();
+    ctx.moveTo(bx+br, by);
+    ctx.lineTo(bx+bw-br, by); ctx.quadraticCurveTo(bx+bw, by, bx+bw, by+br);
+    ctx.lineTo(bx+bw, by+bh-br); ctx.quadraticCurveTo(bx+bw, by+bh, bx+bw-br, by+bh);
+    ctx.lineTo(bx+br, by+bh); ctx.quadraticCurveTo(bx, by+bh, bx, by+bh-br);
+    ctx.lineTo(bx, by+br); ctx.quadraticCurveTo(bx, by, bx+br, by);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(255,255,255,0.95)';
+    ctx.fill();
+
+    // Display screen
+    ctx.fillStyle = '#C4EAE4';
+    const dx = 27*u, dy = 20*u, dw = 46*u, dh = 16*u;
+    roundRect(ctx, dx, dy, dw, dh, 4*u);
+    ctx.fill();
+
+    // Display text "7"
+    ctx.fillStyle = '#003428';
+    ctx.font = `bold ${11*u}px sans-serif`;
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('7', dx+dw-3*u, dy+dh/2+1*u);
+
+    // Button grid (3x3)
+    const btnColors = ['#00A070','#00A070','#00A070','#00A070','#00A070','#00A070','#00A070','#F04838','#8858D0'];
+    const gx = 28*u, gy = 42*u, gs = 10*u, gg = 4*u;
+    for(let row=0;row<3;row++){
+      for(let col=0;col<3;col++){
+        const idx = row*3+col;
+        ctx.fillStyle = btnColors[idx];
+        roundRect(ctx, gx+col*(gs+gg), gy+row*(gs+gg), gs, gs, 2.5*u);
+        ctx.fill();
+      }
+    }
+
+    // Gather arrows icon (top-right badge)
+    const cx2 = 68*u, cy2 = 22*u, ar = 14*u;
+    ctx.beginPath();
+    ctx.arc(cx2, cy2, ar, 0, Math.PI*2);
+    ctx.fillStyle = '#005D4D';
+    ctx.fill();
+    ctx.strokeStyle = '#fff';
+    ctx.lineWidth = 2*u;
+    ctx.lineCap = 'round';
+    // 4 arrows pointing inward
+    const aOff = 6*u, aHead = 3*u;
+    [[- 1,-1],[1,-1],[-1,1],[1,1]].forEach(([dx2,dy2])=>{
+      const fx=cx2+dx2*aOff, fy=cy2+dy2*aOff;
+      const tx=cx2+dx2*1.5*u, ty=cy2+dy2*1.5*u;
+      ctx.beginPath(); ctx.moveTo(fx,fy); ctx.lineTo(tx,ty); ctx.stroke();
+      // arrowhead
+      ctx.beginPath(); ctx.moveTo(tx,ty);
+      ctx.lineTo(tx+(-dx2)*aHead, ty);
+      ctx.moveTo(tx,ty);
+      ctx.lineTo(tx, ty+(-dy2)*aHead);
+      ctx.stroke();
+    });
+    // center dot
+    ctx.beginPath(); ctx.arc(cx2,cy2,2*u,0,Math.PI*2);
+    ctx.fillStyle='#fff'; ctx.fill();
+
+    const url = c.toDataURL('image/png');
+    if(s === 180){
+      const link = document.createElement('link');
+      link.rel = 'apple-touch-icon';
+      link.href = url;
+      document.head.appendChild(link);
+    }
+    if(s === 192){
+      const link = document.createElement('link');
+      link.rel = 'icon';
+      link.type = 'image/png';
+      link.sizes = '192x192';
+      link.href = url;
+      document.head.appendChild(link);
+    }
+  });
+
+  function roundRect(ctx, x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y);
+    ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();
+  }
+})();
+</script>
 <style>
 *, *::before, *::after {
   box-sizing: border-box; margin: 0; padding: 0;
