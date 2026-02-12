@@ -67,10 +67,10 @@ body {
     480px                  /* PC上限 */
   );
   /* ボタン直径 = (内幅 - gap×4) / 5 */
-  --gap:  clamp(7px, 1.8vw, 11px);
+  --gap:  clamp(8px, 2vw, 12px);
   --btn:  calc((var(--inner-w) - 32px - var(--gap) * 4) / 5);
-  /* ステージ高さ = 利用可能な縦の余白から動的に */
-  --stage-h: clamp(160px, 28dvh, 280px);
+  /* ★ ステージ高さ縮小 → ボタンを大きく見せる */
+  --stage-h: clamp(140px, 22dvh, 220px);
 
   background: var(--body-bg);
   width: var(--inner-w);
@@ -288,13 +288,62 @@ body {
 .btax { background:linear-gradient(170deg,var(--tax-a),var(--tax-b)); color:#fff; font-size:calc(var(--btn)*.19); letter-spacing:.03em; box-shadow:0 3px 0 var(--tax-sh),0 4px 9px rgba(0,30,20,.22); }
 .btax:active { box-shadow:0 1px 0 var(--tax-sh); }
 
-/* 集計ボタンアイコン */
+/* 集計ボタンアイコン（内向き矢印4本） */
 .gather-icon {
-  display:flex; flex-direction:column; align-items:center; gap:0;
-  pointer-events:none; line-height:1;
+  position: relative;
+  width: calc(var(--btn) * 0.5);
+  height: calc(var(--btn) * 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.gi-label  { font-size:calc(var(--btn)*.14); font-weight:900; color:rgba(255,255,255,.75); letter-spacing:.05em; }
-.gi-symbol { font-size:calc(var(--btn)*.38); font-weight:900; color:#fff; }
+/* 4本の内向き矢印 */
+.gather-icon::before,
+.gather-icon::after {
+  content: '';
+  position: absolute;
+  width: 28%;
+  height: 28%;
+  border: calc(var(--btn) * 0.048) solid rgba(255,255,255,.92);
+}
+/* 左上 */
+.gather-icon::before {
+  top: 0; left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+/* 右下 */
+.gather-icon::after {
+  bottom: 0; right: 0;
+  border-left: none;
+  border-top: none;
+}
+.gi-tl, .gi-br {
+  position: absolute;
+  width: 28%;
+  height: 28%;
+  border: calc(var(--btn) * 0.048) solid rgba(255,255,255,.92);
+}
+/* 右上 */
+.gi-tl {
+  top: 0; right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+/* 左下 */
+.gi-br {
+  bottom: 0; left: 0;
+  border-right: none;
+  border-top: none;
+}
+/* 中央のドット */
+.gi-dot {
+  width: calc(var(--btn) * 0.12);
+  height: calc(var(--btn) * 0.12);
+  background: rgba(255,255,255,.92);
+  border-radius: 50%;
+  z-index: 1;
+}
 
 /* ══════════════════════════════
    キーパッド
@@ -341,8 +390,9 @@ body {
     </div>
     <button class="btn bga" onclick="gatherAll()" title="全カードを合計">
       <div class="gather-icon">
-        <span class="gi-label">TOTAL</span>
-        <span class="gi-symbol">Σ</span>
+        <div class="gi-tl"></div>
+        <div class="gi-br"></div>
+        <div class="gi-dot"></div>
       </div>
     </button>
   </div>
