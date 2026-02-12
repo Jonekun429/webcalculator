@@ -11,9 +11,6 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ══════════════════════════════
-   カラーシステム
-══════════════════════════════ */
 :root {
   --font:      'Nunito','Noto Sans JP',sans-serif;
   --brand:     #005D4D;  --brand-mid: #007A66;  --brand-deep: #002820;
@@ -32,53 +29,38 @@
   --td:        #001A12;  --tm:        #003428;  --tp:      #469080;
 }
 
-/* ══════════════════════════════
-   ページ全体
-   スマホ: 全画面ぴったり
-   PC    : 中央に電卓
-══════════════════════════════ */
 html {
   height: 100%;
-  /* スクロールバーで幅が変わらないように */
-  overflow-y: scroll;
+  overflow: hidden;
   scrollbar-width: none;
 }
 html::-webkit-scrollbar { display: none; }
 
 body {
   font-family: var(--font);
-  min-height: 100dvh;
+  height: 100dvh;
   background: linear-gradient(150deg, var(--bg-s), var(--bg-e));
   background-attachment: fixed;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: max(16px, 2vh) max(12px, 2vw);
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
 }
 
-/* ══════════════════════════════
-   電卓カード
-   幅: スマホは余白込みで100%, PCは480px上限
-   キーパッド: 内包する .kpad が実際の幅を決める
-══════════════════════════════ */
 .calc {
-  --inner-w: min(
-    calc(100vw - 24px),   /* スマホ: 左右12px余白 */
-    480px                  /* PC上限 */
-  );
-  /* ボタン直径 = (内幅 - gap×4) / 5 */
-  --gap:  clamp(8px, 2vw, 12px);
-  --btn:  calc((var(--inner-w) - 32px - var(--gap) * 4) / 5);
-  /* ★ ステージ高さ縮小 → ボタンを大きく見せる */
-  --stage-h: clamp(140px, 22dvh, 220px);
+  --gap: clamp(4px, 1.2vw, 8px);
+  --btn: 56px; /* JS で上書きされる初期値 */
 
   background: var(--body-bg);
-  width: var(--inner-w);
-  border-radius: clamp(20px, 4vw, 34px);
-  padding: clamp(14px, 3vh, 20px) clamp(14px, 2vw, 18px) clamp(16px, 3vh, 22px);
+  width: 100%;
+  max-width: 540px;
+  height: 100dvh;
+  border-radius: 0;
+  padding: clamp(6px, 1.2vh, 10px) clamp(8px, 1.4vw, 14px) clamp(6px, 1vh, 10px);
   display: flex;
   flex-direction: column;
-  gap: clamp(6px, 1.2vh, 10px);
+  gap: clamp(4px, 0.7vh, 6px);
   box-shadow:
     0 0 0 1.5px rgba(255,255,255,.88) inset,
     0 20px 60px rgba(0,20,16,.28),
@@ -86,53 +68,59 @@ body {
   overflow: hidden;
 }
 
-/* タイトル */
-.app-title {
-  text-align: center;
-  font-size: clamp(.5rem, 1.2vw, .62rem);
-  font-weight: 900; letter-spacing: .26em; text-transform: uppercase;
-  color: var(--tp); user-select: none; flex-shrink: 0;
+/* PC幅が広い場合のみ角丸 */
+@media (min-width: 560px) {
+  body { align-items: center; padding: 12px; }
+  .calc {
+    height: min(98dvh, 920px);
+    border-radius: 24px;
+  }
 }
 
-/* ══════════════════════════════
-   カードステージ
-══════════════════════════════ */
+.app-title {
+  text-align: center;
+  font-size: clamp(.7rem, 2vw, .9rem);
+  font-weight: 900; letter-spacing: .23em; text-transform: uppercase;
+  color: var(--tp); user-select: none; flex-shrink: 0;
+  padding: clamp(2px, 0.4vh, 4px) 0;
+}
+
+/* ===== ステージ：flex-growで余った空間を全部使う ===== */
 .stage {
   position: relative;
   width: 100%;
-  height: var(--stage-h);
-  flex-shrink: 0;
+  flex: 1 1 0;
+  min-height: 80px;
   background: linear-gradient(138deg, var(--stage-a), var(--stage-b));
-  border-radius: clamp(12px, 2.5vw, 20px);
+  border-radius: clamp(10px, 2.2vw, 18px);
   border: 2px dashed rgba(0,93,77,.2);
   overflow: hidden;
 }
 
-/* ヒント */
 .stage-hint {
   position: absolute; inset: 0;
   display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 5px;
+  align-items: center; justify-content: center; gap: 6px;
   pointer-events: none; transition: opacity .28s; user-select: none;
 }
 .stage-hint .si {
-  font-size: clamp(1rem, 4vw, 1.5rem); opacity: .24; line-height: 1;
+  font-size: clamp(1.6rem, 5.5vw, 2.4rem); opacity: .22; line-height: 1;
 }
 .stage-hint .st {
-  font-size: clamp(.54rem, 1.4vw, .64rem);
-  font-weight: 700; color: var(--tp); line-height: 1.8; text-align: center;
+  font-size: clamp(.78rem, 2.2vw, 1rem);
+  font-weight: 700; color: var(--tp); line-height: 1.75; text-align: center;
 }
 
-/* ── 数字カード ── */
+/* ===== カード ===== */
 .ncard {
   position: absolute;
   background: linear-gradient(145deg, var(--card-a), var(--card-b));
-  border-radius: clamp(9px, 2vw, 13px);
-  padding: clamp(5px,1.2vw,8px) clamp(9px,2.2vw,12px) clamp(5px,1.2vw,8px) clamp(6px,1.6vw,9px);
-  min-width: clamp(58px, 13vw, 76px);
+  border-radius: clamp(9px, 2vw, 14px);
+  padding: clamp(7px,1.6vw,11px) clamp(12px,2.8vw,18px) clamp(7px,1.6vw,11px) clamp(8px,2vw,12px);
+  min-width: clamp(72px, 16vw, 100px);
   box-shadow: 0 3px 0 var(--card-sh), 0 4px 10px rgba(0,30,20,.26);
   cursor: grab; user-select: none; touch-action: none;
-  display: flex; align-items: center; gap: 3px;
+  display: flex; align-items: center; gap: 5px;
   z-index: 10; transition: box-shadow .1s, transform .1s;
 }
 .ncard.dragging {
@@ -142,69 +130,65 @@ body {
 }
 .ncard.enter   { animation: cIn  .3s cubic-bezier(.34,1.56,.64,1); }
 .ncard.leaving { animation: cOut .17s ease-in forwards; }
-@keyframes cIn  { from { transform:scale(.3) translateY(16px); opacity:0; } to { transform:scale(1); opacity:1; } }
+@keyframes cIn  { from { transform:scale(.3) translateY(15px); opacity:0; } to { transform:scale(1); opacity:1; } }
 @keyframes cOut { to   { transform:scale(.4); opacity:0; } }
-.clbl { font-size: clamp(.4rem,.9vw,.5rem); font-weight:900; color:rgba(255,255,255,.5); letter-spacing:.06em; white-space:nowrap; }
-.cval { font-size: clamp(.88rem,2.2vw,1.1rem); font-weight:900; color:#fff; letter-spacing:-.02em; white-space:nowrap; flex:1; text-align:right; }
+
+.clbl { font-size: clamp(.55rem,1.2vw,.7rem); font-weight:900; color:rgba(255,255,255,.5); letter-spacing:.06em; white-space:nowrap; }
+.cval { font-size: clamp(1.15rem,3.2vw,1.55rem); font-weight:900; color:#fff; letter-spacing:-.02em; white-space:nowrap; flex:1; text-align:right; }
 .cdel {
-  width:15px; height:15px; flex-shrink:0;
-  background:rgba(255,255,255,.18); border:none; border-radius:50%;
-  color:rgba(255,255,255,.78); font-size:.5rem; font-weight:900;
+  width: 20px; height: 20px; flex-shrink:0;
+  background:rgba(255,255,255,.17); border:none; border-radius:50%;
+  color:rgba(255,255,255,.76); font-size:.6rem; font-weight:900;
   cursor:pointer; display:flex; align-items:center; justify-content:center;
   line-height:1; transition:background .12s;
 }
-.cdel:hover { background:rgba(210,45,25,.52); }
+.cdel:hover { background:rgba(210,45,25,.5); }
 
-/* カード枚数バッジ */
 .card-count {
-  position:absolute; top:9px; right:10px; display:none;
-  background:rgba(0,93,77,.15); border-radius:20px; padding:2px 9px;
-  font-size:clamp(.5rem,1.2vw,.6rem); font-weight:900; color:var(--tm);
+  position:absolute; top:9px; right:11px; display:none;
+  background:rgba(0,93,77,.13); border-radius:20px; padding:3px 11px;
+  font-size:clamp(.62rem,1.5vw,.78rem); font-weight:900; color:var(--tm);
   letter-spacing:.05em; pointer-events:none; z-index:5;
 }
 
-/* ══════════════════════════════
-   集計結果オーバーレイ
-══════════════════════════════ */
+/* ===== 集計結果オーバーレイ（文字大きく） ===== */
 .result-overlay {
   position:absolute; inset:0;
-  background:rgba(208,244,236,.94);
+  background:rgba(208,244,236,.95);
   backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
   border-radius:inherit;
   display:flex; flex-direction:column; justify-content:center;
-  padding:clamp(10px,2.5vw,16px);
+  padding: clamp(16px, 3.5vw, 28px);
   z-index:200; opacity:0; pointer-events:none; transform:scale(.94);
   transition:opacity .24s ease, transform .24s cubic-bezier(.34,1.3,.64,1);
 }
 .result-overlay.show { opacity:1; pointer-events:auto; transform:scale(1); }
+
 .ro-label {
-  font-size:clamp(.44rem,1.1vw,.54rem); font-weight:900; letter-spacing:.18em;
-  text-transform:uppercase; color:var(--tm); opacity:.5; margin-bottom:3px;
+  font-size:clamp(.7rem, 1.8vw, .92rem); font-weight:900; letter-spacing:.15em;
+  text-transform:uppercase; color:var(--tm); opacity:.5; margin-bottom:6px;
 }
 .ro-formula {
-  font-size:clamp(.64rem,1.7vw,.8rem); font-weight:700; color:var(--tm);
-  line-height:1.7; word-break:break-all; overflow-y:auto; max-height:34%;
+  font-size:clamp(1rem, 2.8vw, 1.4rem); font-weight:700; color:var(--tm);
+  line-height:1.7; word-break:break-all; overflow-y:auto; max-height:40%;
 }
-.ro-formula .pl { color:var(--brand-mid); font-weight:900; margin:0 2px; }
+.ro-formula .pl { color:var(--brand-mid); font-weight:900; margin:0 3px; }
 .ro-total {
-  font-size:clamp(1.4rem,4.5vw,2rem); font-weight:900; color:var(--td);
+  font-size:clamp(2.4rem, 7vw, 3.6rem); font-weight:900; color:var(--td);
   text-align:right; letter-spacing:-.03em;
-  border-top:1.5px solid rgba(0,93,77,.14);
-  padding-top:4px; margin-top:4px; line-height:1;
+  border-top:2.5px solid rgba(0,93,77,.18);
+  padding-top:8px; margin-top:8px; line-height:1.1;
 }
 .ro-close {
-  margin-top:6px; display:block; width:100%;
-  background:rgba(0,93,77,.09); border:none; border-radius:clamp(6px,1.5vw,9px);
-  padding:clamp(4px,1vh,6px); font-family:var(--font);
-  font-size:clamp(.54rem,1.4vw,.66rem); font-weight:800; color:var(--tm);
+  margin-top:10px; display:block; width:100%;
+  background:rgba(0,93,77,.1); border:none; border-radius:clamp(8px,1.8vw,12px);
+  padding:clamp(8px,1.6vh,12px); font-family:var(--font);
+  font-size:clamp(.78rem, 2vw, 1rem); font-weight:800; color:var(--tm);
   cursor:pointer; transition:background .13s;
 }
-.ro-close:hover { background:rgba(0,93,77,.2); }
+.ro-close:hover { background:rgba(0,93,77,.22); }
 
-/* ══════════════════════════════
-   コントロールバー
-   C(--btn) | disp(1fr) | Σ(--btn)
-══════════════════════════════ */
+/* ===== コントロール行 ===== */
 .ctrl {
   display: grid;
   grid-template-columns: var(--btn) 1fr var(--btn);
@@ -213,13 +197,13 @@ body {
   flex-shrink: 0;
 }
 
-/* ディスプレイ */
+/* ===== ディスプレイ ===== */
 .disp {
   background: var(--disp-bg);
   border: 2px solid var(--disp-bd);
-  border-radius: clamp(10px,2vw,16px);
+  border-radius: clamp(10px, 2.2vw, 16px);
   height: var(--btn);
-  padding: 4px clamp(10px,2.2vw,14px);
+  padding: 4px clamp(10px, 2.4vw, 16px);
   display: flex; flex-direction: column;
   justify-content: center; align-items: flex-end;
   overflow: hidden;
@@ -229,38 +213,35 @@ body {
 }
 .disp:hover  { border-color: var(--brand-mid); box-shadow: 0 0 0 3px rgba(0,93,77,.1); }
 .disp.lift   { cursor:grabbing; transform:scale(1.03) translateY(-3px); box-shadow:0 9px 22px rgba(0,30,20,.24); border-color:var(--brand); }
+
 .d-expr {
-  font-size: clamp(.46rem,1.2vw,.58rem); font-weight:600; color:var(--tp);
-  min-height:10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;
+  font-size: clamp(.62rem, 1.7vw, .82rem); font-weight:600; color:var(--tp);
+  min-height:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;
 }
 .d-num {
-  font-size: clamp(1.3rem,4vw,1.8rem); font-weight:900; color:var(--td);
+  font-size: clamp(1.9rem, 5.8vw, 2.7rem); font-weight:900; color:var(--td);
   letter-spacing:-.03em; white-space:nowrap; overflow:hidden;
-  text-overflow:ellipsis; max-width:100%; line-height:1.05; transition:font-size .1s;
+  text-overflow:ellipsis; max-width:100%; line-height:1.08; transition:font-size .1s;
 }
-.d-num.sm { font-size: clamp(1rem,3vw,1.35rem); }
-.d-num.xs { font-size: clamp(.78rem,2.3vw,1rem); }
+.d-num.sm { font-size: clamp(1.5rem, 4.4vw, 2rem); }
+.d-num.xs { font-size: clamp(1.1rem, 3.2vw, 1.45rem); }
 @keyframes dfl { 0%,100%{background:var(--disp-bg)} 40%{background:#78D8CC} }
 .disp.flash { animation:dfl .36s ease; }
 
-/* ゴーストカード */
 .ghost-card {
   position:fixed; pointer-events:none; z-index:9999;
   background:linear-gradient(145deg,var(--card-a),var(--card-b));
-  border-radius:clamp(9px,2vw,13px); padding:clamp(5px,1.2vw,8px) clamp(9px,2.2vw,12px);
-  font-family:var(--font); font-size:clamp(.88rem,2.2vw,1.1rem); font-weight:900; color:#fff;
+  border-radius:clamp(9px,2vw,14px); padding:clamp(7px,1.6vw,11px) clamp(12px,2.8vw,18px);
+  font-family:var(--font); font-size:clamp(1.15rem,3.2vw,1.55rem); font-weight:900; color:#fff;
   box-shadow:0 7px 18px rgba(0,30,20,.4); transform:scale(1.06) rotate(-2deg); opacity:.87; white-space:nowrap;
 }
 .stage.drop-ready {
-  border-color:rgba(0,93,77,.46);
+  border-color:rgba(0,93,77,.45);
   background:linear-gradient(138deg,#B4E8E0,#9CDDD4);
-  box-shadow:inset 0 0 14px rgba(0,93,77,.1);
+  box-shadow:inset 0 0 13px rgba(0,93,77,.1);
 }
 
-/* ══════════════════════════════
-   ボタン
-   直径 = --btn（コンテナ幅から逆算）
-══════════════════════════════ */
+/* ===== ボタン ===== */
 .btn {
   border:none; border-radius:50%;
   width:var(--btn); height:var(--btn);
@@ -272,83 +253,27 @@ body {
 }
 .btn:active { transform:scale(.86) translateY(2px); }
 
-/* フォントサイズもbtnに連動 */
-.bn  { background:linear-gradient(170deg,var(--bn-a),var(--bn-b)); color:#fff; font-size:calc(var(--btn)*.38); box-shadow:0 4px 0 var(--bn-sh),0 5px 12px rgba(0,30,20,.3); }
+.bn  { background:linear-gradient(170deg,var(--bn-a),var(--bn-b)); color:#fff; font-size:calc(var(--btn)*.46); box-shadow:0 4px 0 var(--bn-sh),0 5px 12px rgba(0,30,20,.3); }
 .bn:active  { box-shadow:0 1px 0 var(--bn-sh); }
-.bop { background:var(--op-bg); color:var(--op-tx); font-size:calc(var(--btn)*.34); border:2px solid var(--op-bd); box-shadow:0 3px 0 #88C0B8,0 4px 8px rgba(0,0,0,.06); }
+.bop { background:var(--op-bg); color:var(--op-tx); font-size:calc(var(--btn)*.42); border:2px solid var(--op-bd); box-shadow:0 3px 0 #88C0B8,0 4px 8px rgba(0,0,0,.06); }
 .bop:active { box-shadow:0 1px 0 #88C0B8; }
-.bu  { background:linear-gradient(170deg,var(--ut-a),var(--ut-b)); color:#fff; font-size:calc(var(--btn)*.24); box-shadow:0 3px 0 var(--ut-sh),0 4px 8px rgba(0,30,20,.2); }
+.bu  { background:linear-gradient(170deg,var(--ut-a),var(--ut-b)); color:#fff; font-size:calc(var(--btn)*.33); box-shadow:0 3px 0 var(--ut-sh),0 4px 8px rgba(0,30,20,.2); }
 .bu:active  { box-shadow:0 1px 0 var(--ut-sh); }
-.bc  { background:linear-gradient(170deg,var(--cl-a),#5A38B0); color:#fff; font-size:calc(var(--btn)*.28); box-shadow:0 4px 0 var(--cl-sh),0 5px 12px rgba(60,25,120,.32); }
+.bc  { background:linear-gradient(170deg,var(--cl-a),#5A38B0); color:#fff; font-size:calc(var(--btn)*.36); box-shadow:0 4px 0 var(--cl-sh),0 5px 12px rgba(60,25,120,.32); }
 .bc:active  { box-shadow:0 1px 0 var(--cl-sh); }
-.beq { background:linear-gradient(170deg,var(--eq-a),#B82008); color:#fff; font-size:calc(var(--btn)*.36); box-shadow:0 4px 0 var(--eq-sh),0 5px 12px rgba(190,45,25,.34); }
+.beq { background:linear-gradient(170deg,var(--eq-a),#B82008); color:#fff; font-size:calc(var(--btn)*.44); box-shadow:0 4px 0 var(--eq-sh),0 5px 12px rgba(190,45,25,.34); }
 .beq:active { box-shadow:0 1px 0 var(--eq-sh); }
 .bga { background:linear-gradient(170deg,var(--ga-a),var(--ga-b)); color:#fff; box-shadow:0 4px 0 var(--ga-sh),0 5px 12px rgba(0,25,16,.36); }
 .bga:active { box-shadow:0 1px 0 var(--ga-sh); }
-.btax { background:linear-gradient(170deg,var(--tax-a),var(--tax-b)); color:#fff; font-size:calc(var(--btn)*.19); letter-spacing:.03em; box-shadow:0 3px 0 var(--tax-sh),0 4px 9px rgba(0,30,20,.22); }
+.btax { background:linear-gradient(170deg,var(--tax-a),var(--tax-b)); color:#fff; font-size:calc(var(--btn)*.26); letter-spacing:.03em; box-shadow:0 3px 0 var(--tax-sh),0 4px 9px rgba(0,30,20,.22); }
 .btax:active { box-shadow:0 1px 0 var(--tax-sh); }
 
-/* 集計ボタンアイコン（内向き矢印4本） */
-.gather-icon {
-  position: relative;
-  width: calc(var(--btn) * 0.5);
-  height: calc(var(--btn) * 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* 4本の内向き矢印 */
-.gather-icon::before,
-.gather-icon::after {
-  content: '';
-  position: absolute;
-  width: 28%;
-  height: 28%;
-  border: calc(var(--btn) * 0.048) solid rgba(255,255,255,.92);
-}
-/* 左上 */
-.gather-icon::before {
-  top: 0; left: 0;
-  border-right: none;
-  border-bottom: none;
-}
-/* 右下 */
-.gather-icon::after {
-  bottom: 0; right: 0;
-  border-left: none;
-  border-top: none;
-}
-.gi-tl, .gi-br {
-  position: absolute;
-  width: 28%;
-  height: 28%;
-  border: calc(var(--btn) * 0.048) solid rgba(255,255,255,.92);
-}
-/* 右上 */
-.gi-tl {
-  top: 0; right: 0;
-  border-left: none;
-  border-bottom: none;
-}
-/* 左下 */
-.gi-br {
-  bottom: 0; left: 0;
-  border-right: none;
-  border-top: none;
-}
-/* 中央のドット */
-.gi-dot {
-  width: calc(var(--btn) * 0.12);
-  height: calc(var(--btn) * 0.12);
-  background: rgba(255,255,255,.92);
-  border-radius: 50%;
-  z-index: 1;
+.gather-svg {
+  width: calc(var(--btn) * 0.58);
+  height: calc(var(--btn) * 0.58);
 }
 
-/* ══════════════════════════════
-   キーパッド
-   5列 × --btn、gap連動、中央揃え
-══════════════════════════════ */
+/* ===== キーパッド ===== */
 .kpad {
   display: grid;
   grid-template-columns: repeat(5, var(--btn));
@@ -356,17 +281,11 @@ body {
   justify-content: center;
   flex-shrink: 0;
 }
-
-/* ポップ */
-@keyframes tpop { 0%{transform:scale(1)} 45%{transform:scale(1.1)} 100%{transform:scale(1)} }
 </style>
 </head>
 <body>
-<div class="calc">
-
+<div class="calc" id="calcRoot">
   <p class="app-title">Green Gathering Calculator</p>
-
-  <!-- ステージ -->
   <div class="stage" id="stage">
     <div class="stage-hint" id="stageHint">
       <span class="si">🃏</span>
@@ -380,8 +299,6 @@ body {
       <button class="ro-close" onclick="closeResult()">✕ 閉じる</button>
     </div>
   </div>
-
-  <!-- コントロールバー -->
   <div class="ctrl">
     <button class="btn bc" onclick="clearAll()">C</button>
     <div class="disp" id="dispBox">
@@ -389,159 +306,86 @@ body {
       <div class="d-num"  id="numLine">0</div>
     </div>
     <button class="btn bga" onclick="gatherAll()" title="全カードを合計">
-      <div class="gather-icon">
-        <div class="gi-tl"></div>
-        <div class="gi-br"></div>
-        <div class="gi-dot"></div>
-      </div>
+      <svg class="gather-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="16" stroke="rgba(255,255,255,.85)" stroke-width="2.8" fill="none"/>
+        <circle cx="20" cy="20" r="3.2" fill="rgba(255,255,255,.95)"/>
+        <!-- 左上→中央 -->
+        <line x1="8" y1="8" x2="15.5" y2="15.5" stroke="rgba(255,255,255,.92)" stroke-width="2.5" stroke-linecap="round"/>
+        <polyline points="12,15.5 15.5,15.5 15.5,12" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- 右上→中央 -->
+        <line x1="32" y1="8" x2="24.5" y2="15.5" stroke="rgba(255,255,255,.92)" stroke-width="2.5" stroke-linecap="round"/>
+        <polyline points="28,15.5 24.5,15.5 24.5,12" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- 左下→中央 -->
+        <line x1="8" y1="32" x2="15.5" y2="24.5" stroke="rgba(255,255,255,.92)" stroke-width="2.5" stroke-linecap="round"/>
+        <polyline points="12,24.5 15.5,24.5 15.5,28" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- 右下→中央 -->
+        <line x1="32" y1="32" x2="24.5" y2="24.5" stroke="rgba(255,255,255,.92)" stroke-width="2.5" stroke-linecap="round"/>
+        <polyline points="28,24.5 24.5,24.5 24.5,28" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
     </button>
   </div>
-
-  <!-- キーパッド -->
   <div class="kpad">
     <button class="btn bn"   onclick="inp('7')">7</button>
     <button class="btn bn"   onclick="inp('8')">8</button>
     <button class="btn bn"   onclick="inp('9')">9</button>
     <button class="btn bop"  onclick="setOp('÷')">÷</button>
     <button class="btn bu"   onclick="bspc()">⌫</button>
-
     <button class="btn bn"   onclick="inp('4')">4</button>
     <button class="btn bn"   onclick="inp('5')">5</button>
     <button class="btn bn"   onclick="inp('6')">6</button>
     <button class="btn bop"  onclick="setOp('×')">×</button>
     <button class="btn bu"   onclick="tglSign()">±</button>
-
     <button class="btn bn"   onclick="inp('1')">1</button>
     <button class="btn bn"   onclick="inp('2')">2</button>
     <button class="btn bn"   onclick="inp('3')">3</button>
     <button class="btn bop"  onclick="setOp('−')">−</button>
     <button class="btn bu"   onclick="pct()">%</button>
-
     <button class="btn bn"   onclick="inp('0')">0</button>
     <button class="btn bn"   onclick="inp('.')">.</button>
     <button class="btn beq"  onclick="calcOnly()">＝</button>
     <button class="btn bop"  onclick="setOp('＋')">＋</button>
     <button class="btn btax" onclick="doTax()">TAX</button>
   </div>
-
 </div>
 <script>
-let cur='0',prev='',op=null,rst=false;
-const NL=document.getElementById('numLine'),EL=document.getElementById('exprLine'),
-      DB=document.getElementById('dispBox'),ST=document.getElementById('stage'),
-      SH=document.getElementById('stageHint'),ROV=document.getElementById('resultOverlay'),
-      ROF=document.getElementById('roFormula'),ROT=document.getElementById('roTotal'),
-      CCB=document.getElementById('cardCount'),CCN=document.getElementById('cardCountNum');
-let cards=[],cid=0;
+/* ===== 動的ボタンサイズ計算 ===== */
+function recalcLayout() {
+  const root = document.getElementById('calcRoot');
+  const style = getComputedStyle(root);
+  const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+  const innerW = root.clientWidth - padX;
+  /* --gap は clamp() なので、実際の kpad から gap を測定 */
+  const kpad = document.querySelector('.kpad');
+  const gapPx = parseFloat(getComputedStyle(kpad).columnGap) || parseFloat(getComputedStyle(kpad).gap) || 6;
+  const btn = Math.floor((innerW - gapPx * 4) / 5);
+  root.style.setProperty('--btn', btn + 'px');
+}
+/* DOMContentLoaded後に計算（kpadが確実にある） */
+recalcLayout();
+window.addEventListener('resize', recalcLayout);
 
-function updD(v){
-  const s=String(v);NL.textContent=s;NL.classList.remove('sm','xs');
-  const l=s.replace(/[^0-9.]/g,'').length;
-  if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm');
-}
-function inp(ch){
-  if(rst){cur='';rst=false;}
-  if(cur==='0'&&ch!='.')cur='';
-  if(ch==='.'&&cur.includes('.'))return;
-  if(cur.replace('-','').length>=13)return;
-  cur+=ch;if(!cur||cur==='-')cur='0';updD(cur);
-}
+let cur='0',prev='',op=null,rst=false;
+const NL=document.getElementById('numLine'),EL=document.getElementById('exprLine'),DB=document.getElementById('dispBox'),ST=document.getElementById('stage'),SH=document.getElementById('stageHint'),ROV=document.getElementById('resultOverlay'),ROF=document.getElementById('roFormula'),ROT=document.getElementById('roTotal'),CCB=document.getElementById('cardCount'),CCN=document.getElementById('cardCountNum');
+let cards=[],cid=0;
+function updD(v){const s=String(v);NL.textContent=s;NL.classList.remove('sm','xs');const l=s.replace(/[^0-9.]/g,'').length;if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm');}
+function inp(ch){if(rst){cur='';rst=false;}if(cur==='0'&&ch!='.')cur='';if(ch==='.'&&cur.includes('.'))return;if(cur.replace('-','').length>=13)return;cur+=ch;if(!cur||cur==='-')cur='0';updD(cur);}
 function setOp(o){if(op&&!rst)calcOnly(true);prev=cur;op=o;EL.textContent=cur+' '+o;rst=true;}
-function calcOnly(chain){
-  if(!op)return false;
-  const p=parseFloat(prev),c=parseFloat(cur);
-  if(isNaN(p)||isNaN(c))return false;
-  let res;
-  switch(op){case '＋':res=p+c;break;case '−':res=p-c;break;case '×':res=p*c;break;case '÷':res=c===0?null:p/c;break;}
-  if(res===null){EL.textContent='0除算エラー';cur='0';op=null;updD('Error');return false;}
-  res=parseFloat(res.toPrecision(12));
-  EL.textContent=prev+' '+op+' '+cur+' ＝';
-  prev=String(res);cur=String(res);op=chain?op:null;rst=!chain;updD(res);return res;
-}
-function clearAll(){cur='0';prev='';op=null;rst=false;updD('0');EL.textContent='';}
+function calcOnly(chain){if(!op)return false;const p=parseFloat(prev),c=parseFloat(cur);if(isNaN(p)||isNaN(c))return false;let res;switch(op){case '＋':res=p+c;break;case '−':res=p-c;break;case '×':res=p*c;break;case '÷':res=c===0?null:p/c;break;}if(res===null){EL.textContent='0除算エラー';cur='0';op=null;updD('Error');return false;}res=parseFloat(res.toPrecision(12));EL.textContent=prev+' '+op+' '+cur+' ＝';prev=String(res);cur=String(res);op=chain?op:null;rst=!chain;updD(res);return res;}
+function clearAll(){cur='0';prev='';op=null;rst=false;updD('0');EL.textContent='';closeResult();}
 function bspc(){if(rst)return;cur=cur.slice(0,-1)||'0';updD(cur);}
 function tglSign(){const n=parseFloat(cur);if(!isNaN(n)&&n!==0){cur=String(n*-1);updD(cur);}}
 function pct(){const n=parseFloat(cur);if(!isNaN(n)){cur=String(n/100);updD(cur);}}
 function doTax(){const n=parseFloat(cur);if(isNaN(n))return;const r=Math.floor(n*1.1);EL.textContent=cur+'×1.1（税10%）＝';cur=String(r);rst=true;updD(r);}
 function fmt(v){if(Number.isInteger(v))return v.toLocaleString('ja-JP');return parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:6});}
-
-function addCard(value){
-  cid++;const id=cid,sw=ST.offsetWidth,cw=Math.max(58,fmt(value).length*12+44);
-  let x,y;
-  if(cards.length===0){x=Math.min(8+Math.random()*24,sw-cw-8);y=8;}
-  else{const l=cards[cards.length-1];x=l.x+9+Math.random()*16-8;y=l.y+44+Math.random()*6-3;x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,ST.clientHeight-42-5));}
-  const el=document.createElement('div');
-  el.className='ncard enter';
-  el.innerHTML=`<span class="clbl">#${id}</span><span class="cval">${fmt(value)}</span><button class="cdel" onclick="removeCard(${id})">✕</button>`;
-  el.style.left=x+'px';el.style.top=y+'px';
-  ST.appendChild(el);
-  const c={id,value,x,y,el};cards.push(c);
-  el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});
-  makeDrag(el,c);updStage();closeResult();
-}
-function removeCard(id){
-  const i=cards.findIndex(c=>c.id===id);if(i<0)return;
-  const{el}=cards[i];el.classList.add('leaving');
-  setTimeout(()=>{el.remove();cards.splice(i,1);updStage();},200);
-}
-function gatherAll(){
-  if(cards.length===0)return;
-  const cnt=cards.length,sum=cards.reduce((a,c)=>a+c.value,0),total=parseFloat(sum.toPrecision(12));
-  let html='';cards.forEach((c,i)=>{if(i>0)html+=`<span class="pl"> ＋ </span>`;html+=`<strong>${fmt(c.value)}</strong>`;});
-  ROF.innerHTML=html+'<span class="pl"> ＝ </span>';ROT.textContent=fmt(total);ROV.classList.add('show');
-  cards.forEach(c=>c.el.classList.add('leaving'));
-  setTimeout(()=>{cards.forEach(c=>c.el.remove());cards=[];updStage();},210);
-  cur=String(total);rst=true;op=null;updD(fmt(total));EL.textContent=cnt+'件 合計 ＝';
-}
+function addCard(value,dropX,dropY){cid++;const id=cid,sw=ST.offsetWidth,sh=ST.clientHeight,cw=Math.max(72,fmt(value).length*14+52),ch=44;let x,y;if(dropX!=null&&dropY!=null){x=dropX-cw/2;y=dropY-ch/2;}else if(cards.length===0){x=Math.min(7+Math.random()*22,sw-cw-7);y=7;}else{const l=cards[cards.length-1];x=l.x+8+Math.random()*15-7;y=l.y+48+Math.random()*5-2;}x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,sh-ch-5));const el=document.createElement('div');el.className='ncard enter';el.innerHTML=`<span class="clbl">#${id}</span><span class="cval">${fmt(value)}</span><button class="cdel" onclick="removeCard(${id})">✕</button>`;el.style.left=x+'px';el.style.top=y+'px';ST.appendChild(el);const c={id,value,x,y,el};cards.push(c);el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});makeDrag(el,c);updStage();closeResult();}
+function removeCard(id){const i=cards.findIndex(c=>c.id===id);if(i<0)return;const{el}=cards[i];el.classList.add('leaving');setTimeout(()=>{el.remove();cards.splice(i,1);updStage();},200);}
+function gatherAll(){if(cards.length===0)return;const cnt=cards.length,sum=cards.reduce((a,c)=>a+c.value,0),total=parseFloat(sum.toPrecision(12));let html='';cards.forEach((c,i)=>{if(i>0)html+=`<span class="pl"> ＋ </span>`;html+=`<strong>${fmt(c.value)}</strong>`;});ROF.innerHTML=html+'<span class="pl"> ＝ </span>';ROT.textContent=fmt(total);ROV.classList.add('show');cards.forEach(c=>c.el.classList.add('leaving'));setTimeout(()=>{cards.forEach(c=>c.el.remove());cards=[];updStage();},210);cur=String(total);rst=true;op=null;updD(fmt(total));EL.textContent=cnt+'件 合計 ＝';}
 function closeResult(){ROV.classList.remove('show');}
-function updStage(){
-  SH.style.opacity=cards.length===0?'1':'0';
-  CCB.style.display=cards.length===0?'none':'block';
-  if(cards.length)CCN.textContent=cards.length;
-}
-
-/* ── ディスプレイドラッグ ── */
-(function(){
-  let dragging=false,ghost=null,startY=0;
-  const THR=28;
-  function getVal(){if(op&&!rst){const r=calcOnly(false);return r===false?null:r;}const n=parseFloat(cur);return isNaN(n)?null:n;}
-  function mkG(val){const g=document.createElement('div');g.className='ghost-card';g.textContent=fmt(val);document.body.appendChild(g);return g;}
-  function mvG(cx,cy){if(!ghost)return;ghost.style.left=(cx-ghost.offsetWidth/2)+'px';ghost.style.top=(cy-ghost.offsetHeight/2)+'px';}
-  function onSt(cx,cy){const r=ST.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top&&cy<=r.bottom;}
-  function start(cx,cy){const v=getVal();if(v===null)return;dragging=true;startY=cy;DB.classList.add('lift');ghost=mkG(v);mvG(cx,cy);}
-  function move(cx,cy){if(!dragging)return;mvG(cx,cy);ST.classList.toggle('drop-ready',onSt(cx,cy)||cy<startY-THR);}
-  function end(cx,cy){
-    if(!dragging)return;dragging=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');
-    if(ghost){ghost.remove();ghost=null;}
-    if(onSt(cx,cy)||cy<startY-THR){const v=getVal();if(v!==null){addCard(v);cur='0';rst=false;op=null;updD('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}}
-  }
-  DB.addEventListener('mousedown',e=>{e.preventDefault();start(e.clientX,e.clientY);});
-  document.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
-  document.addEventListener('mouseup',e=>end(e.clientX,e.clientY));
-  DB.addEventListener('touchstart',e=>{e.preventDefault();const t=e.touches[0];start(t.clientX,t.clientY);},{passive:false});
-  document.addEventListener('touchmove',e=>{if(!dragging)return;e.preventDefault();const t=e.touches[0];move(t.clientX,t.clientY);},{passive:false});
-  document.addEventListener('touchend',e=>{const t=e.changedTouches[0];end(t.clientX,t.clientY);});
-})();
-
-/* ── カードドラッグ ── */
-function makeDrag(el,card){
-  let sx,sy,drag=false;
-  el.addEventListener('mousedown',e=>{if(e.target.classList.contains('cdel'))return;e.preventDefault();drag=true;el.classList.add('dragging');const r=ST.getBoundingClientRect();sx=e.clientX-r.left-card.x;sy=e.clientY-r.top-card.y;front(el);});
-  document.addEventListener('mousemove',e=>{if(!drag)return;mv(e.clientX,e.clientY,sx,sy,card,el);});
-  document.addEventListener('mouseup',()=>{if(!drag)return;drag=false;el.classList.remove('dragging');});
-  el.addEventListener('touchstart',e=>{if(e.target.classList.contains('cdel'))return;e.preventDefault();drag=true;el.classList.add('dragging');const r=ST.getBoundingClientRect(),t=e.touches[0];sx=t.clientX-r.left-card.x;sy=t.clientY-r.top-card.y;front(el);},{passive:false});
-  document.addEventListener('touchmove',e=>{if(!drag)return;e.preventDefault();const t=e.touches[0];mv(t.clientX,t.clientY,sx,sy,card,el);},{passive:false});
-  document.addEventListener('touchend',()=>{if(!drag)return;drag=false;el.classList.remove('dragging');});
-}
-function mv(cx,cy,sx,sy,card,el){
-  const r=ST.getBoundingClientRect();
-  let nx=cx-r.left-sx,ny=cy-r.top-sy;
-  nx=Math.max(4,Math.min(nx,ST.clientWidth-el.offsetWidth-4));
-  ny=Math.max(4,Math.min(ny,ST.clientHeight-el.offsetHeight-4));
-  card.x=nx;card.y=ny;el.style.left=nx+'px';el.style.top=ny+'px';
-}
+function updStage(){SH.style.opacity=cards.length===0?'1':'0';CCB.style.display=cards.length===0?'none':'block';if(cards.length)CCN.textContent=cards.length;}
+(function(){let dragging=false,ghost=null,startY=0;const THR=26;function getVal(){if(op&&!rst){const r=calcOnly(false);return r===false?null:r;}const n=parseFloat(cur);return isNaN(n)?null:n;}function mkG(val){const g=document.createElement('div');g.className='ghost-card';g.textContent=fmt(val);document.body.appendChild(g);return g;}function mvG(cx,cy){if(!ghost)return;ghost.style.left=(cx-ghost.offsetWidth/2)+'px';ghost.style.top=(cy-ghost.offsetHeight/2)+'px';}function onSt(cx,cy){const r=ST.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top&&cy<=r.bottom;}function start(cx,cy){const v=getVal();if(v===null)return;dragging=true;startY=cy;DB.classList.add('lift');ghost=mkG(v);mvG(cx,cy);}function move(cx,cy){if(!dragging)return;mvG(cx,cy);ST.classList.toggle('drop-ready',onSt(cx,cy)||cy<startY-THR);}function end(cx,cy){if(!dragging)return;dragging=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(ghost){ghost.remove();ghost=null;}if(onSt(cx,cy)||cy<startY-THR){const v=getVal();if(v!==null){const sr=ST.getBoundingClientRect();let lx=cx-sr.left,ly=cy-sr.top;if(!onSt(cx,cy)){lx=Math.max(30,Math.min(sr.width-30,lx));ly=Math.max(20,Math.min(sr.height/2,Math.random()*sr.height*0.6+10));}addCard(v,lx,ly);cur='0';rst=false;op=null;updD('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}}}DB.addEventListener('mousedown',e=>{e.preventDefault();start(e.clientX,e.clientY);});document.addEventListener('mousemove',e=>move(e.clientX,e.clientY));document.addEventListener('mouseup',e=>end(e.clientX,e.clientY));DB.addEventListener('touchstart',e=>{e.preventDefault();const t=e.touches[0];start(t.clientX,t.clientY);},{passive:false});document.addEventListener('touchmove',e=>{if(!dragging)return;e.preventDefault();const t=e.touches[0];move(t.clientX,t.clientY);},{passive:false});document.addEventListener('touchend',e=>{const t=e.changedTouches[0];end(t.clientX,t.clientY);});})();
+function makeDrag(el,card){let sx,sy,drag=false;el.addEventListener('mousedown',e=>{if(e.target.classList.contains('cdel'))return;e.preventDefault();drag=true;el.classList.add('dragging');const r=ST.getBoundingClientRect();sx=e.clientX-r.left-card.x;sy=e.clientY-r.top-card.y;front(el);});document.addEventListener('mousemove',e=>{if(!drag)return;mv(e.clientX,e.clientY,sx,sy,card,el);});document.addEventListener('mouseup',()=>{if(!drag)return;drag=false;el.classList.remove('dragging');});el.addEventListener('touchstart',e=>{if(e.target.classList.contains('cdel'))return;e.preventDefault();drag=true;el.classList.add('dragging');const r=ST.getBoundingClientRect(),t=e.touches[0];sx=t.clientX-r.left-card.x;sy=t.clientY-r.top-card.y;front(el);},{passive:false});document.addEventListener('touchmove',e=>{if(!drag)return;e.preventDefault();const t=e.touches[0];mv(t.clientX,t.clientY,sx,sy,card,el);},{passive:false});document.addEventListener('touchend',()=>{if(!drag)return;drag=false;el.classList.remove('dragging');});}
+function mv(cx,cy,sx,sy,card,el){const r=ST.getBoundingClientRect();let nx=cx-r.left-sx,ny=cy-r.top-sy;nx=Math.max(4,Math.min(nx,ST.clientWidth-el.offsetWidth-4));ny=Math.max(4,Math.min(ny,ST.clientHeight-el.offsetHeight-4));card.x=nx;card.y=ny;el.style.left=nx+'px';el.style.top=ny+'px';}
 function front(el){document.querySelectorAll('.ncard').forEach(c=>c.style.zIndex=10);el.style.zIndex=80;}
-
 updD('0');
 </script>
 </body>
