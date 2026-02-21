@@ -380,7 +380,6 @@ body {
   padding: 2px 4px;
   outline: none;
   cursor: pointer;
-  /* ▼ ここが重要：スワイプの対象外にする設定 */
   pointer-events: auto;
   touch-action: auto;
   user-select: auto;
@@ -471,9 +470,18 @@ body {
     <div class="disp" id="dispBox">
       <div class="conv-row">
         <select id="currencySel" onchange="updateConv()">
-          <option value="USD">USD ($)</option>
-          <option value="MVR" selected>MVR (Rf)</option>
-          <option value="EUR">EUR (€)</option>
+          <option value="USD">🇺🇸 USD ($)</option>
+          <option value="EUR">🇪🇺 EUR (€)</option>
+          <option value="GBP">🇬🇧 GBP (£)</option>
+          <option value="AUD">🇦🇺 AUD (A$)</option>
+          <option value="KRW">🇰🇷 KRW (₩)</option>
+          <option value="TWD">🇹🇼 TWD (NT$)</option>
+          <option value="HKD">🇭🇰 HKD (HK$)</option>
+          <option value="THB">🇹🇭 THB (฿)</option>
+          <option value="SGD">🇸🇬 SGD (S$)</option>
+          <option value="PHP">🇵🇭 PHP (₱)</option>
+          <option value="MXN">🇲🇽 MXN (Mex$)</option>
+          <option value="MVR" selected>🇲🇻 MVR (Rf)</option>
         </select>
         <div class="d-conv" id="convLine">¥0</div>
       </div>
@@ -537,8 +545,22 @@ let cur='0',prev='',op=null,rst=false;
 const NL=document.getElementById('numLine'),EL=document.getElementById('exprLine'),DB=document.getElementById('dispBox'),ST=document.getElementById('stage'),SH=document.getElementById('stageHint'),ROV=document.getElementById('resultOverlay'),ROF=document.getElementById('roFormula'),ROT=document.getElementById('roTotal'),CCB=document.getElementById('cardCount'),CCN=document.getElementById('cardCountNum'),CSEL=document.getElementById('currencySel'),CVL=document.getElementById('convLine');
 let cards=[],cid=0;
 
-// ▼ 為替レートと換算処理
-const rates = { USD: 151.5, MVR: 9.8, EUR: 163.2 };
+// ▼ 為替レートと換算処理（主要通貨を追加・ざっくりとした目安レート）
+const rates = {
+  USD: 150.5,  // 米ドル
+  EUR: 163.0,  // ユーロ
+  GBP: 190.0,  // イギリスポンド
+  AUD: 98.0,   // オーストラリアドル
+  KRW: 0.113,  // 韓国ウォン
+  TWD: 4.75,   // 台湾ドル
+  HKD: 19.3,   // 香港ドル
+  THB: 4.2,    // タイバーツ
+  SGD: 111.5,  // シンガポールドル
+  PHP: 2.65,   // フィリピンペソ
+  MXN: 8.8,    // メキシコペソ
+  MVR: 9.8     // モルディブ・ルフィヤ
+};
+
 function updateConv() {
   const n = parseFloat(cur);
   if (isNaN(n) || cur === 'Error') {
@@ -567,7 +589,6 @@ function useTotal(){closeResult();rst=true;DB.classList.remove('flash');void DB.
 function closeResult(){ROV.classList.remove('show');}
 function updStage(){SH.style.opacity=cards.length===0?'1':'0';CCB.style.display=cards.length===0?'none':'block';if(cards.length)CCN.textContent=cards.length;}
 
-/* ▼ ここを修正：セレクトボックスをタップした時はスワイプの処理を発動させない */
 (function(){let dragging=false,ghost=null,startY=0;const THR=26;function getVal(){if(op&&!rst){const r=calcOnly(false);return r===false?null:r;}const n=parseFloat(cur);return isNaN(n)?null:n;}function mkG(val){const g=document.createElement('div');g.className='ghost-card';g.textContent=fmt(val);document.body.appendChild(g);return g;}function mvG(cx,cy){if(!ghost)return;ghost.style.left=(cx-ghost.offsetWidth/2)+'px';ghost.style.top=(cy-ghost.offsetHeight/2)+'px';}function onSt(cx,cy){const r=ST.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top&&cy<=r.bottom;}function start(cx,cy){const v=getVal();if(v===null)return;dragging=true;startY=cy;DB.classList.add('lift');ghost=mkG(v);mvG(cx,cy);}function move(cx,cy){if(!dragging)return;mvG(cx,cy);ST.classList.toggle('drop-ready',onSt(cx,cy)||cy<startY-THR);}function end(cx,cy){if(!dragging)return;dragging=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(ghost){ghost.remove();ghost=null;}if(onSt(cx,cy)||cy<startY-THR){const v=getVal();if(v!==null){const sr=ST.getBoundingClientRect();let lx=cx-sr.left,ly=cy-sr.top;if(!onSt(cx,cy)){lx=Math.max(30,Math.min(sr.width-30,lx));ly=Math.max(20,Math.min(sr.height/2,Math.random()*sr.height*0.6+10));}addCard(v,lx,ly);cur='0';rst=false;op=null;updD('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}}}
 DB.addEventListener('mousedown',e=>{
   if(e.target.tagName === 'SELECT') return; // ここで除外
