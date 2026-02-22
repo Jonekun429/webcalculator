@@ -136,16 +136,23 @@
 :root {
   --font:      'Nunito','Noto Sans JP',sans-serif;
   --brand:     #005D4D;  --brand-mid: #007A66;  --brand-deep: #002820;
-  --bg-s:      #9CCEC6;  --bg-e:      #6AAFAA;
-  --body-bg:   #F0FBF9;
-  --stage-a:   #D4EEE9;  --stage-b:   #BFE4DC;
+  
+  /* 全体の背景を #005D4D ベースに変更 */
+  --bg-s:      #005D4D;  --bg-e:      #003A30;
+  --body-bg:   #E8F5F3;
+  --stage-a:   #C4EAE4;  --stage-b:   #A9D8D0;
+  
   --disp-bg:   #C4EAE4;  --disp-bd:   #84C8C0;
   --card-a:    #00B896;  --card-b:    #007A66;  --card-sh: #004D40;
   --bn-a:      #00A070;  --bn-b:      #006850;  --bn-sh:   #003828;
   --op-bg:     #FFFFFF;  --op-bd:     #9CCEC6;  --op-tx:   #005D4D;
   --ut-a:      #68B4AC;  --ut-b:      #46948C;  --ut-sh:   #2A6860;
-  --eq-a:      #F04838;  --eq-sh:     #9E2010;
-  --cl-a:      #8858D0;  --cl-sh:     #4C2898;
+  
+  /* ＝ボタン（ウォールナット風） */
+  --eq-a:      #8C5230;  --eq-sh:     #4A2612;
+  /* Cボタン（オーク風） */
+  --cl-a:      #C68B59;  --cl-sh:     #7A4B28;
+  
   --ga-a:      #009C6A;  --ga-b:      #006C48;  --ga-sh:   #003828;
   --tax-a:     #4CA488;  --tax-b:     #347C68;  --tax-sh:  #1C5040;
   --td:        #001A12;  --tm:        #003428;  --tp:      #469080;
@@ -422,9 +429,9 @@ body {
 .bop:active { box-shadow:0 1px 0 #88C0B8; }
 .bu  { background:linear-gradient(170deg,var(--ut-a),var(--ut-b)); color:#fff; font-size:calc(var(--btn)*.33); box-shadow:0 3px 0 var(--ut-sh),0 4px 8px rgba(0,30,20,.2); }
 .bu:active  { box-shadow:0 1px 0 var(--ut-sh); }
-.bc  { background:linear-gradient(170deg,var(--cl-a),#5A38B0); color:#fff; font-size:calc(var(--btn)*.36); box-shadow:0 4px 0 var(--cl-sh),0 5px 12px rgba(60,25,120,.32); }
+.bc  { background:linear-gradient(170deg,var(--cl-a),#A06535); color:#fff; font-size:calc(var(--btn)*.36); box-shadow:0 4px 0 var(--cl-sh),0 5px 12px rgba(122,75,40,.32); }
 .bc:active  { box-shadow:0 1px 0 var(--cl-sh); }
-.beq { background:linear-gradient(170deg,var(--eq-a),#B82008); color:#fff; font-size:calc(var(--btn)*.44); box-shadow:0 4px 0 var(--eq-sh),0 5px 12px rgba(190,45,25,.34); }
+.beq { background:linear-gradient(170deg,var(--eq-a),#66361D); color:#fff; font-size:calc(var(--btn)*.44); box-shadow:0 4px 0 var(--eq-sh),0 5px 12px rgba(74,38,18,.34); }
 .beq:active { box-shadow:0 1px 0 var(--eq-sh); }
 .bga { background:linear-gradient(170deg,var(--ga-a),var(--ga-b)); color:#fff; box-shadow:0 4px 0 var(--ga-sh),0 5px 12px rgba(0,25,16,.36); }
 .bga:active { box-shadow:0 1px 0 var(--ga-sh); }
