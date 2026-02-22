@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="集める電卓">
@@ -137,6 +137,7 @@
   --font:      'Nunito','Noto Sans JP',sans-serif;
   --brand:     #005D4D;  --brand-mid: #007A66;  --brand-deep: #002820;
   
+  /* 全体の背景を #005D4D ベースに変更 */
   --bg-s:      #005D4D;  --bg-e:      #003A30;
   --body-bg:   #E8F5F3;
   --stage-a:   #C4EAE4;  --stage-b:   #A9D8D0;
@@ -147,7 +148,9 @@
   --op-bg:     #FFFFFF;  --op-bd:     #9CCEC6;  --op-tx:   #005D4D;
   --ut-a:      #68B4AC;  --ut-b:      #46948C;  --ut-sh:   #2A6860;
   
+  /* ＝ボタン（ウォールナット風） */
   --eq-a:      #8C5230;  --eq-sh:     #4A2612;
+  /* Cボタン（オーク風） */
   --cl-a:      #C68B59;  --cl-sh:     #7A4B28;
   
   --ga-a:      #009C6A;  --ga-b:      #006C48;  --ga-sh:   #003828;
@@ -175,25 +178,18 @@ body {
 }
 
 .calc {
-  /* スマホでの窮屈感をなくすため、隙間(gap)を少し広めに調整 */
-  --gap: clamp(6px, 1.8vw, 12px);
-  --btn: 56px;
+  --gap: clamp(4px, 1.2vw, 8px);
+  --btn: 56px; /* JS で上書きされる初期値 */
 
   background: var(--body-bg);
   width: 100%;
   max-width: 540px;
   height: 100dvh;
   border-radius: 0;
-  
-  /* iPhoneのセーフエリア（ノッチやホームバー）を考慮しつつ、左右の余白を少し広げて抜け感を作りました */
-  padding-top: calc(env(safe-area-inset-top, 0px) + 12px);
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
-  padding-left: clamp(16px, 4vw, 24px);
-  padding-right: clamp(16px, 4vw, 24px);
-
+  padding: clamp(6px, 1.2vh, 10px) clamp(8px, 1.4vw, 14px) clamp(6px, 1vh, 10px);
   display: flex;
   flex-direction: column;
-  gap: clamp(6px, 1.2vh, 10px);
+  gap: clamp(4px, 0.7vh, 6px);
   box-shadow:
     0 0 0 1.5px rgba(255,255,255,.88) inset,
     0 20px 60px rgba(0,20,16,.28),
@@ -201,12 +197,12 @@ body {
   overflow: hidden;
 }
 
+/* PC幅が広い場合のみ角丸 */
 @media (min-width: 560px) {
   body { align-items: center; padding: 12px; }
   .calc {
     height: min(98dvh, 920px);
     border-radius: 24px;
-    padding: 16px 24px 20px;
   }
 }
 
@@ -215,7 +211,7 @@ body {
   font-size: clamp(.7rem, 2vw, .9rem);
   font-weight: 900; letter-spacing: .23em; text-transform: uppercase;
   color: var(--tp); user-select: none; flex-shrink: 0;
-  padding: clamp(6px, 1vh, 12px) 0;
+  padding: clamp(2px, 0.4vh, 4px) 0;
 }
 
 /* ===== ステージ：flex-growで余った空間を全部使う ===== */
@@ -595,6 +591,8 @@ function doTax(){const n=parseFloat(cur);if(isNaN(n))return;const r=Math.floor(n
 function fmt(v){if(Number.isInteger(v))return v.toLocaleString('ja-JP');return parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:6});}
 function addCard(value,dropX,dropY){cid++;const id=cid,sw=ST.offsetWidth,sh=ST.clientHeight,cw=Math.max(72,fmt(value).length*14+52),ch=44;let x,y;if(dropX!=null&&dropY!=null){x=dropX-cw/2;y=dropY-ch/2;}else if(cards.length===0){x=Math.min(7+Math.random()*22,sw-cw-7);y=7;}else{const l=cards[cards.length-1];x=l.x+8+Math.random()*15-7;y=l.y+48+Math.random()*5-2;}x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,sh-ch-5));const el=document.createElement('div');el.className='ncard enter';el.innerHTML=`<span class="clbl">#${id}</span><span class="cval">${fmt(value)}</span><button class="cdel" onclick="removeCard(${id})">✕</button>`;el.style.left=x+'px';el.style.top=y+'px';ST.appendChild(el);const c={id,value,x,y,el};cards.push(c);el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});makeDrag(el,c);updStage();closeResult();}
 function removeCard(id){const i=cards.findIndex(c=>c.id===id);if(i<0)return;const{el}=cards[i];el.classList.add('leaving');setTimeout(()=>{el.remove();cards.splice(i,1);updStage();},200);}
+
+// ===== 修正された gatherAll 関数 =====
 function gatherAll(){
   let v = null;
   if (op && !rst) {
@@ -644,6 +642,8 @@ function gatherAll(){
   updD(fmt(total));
   EL.textContent = cnt + '件 合計 ＝';
 }
+// =====================================
+
 function useTotal(){closeResult();rst=true;DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}
 function closeResult(){ROV.classList.remove('show');}
 function updStage(){SH.style.opacity=cards.length===0?'1':'0';CCB.style.display=cards.length===0?'none':'block';if(cards.length)CCN.textContent=cards.length;}
