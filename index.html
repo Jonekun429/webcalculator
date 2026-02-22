@@ -591,7 +591,59 @@ function doTax(){const n=parseFloat(cur);if(isNaN(n))return;const r=Math.floor(n
 function fmt(v){if(Number.isInteger(v))return v.toLocaleString('ja-JP');return parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:6});}
 function addCard(value,dropX,dropY){cid++;const id=cid,sw=ST.offsetWidth,sh=ST.clientHeight,cw=Math.max(72,fmt(value).length*14+52),ch=44;let x,y;if(dropX!=null&&dropY!=null){x=dropX-cw/2;y=dropY-ch/2;}else if(cards.length===0){x=Math.min(7+Math.random()*22,sw-cw-7);y=7;}else{const l=cards[cards.length-1];x=l.x+8+Math.random()*15-7;y=l.y+48+Math.random()*5-2;}x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,sh-ch-5));const el=document.createElement('div');el.className='ncard enter';el.innerHTML=`<span class="clbl">#${id}</span><span class="cval">${fmt(value)}</span><button class="cdel" onclick="removeCard(${id})">✕</button>`;el.style.left=x+'px';el.style.top=y+'px';ST.appendChild(el);const c={id,value,x,y,el};cards.push(c);el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});makeDrag(el,c);updStage();closeResult();}
 function removeCard(id){const i=cards.findIndex(c=>c.id===id);if(i<0)return;const{el}=cards[i];el.classList.add('leaving');setTimeout(()=>{el.remove();cards.splice(i,1);updStage();},200);}
-function gatherAll(){if(cards.length===0)return;const cnt=cards.length,sum=cards.reduce((a,c)=>a+c.value,0),total=parseFloat(sum.toPrecision(12));let html='';cards.forEach((c,i)=>{if(i>0)html+=`<span class="pl"> ＋ </span>`;html+=`<strong>${fmt(c.value)}</strong>`;});ROF.innerHTML=html+'<span class="pl"> ＝ </span>';ROT.textContent=fmt(total);ROV.classList.add('show');cards.forEach(c=>c.el.classList.add('leaving'));setTimeout(()=>{cards.forEach(c=>c.el.remove());cards=[];updStage();},210);cur=String(total);rst=true;op=null;updD(fmt(total));EL.textContent=cnt+'件 合計 ＝';}
+
+// ===== 修正された gatherAll 関数 =====
+function gatherAll(){
+  let v = null;
+  if (op && !rst) {
+    const r = calcOnly(false);
+    v = (r === false) ? null : r;
+  } else {
+    const n = parseFloat(cur);
+    v = isNaN(n) ? null : n;
+  }
+  
+  let includeCurrent = (v !== null && v !== 0);
+  if (cards.length === 0 && (!includeCurrent || rst)) return;
+  
+  let allValues = cards.map(c => c.value);
+  if (includeCurrent) {
+    allValues.push(v);
+  }
+  
+  if (allValues.length === 0) return;
+  
+  const cnt = allValues.length;
+  const sum = allValues.reduce((a,c) => a + c, 0);
+  const total = parseFloat(sum.toPrecision(12));
+  
+  let html = '';
+  allValues.forEach((val, i) => {
+    if (i > 0) html += `<span class="pl"> ＋ </span>`;
+    html += `<strong>${fmt(val)}</strong>`;
+  });
+  
+  ROF.innerHTML = html + '<span class="pl"> ＝ </span>';
+  ROT.textContent = fmt(total);
+  ROV.classList.add('show');
+  
+  if (cards.length > 0) {
+    cards.forEach(c => c.el.classList.add('leaving'));
+    setTimeout(() => {
+      cards.forEach(c => c.el.remove());
+      cards = [];
+      updStage();
+    }, 210);
+  }
+  
+  cur = String(total);
+  rst = true;
+  op = null;
+  updD(fmt(total));
+  EL.textContent = cnt + '件 合計 ＝';
+}
+// =====================================
+
 function useTotal(){closeResult();rst=true;DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}
 function closeResult(){ROV.classList.remove('show');}
 function updStage(){SH.style.opacity=cards.length===0?'1':'0';CCB.style.display=cards.length===0?'none':'block';if(cards.length)CCN.textContent=cards.length;}
