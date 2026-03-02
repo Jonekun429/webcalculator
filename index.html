@@ -137,7 +137,6 @@
   --font:      'Nunito','Noto Sans JP',sans-serif;
   --brand:     #005D4D;  --brand-mid: #007A66;  --brand-deep: #002820;
   
-  /* 全体の背景を #005D4D ベースに変更 */
   --bg-s:      #005D4D;  --bg-e:      #003A30;
   --body-bg:   #E8F5F3;
   --stage-a:   #C4EAE4;  --stage-b:   #A9D8D0;
@@ -148,9 +147,7 @@
   --op-bg:     #FFFFFF;  --op-bd:     #9CCEC6;  --op-tx:   #005D4D;
   --ut-a:      #68B4AC;  --ut-b:      #46948C;  --ut-sh:   #2A6860;
   
-  /* ＝ボタン（ウォールナット風） */
   --eq-a:      #8C5230;  --eq-sh:     #4A2612;
-  /* Cボタン（オーク風） */
   --cl-a:      #C68B59;  --cl-sh:     #7A4B28;
   
   --ga-a:      #009C6A;  --ga-b:      #006C48;  --ga-sh:   #003828;
@@ -179,17 +176,19 @@ body {
 
 .calc {
   --gap: clamp(4px, 1.2vw, 8px);
-  --btn: 56px; /* JS で上書きされる初期値 */
+  --btn: 56px; 
 
   background: var(--body-bg);
   width: 100%;
   max-width: 540px;
   height: 100dvh;
   border-radius: 0;
-  padding: clamp(6px, 1.2vh, 10px) clamp(8px, 1.4vw, 14px) clamp(6px, 1vh, 10px);
+  /* 下部のpaddingを少し広めにとり、画面下での操作性を良くする */
+  padding: clamp(6px, 1.5vh, 12px) clamp(8px, 1.4vw, 14px) clamp(16px, 4vh, 36px);
   display: flex;
   flex-direction: column;
-  gap: clamp(4px, 0.7vh, 6px);
+  /* ブロック間の縦ギャップを画面高さに連動して広げる */
+  gap: clamp(10px, 2.5vh, 24px);
   box-shadow:
     0 0 0 1.5px rgba(255,255,255,.88) inset,
     0 20px 60px rgba(0,20,16,.28),
@@ -203,6 +202,7 @@ body {
   .calc {
     height: min(98dvh, 920px);
     border-radius: 24px;
+    padding-bottom: 24px;
   }
 }
 
@@ -214,12 +214,16 @@ body {
   padding: clamp(2px, 0.4vh, 4px) 0;
 }
 
-/* ===== ステージ：flex-growで余った空間を全部使う ===== */
+/* ===== ステージ ===== */
 .stage {
   position: relative;
   width: 100%;
   flex: 1 1 0;
+  /* 縦幅が広がりすぎないように最大値を制限 */
+  max-height: 42vh; 
   min-height: 80px;
+  /* 余剰スペースをステージ下部に集め、電卓キーパッドを下寄せにする */
+  margin-bottom: auto; 
   background: linear-gradient(138deg, var(--stage-a), var(--stage-b));
   border-radius: clamp(10px, 2.2vw, 18px);
   border: 2px dashed rgba(0,93,77,.2);
@@ -332,7 +336,7 @@ body {
 .ctrl {
   display: grid;
   grid-template-columns: var(--btn) 1fr var(--btn);
-  gap: var(--gap);
+  column-gap: var(--gap);
   align-items: center;
   flex-shrink: 0;
 }
@@ -342,7 +346,9 @@ body {
   background: var(--disp-bg);
   border: 2px solid var(--disp-bd);
   border-radius: clamp(10px, 2.2vw, 16px);
-  height: var(--btn);
+  /* 縦スペースに余裕を持たせるため、以前より少し高く設定 */
+  height: calc(var(--btn) * 1.15); 
+  min-height: 64px;
   padding: 4px clamp(10px, 2.4vw, 16px);
   display: flex; flex-direction: column;
   justify-content: center; align-items: flex-end;
@@ -447,7 +453,9 @@ body {
 .kpad {
   display: grid;
   grid-template-columns: repeat(5, var(--btn));
-  gap: var(--gap);
+  column-gap: var(--gap);
+  /* 縦の行間を画面高さに応じて広げ、バランスを取る */
+  row-gap: clamp(8px, 2.5vh, 24px); 
   justify-content: center;
   flex-shrink: 0;
 }
@@ -592,7 +600,6 @@ function fmt(v){if(Number.isInteger(v))return v.toLocaleString('ja-JP');return p
 function addCard(value,dropX,dropY){cid++;const id=cid,sw=ST.offsetWidth,sh=ST.clientHeight,cw=Math.max(72,fmt(value).length*14+52),ch=44;let x,y;if(dropX!=null&&dropY!=null){x=dropX-cw/2;y=dropY-ch/2;}else if(cards.length===0){x=Math.min(7+Math.random()*22,sw-cw-7);y=7;}else{const l=cards[cards.length-1];x=l.x+8+Math.random()*15-7;y=l.y+48+Math.random()*5-2;}x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,sh-ch-5));const el=document.createElement('div');el.className='ncard enter';el.innerHTML=`<span class="clbl">#${id}</span><span class="cval">${fmt(value)}</span><button class="cdel" onclick="removeCard(${id})">✕</button>`;el.style.left=x+'px';el.style.top=y+'px';ST.appendChild(el);const c={id,value,x,y,el};cards.push(c);el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});makeDrag(el,c);updStage();closeResult();}
 function removeCard(id){const i=cards.findIndex(c=>c.id===id);if(i<0)return;const{el}=cards[i];el.classList.add('leaving');setTimeout(()=>{el.remove();cards.splice(i,1);updStage();},200);}
 
-// ===== 修正された gatherAll 関数 =====
 function gatherAll(){
   let v = null;
   if (op && !rst) {
@@ -642,7 +649,6 @@ function gatherAll(){
   updD(fmt(total));
   EL.textContent = cnt + '件 合計 ＝';
 }
-// =====================================
 
 function useTotal(){closeResult();rst=true;DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}
 function closeResult(){ROV.classList.remove('show');}
@@ -650,13 +656,13 @@ function updStage(){SH.style.opacity=cards.length===0?'1':'0';CCB.style.display=
 
 (function(){let dragging=false,ghost=null,startY=0;const THR=26;function getVal(){if(op&&!rst){const r=calcOnly(false);return r===false?null:r;}const n=parseFloat(cur);return isNaN(n)?null:n;}function mkG(val){const g=document.createElement('div');g.className='ghost-card';g.textContent=fmt(val);document.body.appendChild(g);return g;}function mvG(cx,cy){if(!ghost)return;ghost.style.left=(cx-ghost.offsetWidth/2)+'px';ghost.style.top=(cy-ghost.offsetHeight/2)+'px';}function onSt(cx,cy){const r=ST.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top&&cy<=r.bottom;}function start(cx,cy){const v=getVal();if(v===null)return;dragging=true;startY=cy;DB.classList.add('lift');ghost=mkG(v);mvG(cx,cy);}function move(cx,cy){if(!dragging)return;mvG(cx,cy);ST.classList.toggle('drop-ready',onSt(cx,cy)||cy<startY-THR);}function end(cx,cy){if(!dragging)return;dragging=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(ghost){ghost.remove();ghost=null;}if(onSt(cx,cy)||cy<startY-THR){const v=getVal();if(v!==null){const sr=ST.getBoundingClientRect();let lx=cx-sr.left,ly=cy-sr.top;if(!onSt(cx,cy)){lx=Math.max(30,Math.min(sr.width-30,lx));ly=Math.max(20,Math.min(sr.height/2,Math.random()*sr.height*0.6+10));}addCard(v,lx,ly);cur='0';rst=false;op=null;updD('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}}}
 DB.addEventListener('mousedown',e=>{
-  if(e.target.tagName === 'SELECT') return; // ここで除外
+  if(e.target.tagName === 'SELECT') return; 
   e.preventDefault();start(e.clientX,e.clientY);
 });
 document.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
 document.addEventListener('mouseup',e=>end(e.clientX,e.clientY));
 DB.addEventListener('touchstart',e=>{
-  if(e.target.tagName === 'SELECT') return; // ここで除外
+  if(e.target.tagName === 'SELECT') return; 
   e.preventDefault();const t=e.touches[0];start(t.clientX,t.clientY);
 },{passive:false});
 document.addEventListener('touchmove',e=>{if(!dragging)return;e.preventDefault();const t=e.touches[0];move(t.clientX,t.clientY);},{passive:false});
