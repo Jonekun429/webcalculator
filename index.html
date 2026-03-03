@@ -7,8 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="集める電卓">
 <meta name="theme-color" content="#005D4D">
-<title>集める電卓 - Green Gathering Calculator</title>
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoi6ZuG44KB44KL6Zu75Y2TIiwic2hvcnRfbmFtZSI6IumbhuOCgeOCi+mbu+WNkyIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMDA1RDREIiwidGhlbWVfY29sb3IiOiIjMDA1RDREIn0=">
+<title>集める電卓</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <script>
 // Generate app icon as canvas → apple-touch-icon & favicon
@@ -20,7 +19,6 @@
     const ctx = c.getContext('2d');
     const r = s * 0.22; // corner radius
 
-    // Rounded rect background
     ctx.beginPath();
     ctx.moveTo(r, 0);
     ctx.lineTo(s - r, 0); ctx.quadraticCurveTo(s, 0, s, r);
@@ -34,9 +32,7 @@
     ctx.fillStyle = bg;
     ctx.fill();
 
-    const u = s / 100; // unit
-
-    // Calculator body (white rounded rect)
+    const u = s / 100;
     const bx = 22*u, by = 15*u, bw = 56*u, bh = 70*u, br = 8*u;
     ctx.beginPath();
     ctx.moveTo(bx+br, by);
@@ -48,20 +44,17 @@
     ctx.fillStyle = 'rgba(255,255,255,0.95)';
     ctx.fill();
 
-    // Display screen
     ctx.fillStyle = '#C4EAE4';
     const dx = 27*u, dy = 20*u, dw = 46*u, dh = 16*u;
     roundRect(ctx, dx, dy, dw, dh, 4*u);
     ctx.fill();
 
-    // Display text "7"
     ctx.fillStyle = '#003428';
     ctx.font = `bold ${11*u}px sans-serif`;
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
     ctx.fillText('7', dx+dw-3*u, dy+dh/2+1*u);
 
-    // Button grid (3x3)
     const btnColors = ['#00A070','#00A070','#00A070','#00A070','#00A070','#00A070','#00A070','#F04838','#8858D0'];
     const gx = 28*u, gy = 42*u, gs = 10*u, gg = 4*u;
     for(let row=0;row<3;row++){
@@ -73,7 +66,6 @@
       }
     }
 
-    // Gather arrows icon (top-right badge)
     const cx2 = 68*u, cy2 = 22*u, ar = 14*u;
     ctx.beginPath();
     ctx.arc(cx2, cy2, ar, 0, Math.PI*2);
@@ -82,20 +74,17 @@
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 2*u;
     ctx.lineCap = 'round';
-    // 4 arrows pointing inward
     const aOff = 6*u, aHead = 3*u;
     [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([dx2,dy2])=>{
       const fx=cx2+dx2*aOff, fy=cy2+dy2*aOff;
       const tx=cx2+dx2*1.5*u, ty=cy2+dy2*1.5*u;
       ctx.beginPath(); ctx.moveTo(fx,fy); ctx.lineTo(tx,ty); ctx.stroke();
-      // arrowhead
       ctx.beginPath(); ctx.moveTo(tx,ty);
       ctx.lineTo(tx+(-dx2)*aHead, ty);
       ctx.moveTo(tx,ty);
       ctx.lineTo(tx, ty+(-dy2)*aHead);
       ctx.stroke();
     });
-    // center dot
     ctx.beginPath(); ctx.arc(cx2,cy2,2*u,0,Math.PI*2);
     ctx.fillStyle='#fff'; ctx.fill();
 
@@ -183,11 +172,9 @@ body {
   max-width: 540px;
   height: 100dvh;
   border-radius: 0;
-  /* 下部のpaddingを少し広めにとり、画面下での操作性を良くする */
   padding: clamp(6px, 1.5vh, 12px) clamp(8px, 1.4vw, 14px) clamp(16px, 4vh, 36px);
   display: flex;
   flex-direction: column;
-  /* ブロック間の縦ギャップを画面高さに連動して広げる */
   gap: clamp(10px, 2.5vh, 24px);
   box-shadow:
     0 0 0 1.5px rgba(255,255,255,.88) inset,
@@ -196,7 +183,6 @@ body {
   overflow: hidden;
 }
 
-/* PC幅が広い場合のみ角丸 */
 @media (min-width: 560px) {
   body { align-items: center; padding: 12px; }
   .calc {
@@ -206,23 +192,13 @@ body {
   }
 }
 
-.app-title {
-  text-align: center;
-  font-size: clamp(.7rem, 2vw, .9rem);
-  font-weight: 900; letter-spacing: .23em; text-transform: uppercase;
-  color: var(--tp); user-select: none; flex-shrink: 0;
-  padding: clamp(2px, 0.4vh, 4px) 0;
-}
-
 /* ===== ステージ ===== */
 .stage {
   position: relative;
   width: 100%;
   flex: 1 1 0;
-  /* 縦幅が広がりすぎないように最大値を制限 */
-  max-height: 42vh; 
+  max-height: 48vh; 
   min-height: 80px;
-  /* 余剰スペースをステージ下部に集め、電卓キーパッドを下寄せにする */
   margin-bottom: auto; 
   background: linear-gradient(138deg, var(--stage-a), var(--stage-b));
   border-radius: clamp(10px, 2.2vw, 18px);
@@ -294,6 +270,7 @@ body {
   padding: clamp(16px, 3.5vw, 28px);
   z-index:200; opacity:0; pointer-events:none; transform:scale(.94);
   transition:opacity .24s ease, transform .24s cubic-bezier(.34,1.3,.64,1);
+  cursor: pointer; /* タップして閉じられることを示す */
 }
 .result-overlay.show { opacity:1; pointer-events:auto; transform:scale(1); }
 
@@ -312,25 +289,6 @@ body {
   border-top:2.5px solid rgba(0,93,77,.18);
   padding-top:8px; margin-top:8px; line-height:1.1;
 }
-.ro-buttons {
-  margin-top:10px; display:flex; gap:8px;
-}
-.ro-use {
-  flex:1; display:block;
-  background:var(--brand-mid); border:none; border-radius:clamp(8px,1.8vw,12px);
-  padding:clamp(8px,1.6vh,12px); font-family:var(--font);
-  font-size:clamp(.78rem, 2vw, 1rem); font-weight:800; color:#fff;
-  cursor:pointer; transition:background .13s;
-}
-.ro-use:hover { background:var(--brand); }
-.ro-close {
-  flex:1; display:block;
-  background:rgba(0,93,77,.1); border:none; border-radius:clamp(8px,1.8vw,12px);
-  padding:clamp(8px,1.6vh,12px); font-family:var(--font);
-  font-size:clamp(.78rem, 2vw, 1rem); font-weight:800; color:var(--tm);
-  cursor:pointer; transition:background .13s;
-}
-.ro-close:hover { background:rgba(0,93,77,.22); }
 
 /* ===== コントロール行 ===== */
 .ctrl {
@@ -346,7 +304,6 @@ body {
   background: var(--disp-bg);
   border: 2px solid var(--disp-bd);
   border-radius: clamp(10px, 2.2vw, 16px);
-  /* 縦スペースに余裕を持たせるため、以前より少し高く設定 */
   height: calc(var(--btn) * 1.15); 
   min-height: 64px;
   padding: 4px clamp(10px, 2.4vw, 16px);
@@ -454,7 +411,6 @@ body {
   display: grid;
   grid-template-columns: repeat(5, var(--btn));
   column-gap: var(--gap);
-  /* 縦の行間を画面高さに応じて広げ、バランスを取る */
   row-gap: clamp(8px, 2.5vh, 24px); 
   justify-content: center;
   flex-shrink: 0;
@@ -463,21 +419,16 @@ body {
 </head>
 <body>
 <div class="calc" id="calcRoot">
-  <p class="app-title">Green Gathering Calculator</p>
   <div class="stage" id="stage">
     <div class="stage-hint" id="stageHint">
       <span class="si">🃏</span>
       <span class="st">数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加</span>
     </div>
     <div class="card-count" id="cardCount"><span id="cardCountNum">0</span> 件</div>
-    <div class="result-overlay" id="resultOverlay">
+    <div class="result-overlay" id="resultOverlay" onclick="closeResult()" title="タップして閉じる">
       <div class="ro-label">集計結果</div>
       <div class="ro-formula" id="roFormula"></div>
       <div class="ro-total"   id="roTotal"></div>
-      <div class="ro-buttons">
-        <button class="ro-use" onclick="useTotal()">▼ 合計値を入力に使う</button>
-        <button class="ro-close" onclick="closeResult()">✕ 閉じる</button>
-      </div>
     </div>
   </div>
   <div class="ctrl">
@@ -542,7 +493,6 @@ body {
   </div>
 </div>
 <script>
-/* ===== 動的ボタンサイズ計算 ===== */
 function recalcLayout() {
   const root = document.getElementById('calcRoot');
   const style = getComputedStyle(root);
@@ -560,20 +510,9 @@ let cur='0',prev='',op=null,rst=false;
 const NL=document.getElementById('numLine'),EL=document.getElementById('exprLine'),DB=document.getElementById('dispBox'),ST=document.getElementById('stage'),SH=document.getElementById('stageHint'),ROV=document.getElementById('resultOverlay'),ROF=document.getElementById('roFormula'),ROT=document.getElementById('roTotal'),CCB=document.getElementById('cardCount'),CCN=document.getElementById('cardCountNum'),CSEL=document.getElementById('currencySel'),CVL=document.getElementById('convLine');
 let cards=[],cid=0;
 
-// ▼ 為替レートと換算処理（主要通貨を追加・ざっくりとした目安レート）
 const rates = {
-  USD: 150.5,  // 米ドル
-  EUR: 163.0,  // ユーロ
-  GBP: 190.0,  // イギリスポンド
-  AUD: 98.0,   // オーストラリアドル
-  KRW: 0.113,  // 韓国ウォン
-  TWD: 4.75,   // 台湾ドル
-  HKD: 19.3,   // 香港ドル
-  THB: 4.2,    // タイバーツ
-  SGD: 111.5,  // シンガポールドル
-  PHP: 2.65,   // フィリピンペソ
-  MXN: 8.8,    // メキシコペソ
-  MVR: 9.8     // モルディブ・ルフィヤ
+  USD: 150.5, EUR: 163.0, GBP: 190.0, AUD: 98.0, KRW: 0.113, TWD: 4.75,
+  HKD: 19.3, THB: 4.2, SGD: 111.5, PHP: 2.65, MXN: 8.8, MVR: 9.8
 };
 
 function updateConv() {
@@ -650,8 +589,13 @@ function gatherAll(){
   EL.textContent = cnt + '件 合計 ＝';
 }
 
-function useTotal(){closeResult();rst=true;DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}
-function closeResult(){ROV.classList.remove('show');}
+// ボタンを消したので「閉じる処理」にディスプレイを光らせるアニメーションを統合しました
+function closeResult(){
+  ROV.classList.remove('show');
+  DB.classList.remove('flash');
+  void DB.offsetWidth; 
+  DB.classList.add('flash'); // 閉じた瞬間に「入力に合計値が入ったよ」と強調
+}
 function updStage(){SH.style.opacity=cards.length===0?'1':'0';CCB.style.display=cards.length===0?'none':'block';if(cards.length)CCN.textContent=cards.length;}
 
 (function(){let dragging=false,ghost=null,startY=0;const THR=26;function getVal(){if(op&&!rst){const r=calcOnly(false);return r===false?null:r;}const n=parseFloat(cur);return isNaN(n)?null:n;}function mkG(val){const g=document.createElement('div');g.className='ghost-card';g.textContent=fmt(val);document.body.appendChild(g);return g;}function mvG(cx,cy){if(!ghost)return;ghost.style.left=(cx-ghost.offsetWidth/2)+'px';ghost.style.top=(cy-ghost.offsetHeight/2)+'px';}function onSt(cx,cy){const r=ST.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top&&cy<=r.bottom;}function start(cx,cy){const v=getVal();if(v===null)return;dragging=true;startY=cy;DB.classList.add('lift');ghost=mkG(v);mvG(cx,cy);}function move(cx,cy){if(!dragging)return;mvG(cx,cy);ST.classList.toggle('drop-ready',onSt(cx,cy)||cy<startY-THR);}function end(cx,cy){if(!dragging)return;dragging=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(ghost){ghost.remove();ghost=null;}if(onSt(cx,cy)||cy<startY-THR){const v=getVal();if(v!==null){const sr=ST.getBoundingClientRect();let lx=cx-sr.left,ly=cy-sr.top;if(!onSt(cx,cy)){lx=Math.max(30,Math.min(sr.width-30,lx));ly=Math.max(20,Math.min(sr.height/2,Math.random()*sr.height*0.6+10));}addCard(v,lx,ly);cur='0';rst=false;op=null;updD('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}}}
