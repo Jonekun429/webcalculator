@@ -3,619 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Green Gathering Calculator</title>
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="集める電卓">
 <meta name="theme-color" content="#005D4D">
-<title>集める電卓</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-<script>
-// Generate app icon as canvas → apple-touch-icon & favicon
-(function generateAppIcon(){
-  const sizes = [180, 192, 512];
-  sizes.forEach(s => {
-    const c = document.createElement('canvas');
-    c.width = s; c.height = s;
-    const ctx = c.getContext('2d');
-    const r = s * 0.22; // corner radius
-
-    ctx.beginPath();
-    ctx.moveTo(r, 0);
-    ctx.lineTo(s - r, 0); ctx.quadraticCurveTo(s, 0, s, r);
-    ctx.lineTo(s, s - r); ctx.quadraticCurveTo(s, s, s - r, s);
-    ctx.lineTo(r, s); ctx.quadraticCurveTo(0, s, 0, s - r);
-    ctx.lineTo(0, r); ctx.quadraticCurveTo(0, 0, r, 0);
-    ctx.closePath();
-    const bg = ctx.createLinearGradient(0, 0, s, s);
-    bg.addColorStop(0, '#00B896');
-    bg.addColorStop(1, '#005D4D');
-    ctx.fillStyle = bg;
-    ctx.fill();
-
-    const u = s / 100;
-    const bx = 22*u, by = 15*u, bw = 56*u, bh = 70*u, br = 8*u;
-    ctx.beginPath();
-    ctx.moveTo(bx+br, by);
-    ctx.lineTo(bx+bw-br, by); ctx.quadraticCurveTo(bx+bw, by, bx+bw, by+br);
-    ctx.lineTo(bx+bw, by+bh-br); ctx.quadraticCurveTo(bx+bw, by+bh, bx+bw-br, by+bh);
-    ctx.lineTo(bx+br, by+bh); ctx.quadraticCurveTo(bx, by+bh, bx, by+bh-br);
-    ctx.lineTo(bx, by+br); ctx.quadraticCurveTo(bx, by, bx+br, by);
-    ctx.closePath();
-    ctx.fillStyle = 'rgba(255,255,255,0.95)';
-    ctx.fill();
-
-    ctx.fillStyle = '#C4EAE4';
-    const dx = 27*u, dy = 20*u, dw = 46*u, dh = 16*u;
-    roundRect(ctx, dx, dy, dw, dh, 4*u);
-    ctx.fill();
-
-    ctx.fillStyle = '#003428';
-    ctx.font = `bold ${11*u}px sans-serif`;
-    ctx.textAlign = 'right';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('7', dx+dw-3*u, dy+dh/2+1*u);
-
-    const btnColors = ['#00A070','#00A070','#00A070','#00A070','#00A070','#00A070','#00A070','#F04838','#8858D0'];
-    const gx = 28*u, gy = 42*u, gs = 10*u, gg = 4*u;
-    for(let row=0;row<3;row++){
-      for(let col=0;col<3;col++){
-        const idx = row*3+col;
-        ctx.fillStyle = btnColors[idx];
-        roundRect(ctx, gx+col*(gs+gg), gy+row*(gs+gg), gs, gs, 2.5*u);
-        ctx.fill();
-      }
-    }
-
-    const cx2 = 68*u, cy2 = 22*u, ar = 14*u;
-    ctx.beginPath();
-    ctx.arc(cx2, cy2, ar, 0, Math.PI*2);
-    ctx.fillStyle = '#005D4D';
-    ctx.fill();
-    ctx.strokeStyle = '#fff';
-    ctx.lineWidth = 2*u;
-    ctx.lineCap = 'round';
-    const aOff = 6*u, aHead = 3*u;
-    [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([dx2,dy2])=>{
-      const fx=cx2+dx2*aOff, fy=cy2+dy2*aOff;
-      const tx=cx2+dx2*1.5*u, ty=cy2+dy2*1.5*u;
-      ctx.beginPath(); ctx.moveTo(fx,fy); ctx.lineTo(tx,ty); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(tx,ty);
-      ctx.lineTo(tx+(-dx2)*aHead, ty);
-      ctx.moveTo(tx,ty);
-      ctx.lineTo(tx, ty+(-dy2)*aHead);
-      ctx.stroke();
-    });
-    ctx.beginPath(); ctx.arc(cx2,cy2,2*u,0,Math.PI*2);
-    ctx.fillStyle='#fff'; ctx.fill();
-
-    const url = c.toDataURL('image/png');
-    if(s === 180){
-      const link = document.createElement('link');
-      link.rel = 'apple-touch-icon';
-      link.href = url;
-      document.head.appendChild(link);
-    }
-    if(s === 192){
-      const link = document.createElement('link');
-      link.rel = 'icon';
-      link.type = 'image/png';
-      link.sizes = '192x192';
-      link.href = url;
-      document.head.appendChild(link);
-    }
-  });
-
-  function roundRect(ctx, x, y, w, h, r){
-    ctx.beginPath();
-    ctx.moveTo(x+r,y);
-    ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-    ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-    ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-    ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
-    ctx.closePath();
-  }
-})();
-</script>
 <style>
-*, *::before, *::after {
-  box-sizing: border-box; margin: 0; padding: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-
-:root {
-  --font:      'Nunito','Noto Sans JP',sans-serif;
-  --brand:     #005D4D;  --brand-mid: #007A66;  --brand-deep: #002820;
-  
-  --bg-s:      #005D4D;  --bg-e:      #003A30;
-  --body-bg:   #E8F5F3;
-  --stage-a:   #C4EAE4;  --stage-b:   #A9D8D0;
-  
-  --disp-bg:   #C4EAE4;  --disp-bd:   #84C8C0;
-  --card-a:    #00B896;  --card-b:    #007A66;  --card-sh: #004D40;
-  --bn-a:      #00A070;  --bn-b:      #006850;  --bn-sh:   #003828;
-  --op-bg:     #FFFFFF;  --op-bd:     #9CCEC6;  --op-tx:   #005D4D;
-  --ut-a:      #68B4AC;  --ut-b:      #46948C;  --ut-sh:   #2A6860;
-  
-  --eq-a:      #8C5230;  --eq-sh:     #4A2612;
-  --cl-a:      #C68B59;  --cl-sh:     #7A4B28;
-  
-  --ga-a:      #009C6A;  --ga-b:      #006C48;  --ga-sh:   #003828;
-  --tax-a:     #4CA488;  --tax-b:     #347C68;  --tax-sh:  #1C5040;
-  --td:        #001A12;  --tm:        #003428;  --tp:      #469080;
-}
-
-html {
-  height: 100%;
-  overflow: hidden;
-  scrollbar-width: none;
-}
-html::-webkit-scrollbar { display: none; }
-
-body {
-  font-family: var(--font);
-  height: 100dvh;
-  background: linear-gradient(150deg, var(--bg-s), var(--bg-e));
-  background-attachment: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  padding: 0;
-  overflow: hidden;
-}
-
-.calc {
-  --gap: clamp(4px, 1.2vw, 8px);
-  --btn: 56px; 
-
-  background: var(--body-bg);
-  width: 100%;
-  max-width: 540px;
-  height: 100dvh;
-  border-radius: 0;
-  padding: clamp(6px, 1.5vh, 12px) clamp(8px, 1.4vw, 14px) clamp(16px, 4vh, 36px);
-  display: flex;
-  flex-direction: column;
-  gap: clamp(10px, 2.5vh, 24px);
-  box-shadow:
-    0 0 0 1.5px rgba(255,255,255,.88) inset,
-    0 20px 60px rgba(0,20,16,.28),
-    0 6px 18px rgba(0,20,16,.12);
-  overflow: hidden;
-}
-
-@media (min-width: 560px) {
-  body { align-items: center; padding: 12px; }
-  .calc {
-    height: min(98dvh, 920px);
-    border-radius: 24px;
-    padding-bottom: 24px;
-  }
-}
-
-/* ===== ステージ ===== */
-.stage {
-  position: relative;
-  width: 100%;
-  flex: 1 1 0;
-  max-height: 48vh; 
-  min-height: 80px;
-  margin-bottom: auto; 
-  background: linear-gradient(138deg, var(--stage-a), var(--stage-b));
-  border-radius: clamp(10px, 2.2vw, 18px);
-  border: 2px dashed rgba(0,93,77,.2);
-  overflow: hidden;
-}
-
-.stage-hint {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 6px;
-  pointer-events: none; transition: opacity .28s; user-select: none;
-}
-.stage-hint .si {
-  font-size: clamp(1.6rem, 5.5vw, 2.4rem); opacity: .22; line-height: 1;
-}
-.stage-hint .st {
-  font-size: clamp(.78rem, 2.2vw, 1rem);
-  font-weight: 700; color: var(--tp); line-height: 1.75; text-align: center;
-}
-
-/* ===== カード ===== */
-.ncard {
-  position: absolute;
-  background: linear-gradient(145deg, var(--card-a), var(--card-b));
-  border-radius: clamp(9px, 2vw, 14px);
-  padding: clamp(7px,1.6vw,11px) clamp(12px,2.8vw,18px) clamp(7px,1.6vw,11px) clamp(8px,2vw,12px);
-  min-width: clamp(72px, 16vw, 100px);
-  box-shadow: 0 3px 0 var(--card-sh), 0 4px 10px rgba(0,30,20,.26);
-  cursor: grab; user-select: none; touch-action: none;
-  display: flex; align-items: center; gap: 5px;
-  z-index: 10; transition: box-shadow .1s, transform .1s;
-}
-.ncard.dragging {
-  cursor: grabbing;
-  box-shadow: 0 6px 0 var(--card-sh), 0 10px 24px rgba(0,30,20,.38);
-  transform: scale(1.07) rotate(-1.5deg); z-index: 80;
-}
-.ncard.enter   { animation: cIn  .3s cubic-bezier(.34,1.56,.64,1); }
-.ncard.leaving { animation: cOut .17s ease-in forwards; }
-@keyframes cIn  { from { transform:scale(.3) translateY(15px); opacity:0; } to { transform:scale(1); opacity:1; } }
-@keyframes cOut { to   { transform:scale(.4); opacity:0; } }
-
-.clbl { font-size: clamp(.55rem,1.2vw,.7rem); font-weight:900; color:rgba(255,255,255,.5); letter-spacing:.06em; white-space:nowrap; }
-.cval { font-size: clamp(1.15rem,3.2vw,1.55rem); font-weight:900; color:#fff; letter-spacing:-.02em; white-space:nowrap; flex:1; text-align:right; }
-.cdel {
-  width: 20px; height: 20px; flex-shrink:0;
-  background:rgba(255,255,255,.17); border:none; border-radius:50%;
-  color:rgba(255,255,255,.76); font-size:.6rem; font-weight:900;
-  cursor:pointer; display:flex; align-items:center; justify-content:center;
-  line-height:1; transition:background .12s;
-}
-.cdel:hover { background:rgba(210,45,25,.5); }
-
-.card-count {
-  position:absolute; top:9px; right:11px; display:none;
-  background:rgba(0,93,77,.13); border-radius:20px; padding:3px 11px;
-  font-size:clamp(.62rem,1.5vw,.78rem); font-weight:900; color:var(--tm);
-  letter-spacing:.05em; pointer-events:none; z-index:5;
-}
-
-/* ===== 集計結果オーバーレイ ===== */
-.result-overlay {
-  position:absolute; inset:0;
-  background:rgba(208,244,236,.95);
-  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-  border-radius:inherit;
-  display:flex; flex-direction:column; justify-content:center;
-  padding: clamp(16px, 3.5vw, 28px);
-  z-index:200; opacity:0; pointer-events:none; transform:scale(.94);
-  transition:opacity .24s ease, transform .24s cubic-bezier(.34,1.3,.64,1);
-  cursor: pointer; /* タップして閉じられることを示す */
-}
-.result-overlay.show { opacity:1; pointer-events:auto; transform:scale(1); }
-
-.ro-label {
-  font-size:clamp(.7rem, 1.8vw, .92rem); font-weight:900; letter-spacing:.15em;
-  text-transform:uppercase; color:var(--tm); opacity:.5; margin-bottom:6px;
-}
-.ro-formula {
-  font-size:clamp(1rem, 2.8vw, 1.4rem); font-weight:700; color:var(--tm);
-  line-height:1.7; word-break:break-all; overflow-y:auto; max-height:40%;
-}
-.ro-formula .pl { color:var(--brand-mid); font-weight:900; margin:0 3px; }
-.ro-total {
-  font-size:clamp(2.4rem, 7vw, 3.6rem); font-weight:900; color:var(--td);
-  text-align:right; letter-spacing:-.03em;
-  border-top:2.5px solid rgba(0,93,77,.18);
-  padding-top:8px; margin-top:8px; line-height:1.1;
-}
-
-/* ===== コントロール行 ===== */
-.ctrl {
-  display: grid;
-  grid-template-columns: var(--btn) 1fr var(--btn);
-  column-gap: var(--gap);
-  align-items: center;
-  flex-shrink: 0;
-}
-
-/* ===== ディスプレイ ===== */
-.disp {
-  background: var(--disp-bg);
-  border: 2px solid var(--disp-bd);
-  border-radius: clamp(10px, 2.2vw, 16px);
-  height: calc(var(--btn) * 1.15); 
-  min-height: 64px;
-  padding: 4px clamp(10px, 2.4vw, 16px);
-  display: flex; flex-direction: column;
-  justify-content: center; align-items: flex-end;
-  overflow: hidden;
-  cursor: grab; user-select: none; touch-action: none;
-  transition: transform .12s, box-shadow .12s, border-color .13s;
-  min-width: 0;
-}
-.disp:hover  { border-color: var(--brand-mid); box-shadow: 0 0 0 3px rgba(0,93,77,.1); }
-.disp.lift   { cursor:grabbing; transform:scale(1.03) translateY(-3px); box-shadow:0 9px 22px rgba(0,30,20,.24); border-color:var(--brand); }
-
-.d-expr {
-  font-size: clamp(.62rem, 1.7vw, .82rem); font-weight:600; color:var(--tp);
-  min-height:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;
-}
-.d-num {
-  font-size: clamp(1.9rem, 5.8vw, 2.7rem); font-weight:900; color:var(--td);
-  letter-spacing:-.03em; white-space:nowrap; overflow:hidden;
-  text-overflow:ellipsis; max-width:100%; line-height:1.08; transition:font-size .1s;
-}
-.d-num.sm { font-size: clamp(1.5rem, 4.4vw, 2rem); }
-.d-num.xs { font-size: clamp(1.1rem, 3.2vw, 1.45rem); }
-@keyframes dfl { 0%,100%{background:var(--disp-bg)} 40%{background:#78D8CC} }
-.disp.flash { animation:dfl .36s ease; }
-
-/* ===== 換算ディスプレイ ===== */
-.conv-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 2px;
-}
-#currencySel {
-  background: rgba(255, 255, 255, 0.4);
-  border: 1px solid var(--disp-bd);
-  border-radius: 6px;
-  color: var(--brand-deep);
-  font-family: var(--font);
-  font-size: clamp(0.65rem, 1.8vw, 0.8rem);
-  font-weight: 800;
-  padding: 2px 4px;
-  outline: none;
-  cursor: pointer;
-  pointer-events: auto;
-  touch-action: auto;
-  user-select: auto;
-}
-.d-conv {
-  font-size: clamp(0.75rem, 2.2vw, 0.95rem);
-  font-weight: 800;
-  color: var(--brand-mid);
-  letter-spacing: -0.02em;
-}
-
-.ghost-card {
-  position:fixed; pointer-events:none; z-index:9999;
-  background:linear-gradient(145deg,var(--card-a),var(--card-b));
-  border-radius:clamp(9px,2vw,14px); padding:clamp(7px,1.6vw,11px) clamp(12px,2.8vw,18px);
-  font-family:var(--font); font-size:clamp(1.15rem,3.2vw,1.55rem); font-weight:900; color:#fff;
-  box-shadow:0 7px 18px rgba(0,30,20,.4); transform:scale(1.06) rotate(-2deg); opacity:.87; white-space:nowrap;
-}
-.stage.drop-ready {
-  border-color:rgba(0,93,77,.45);
-  background:linear-gradient(138deg,#B4E8E0,#9CDDD4);
-  box-shadow:inset 0 0 13px rgba(0,93,77,.1);
-}
-
-/* ===== ボタン ===== */
-.btn {
-  border:none; border-radius:50%;
-  width:var(--btn); height:var(--btn);
-  font-family:var(--font); font-weight:800;
-  cursor:pointer;
-  display:flex; justify-content:center; align-items:center;
-  margin:0 auto; user-select:none; flex-shrink:0;
-  transition:transform .08s ease, box-shadow .08s ease;
-}
-.btn:active { transform:scale(.86) translateY(2px); }
-
-.bn  { background:linear-gradient(170deg,var(--bn-a),var(--bn-b)); color:#fff; font-size:calc(var(--btn)*.46); box-shadow:0 4px 0 var(--bn-sh),0 5px 12px rgba(0,30,20,.3); }
-.bn:active  { box-shadow:0 1px 0 var(--bn-sh); }
-.bop { background:var(--op-bg); color:var(--op-tx); font-size:calc(var(--btn)*.42); border:2px solid var(--op-bd); box-shadow:0 3px 0 #88C0B8,0 4px 8px rgba(0,0,0,.06); }
-.bop:active { box-shadow:0 1px 0 #88C0B8; }
-.bu  { background:linear-gradient(170deg,var(--ut-a),var(--ut-b)); color:#fff; font-size:calc(var(--btn)*.33); box-shadow:0 3px 0 var(--ut-sh),0 4px 8px rgba(0,30,20,.2); }
-.bu:active  { box-shadow:0 1px 0 var(--ut-sh); }
-.bc  { background:linear-gradient(170deg,var(--cl-a),#A06535); color:#fff; font-size:calc(var(--btn)*.36); box-shadow:0 4px 0 var(--cl-sh),0 5px 12px rgba(122,75,40,.32); }
-.bc:active  { box-shadow:0 1px 0 var(--cl-sh); }
-.beq { background:linear-gradient(170deg,var(--eq-a),#66361D); color:#fff; font-size:calc(var(--btn)*.44); box-shadow:0 4px 0 var(--eq-sh),0 5px 12px rgba(74,38,18,.34); }
-.beq:active { box-shadow:0 1px 0 var(--eq-sh); }
-.bga { background:linear-gradient(170deg,var(--ga-a),var(--ga-b)); color:#fff; box-shadow:0 4px 0 var(--ga-sh),0 5px 12px rgba(0,25,16,.36); }
-.bga:active { box-shadow:0 1px 0 var(--ga-sh); }
-.btax { background:linear-gradient(170deg,var(--tax-a),var(--tax-b)); color:#fff; font-size:calc(var(--btn)*.26); letter-spacing:.03em; box-shadow:0 3px 0 var(--tax-sh),0 4px 9px rgba(0,30,20,.22); }
-.btax:active { box-shadow:0 1px 0 var(--tax-sh); }
-
-.gather-svg {
-  width: calc(var(--btn) * 0.58);
-  height: calc(var(--btn) * 0.58);
-}
-
-/* ===== キーパッド ===== */
-.kpad {
-  display: grid;
-  grid-template-columns: repeat(5, var(--btn));
-  column-gap: var(--gap);
-  row-gap: clamp(8px, 2.5vh, 24px); 
-  justify-content: center;
-  flex-shrink: 0;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+:root{--font:'Nunito','Noto Sans JP',sans-serif;--brand:#005D4D;--brand-mid:#007A66;--bg-s:#9CCEC6;--bg-e:#6AAFAA;--body-bg:#F0FBF9;--stage-a:#D4EEE9;--stage-b:#BFE4DC;--disp-bg:#C4EAE4;--disp-bd:#84C8C0;--card-a:#00B896;--card-b:#007A66;--card-sh:#004D40;--bn-a:#00A070;--bn-b:#006850;--bn-sh:#003828;--op-bg:#FFF;--op-bd:#9CCEC6;--op-tx:#005D4D;--ut-a:#68B4AC;--ut-b:#46948C;--ut-sh:#2A6860;--eq-a:#F04838;--eq-sh:#9E2010;--cl-a:#8858D0;--cl-sh:#4C2898;--ga-a:#009C6A;--ga-b:#006C48;--ga-sh:#003828;--td:#001A12;--tm:#003428;--tp:#469080}
+html{height:100%;overflow:hidden}
+body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradient(150deg,var(--bg-s),var(--bg-e));background-attachment:fixed;display:flex;justify-content:center;align-items:center;padding:clamp(4px,.5vh,6px) clamp(4px,.8vw,8px);overflow:hidden;overscroll-behavior:none;position:fixed;width:100%}
+.calc{--inner-w:min(calc(100vw - 8px),calc(100vh * 0.6),420px);--gap:clamp(5px,1.2vw,8px);--btn:calc((var(--inner-w) - 20px - var(--gap) * 4)/5);--stage-h:clamp(100px,14dvh,180px);background:var(--body-bg);width:var(--inner-w);border-radius:clamp(12px,2.8vw,24px);padding:clamp(6px,1.2vh,10px) clamp(8px,1.4vw,12px) clamp(8px,1.5vh,12px);display:flex;flex-direction:column;gap:clamp(3px,.7vh,6px);box-shadow:0 0 0 1.5px rgba(255,255,255,.88) inset,0 20px 60px rgba(0,20,16,.28);overflow:hidden;transform:translateZ(0)}
+.app-title{text-align:center;font-size:clamp(.62rem,1.7vw,.8rem);font-weight:900;letter-spacing:.23em;text-transform:uppercase;color:var(--tp);flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:6px}
+.mode-badge{background:var(--brand);color:#fff;padding:2px 8px;border-radius:12px;font-size:clamp(.48rem,1.2vw,.58rem);font-weight:800}
+.stage{position:relative;width:100%;height:var(--stage-h);flex-shrink:0;background:linear-gradient(138deg,var(--stage-a),var(--stage-b));border-radius:clamp(9px,2vw,16px);border:2px dashed rgba(0,93,77,.2);overflow:hidden}
+.stage-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;pointer-events:none;transition:opacity .28s}
+.stage-hint .si{font-size:clamp(1.05rem,4.4vw,1.65rem);opacity:.2}
+.stage-hint .st{font-size:clamp(.57rem,1.55vw,.7rem);font-weight:700;color:var(--tp);line-height:1.75;text-align:center}
+.ncard{position:absolute;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(8px,1.9vw,13px);padding:clamp(5px,1.3vw,8px) clamp(9px,2.3vw,13px);min-width:clamp(60px,13.5vw,80px);box-shadow:0 3px 0 var(--card-sh),0 4px 10px rgba(0,30,20,.26);cursor:grab;z-index:10;display:flex;align-items:center;gap:3px;transform-style:preserve-3d;transition:transform .5s}
+.ncard.flipped{transform:rotateY(180deg)}
+.ncard-front,.ncard-back{backface-visibility:hidden}
+.ncard-back{position:absolute;inset:0;transform:rotateY(180deg);background:linear-gradient(145deg,#00A890,#00806A);border-radius:inherit;padding:clamp(6px,1.5vw,9px);display:flex;flex-direction:column;gap:4px}
+.ncard.dragging{cursor:grabbing;z-index:80}
+.ncard.enter{animation:cIn .3s cubic-bezier(.34,1.56,.64,1)}
+.ncard.leaving{animation:cOut .17s ease-in forwards}
+@keyframes cIn{from{transform:scale(.3) translateY(15px);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes cOut{to{transform:scale(.4);opacity:0}}
+.clbl{font-size:clamp(.45rem,1.05vw,.58rem);font-weight:900;color:rgba(255,255,255,.46);white-space:nowrap}
+.cval{font-size:clamp(1.05rem,2.7vw,1.35rem);font-weight:900;color:#fff;white-space:nowrap;flex:1;text-align:right}
+.cdel{width:16px;height:16px;flex-shrink:0;background:rgba(255,255,255,.17);border:none;border-radius:50%;color:rgba(255,255,255,.76);font-size:.51rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:4px;margin:-4px}
+.cdel:active{background:rgba(210,45,25,.6)}
+.memo-label{font-size:clamp(.4rem,.95vw,.52rem);font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase}
+.memo-text{font-size:clamp(.62rem,1.65vw,.78rem);font-weight:700;color:#fff;line-height:1.4;word-break:break-word;flex:1;max-height:3.6em;overflow:hidden}
+.memo-edit-btn{background:rgba(255,255,255,.2);border:none;border-radius:6px;padding:4px 8px;font-size:clamp(.48rem,1.1vw,.58rem);font-weight:800;color:#fff;cursor:pointer;align-self:flex-end}
+.memo-edit-btn:active{background:rgba(255,255,255,.35)}
+.card-count{position:absolute;top:7px;right:9px;display:none;background:rgba(0,93,77,.13);border-radius:20px;padding:2px 9px;font-size:clamp(.51rem,1.25vw,.62rem);font-weight:900;color:var(--tm);pointer-events:none;z-index:5}
+.ctrl{display:grid;grid-template-columns:var(--btn) 1fr var(--btn);gap:var(--gap);align-items:center;flex-shrink:0}
+.disp{background:var(--disp-bg);border:2px solid var(--disp-bd);border-radius:clamp(9px,1.9vw,15px);height:var(--btn);padding:3px clamp(9px,2.1vw,13px);display:flex;flex-direction:column;justify-content:center;align-items:flex-end;overflow:hidden;cursor:grab;transition:transform .12s,box-shadow .12s,border-color .13s;position:relative}
+.disp.lift{cursor:grabbing;transform:scale(1.03) translateY(-3px);box-shadow:0 9px 22px rgba(0,30,20,.24);border-color:var(--brand)}
+.currency-badge{position:absolute;top:2px;left:6px;font-size:clamp(.38rem,.9vw,.46rem);font-weight:900;color:var(--brand);opacity:.5}
+.d-expr{font-size:clamp(.54rem,1.45vw,.68rem);font-weight:600;color:var(--tp);min-height:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.d-num{font-size:clamp(1.7rem,5.2vw,2.4rem);font-weight:900;color:var(--td);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;line-height:1.05}
+.d-num.sm{font-size:clamp(1.3rem,3.9vw,1.8rem)}
+.d-num.xs{font-size:clamp(1rem,2.9vw,1.3rem)}
+@keyframes dfl{0%,100%{background:var(--disp-bg)}40%{background:#78D8CC}}
+.disp.flash{animation:dfl .36s ease}
+.ghost-card{position:fixed;pointer-events:none;z-index:9999;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(8px,1.9vw,13px);padding:clamp(5px,1.3vw,8px) clamp(9px,2.3vw,13px);font-family:var(--font);font-size:clamp(.98rem,2.5vw,1.26rem);font-weight:900;color:#fff;box-shadow:0 7px 18px rgba(0,30,20,.4);transform:scale(1.06) rotate(-2deg);opacity:.87;white-space:nowrap}
+.stage.drop-ready{border-color:rgba(0,93,77,.45);background:linear-gradient(138deg,#B4E8E0,#9CDDD4)}
+.btn{border:none;border-radius:50%;width:var(--btn);height:var(--btn);font-family:var(--font);font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;flex-shrink:0;transition:transform .08s}
+.btn:active{transform:scale(.88) translateY(2px)}
+.bn{background:linear-gradient(170deg,var(--bn-a),var(--bn-b));color:#fff;font-size:calc(var(--btn)*.46);box-shadow:0 4px 0 var(--bn-sh),0 5px 12px rgba(0,30,20,.3)}
+.bn:active{box-shadow:0 1px 0 var(--bn-sh)}
+.bop{background:var(--op-bg);color:var(--op-tx);font-size:calc(var(--btn)*.42);border:2px solid var(--op-bd);box-shadow:0 3px 0 #88C0B8}
+.bop:active{box-shadow:0 1px 0 #88C0B8}
+.bu{background:linear-gradient(170deg,var(--ut-a),var(--ut-b));color:#fff;font-size:calc(var(--btn)*.32);box-shadow:0 3px 0 var(--ut-sh)}
+.bu:active{box-shadow:0 1px 0 var(--ut-sh)}
+.bc{background:linear-gradient(170deg,var(--cl-a),#5A38B0);color:#fff;font-size:calc(var(--btn)*.36);box-shadow:0 4px 0 var(--cl-sh)}
+.bc:active{box-shadow:0 1px 0 var(--cl-sh)}
+.beq{background:linear-gradient(170deg,var(--eq-a),#B82008);color:#fff;font-size:calc(var(--btn)*.44);box-shadow:0 4px 0 var(--eq-sh)}
+.beq:active{box-shadow:0 1px 0 var(--eq-sh)}
+.bga{background:linear-gradient(170deg,var(--ga-a),var(--ga-b));color:#fff;box-shadow:0 4px 0 var(--ga-sh);font-size:calc(var(--btn)*.5)}
+.bga:active{box-shadow:0 1px 0 var(--ga-sh)}
+.bfx{background:linear-gradient(170deg,#4CA488,#347C68);color:#fff;font-size:calc(var(--btn)*.24);box-shadow:0 3px 0 #1C5040}
+.bfx:active{box-shadow:0 1px 0 #1C5040}
+.kpad{display:grid;grid-template-columns:repeat(5,var(--btn));gap:var(--gap);justify-content:center;flex-shrink:0}
+.hamburger-btn{position:fixed;top:12px;left:12px;width:44px;height:44px;border-radius:12px;background:rgba(0,93,77,.1);border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;z-index:300}
+.hamburger-btn:active{background:rgba(0,93,77,.25)}
+.hamburger-line{width:22px;height:2.5px;background:var(--brand);border-radius:2px;transition:all .2s}
+.hamburger-btn.open .hamburger-line:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.hamburger-btn.open .hamburger-line:nth-child(2){opacity:0}
+.hamburger-btn.open .hamburger-line:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+.side-menu{position:fixed;top:0;left:-280px;width:280px;height:100vh;height:100dvh;background:var(--body-bg);box-shadow:4px 0 20px rgba(0,20,16,.2);z-index:400;transition:left .3s;overflow-y:auto;display:flex;flex-direction:column}
+.side-menu.open{left:0}
+.menu-header{background:linear-gradient(135deg,var(--brand),var(--brand-mid));color:#fff;padding:24px 20px 20px}
+.menu-app-name{font-size:1.1rem;font-weight:900;margin-bottom:4px}
+.menu-app-desc{font-size:.68rem;font-weight:600;opacity:.85}
+.menu-items{flex:1;padding:12px 0}
+.menu-item{display:flex;align-items:center;gap:14px;padding:14px 20px;background:transparent;border:none;width:100%;text-align:left;cursor:pointer;color:var(--td);font-family:var(--font);min-height:56px}
+.menu-item:active{background:rgba(0,93,77,.12)}
+.menu-item.active{background:rgba(0,93,77,.08);border-left:4px solid var(--brand)}
+.menu-item-icon{font-size:1.3rem;width:28px}
+.menu-item-text{flex:1}
+.menu-item-label{font-size:.82rem;font-weight:800;display:block;margin-bottom:2px}
+.menu-item-desc{font-size:.62rem;font-weight:600;color:var(--tp);opacity:.7}
+.menu-footer{padding:16px 20px;border-top:1px solid rgba(0,93,77,.1);font-size:.62rem;color:var(--tp);text-align:center}
+.menu-overlay{position:fixed;inset:0;background:rgba(0,20,16,.5);opacity:0;pointer-events:none;z-index:399;transition:opacity .3s}
+.menu-overlay.show{opacity:1;pointer-events:auto}
+.modal{position:fixed;inset:0;background:rgba(0,20,16,.7);display:none;align-items:center;justify-content:center;z-index:500;padding:20px}
+.modal.show{display:flex}
+.modal-content{background:var(--body-bg);border-radius:16px;width:min(420px,100%);max-height:80vh;overflow-y:auto;padding:20px;box-shadow:0 20px 60px rgba(0,20,16,.4)}
+.modal-title{font-size:1.1rem;font-weight:900;color:var(--td);margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.modal-close{width:36px;height:36px;border-radius:50%;background:rgba(0,93,77,.1);border:none;color:var(--tm);font-size:.9rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-close:active{background:rgba(0,93,77,.25)}
+.history-item{background:rgba(0,93,77,.04);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--brand)}
+.hist-date{font-size:.56rem;font-weight:700;color:var(--tp);opacity:.6;margin-bottom:4px}
+.hist-formula{font-size:.66rem;font-weight:600;color:var(--tm);margin-bottom:4px}
+.hist-total{font-size:.92rem;font-weight:900;color:var(--brand)}
+.hist-empty{text-align:center;padding:30px;color:var(--tp);opacity:.5;font-size:.7rem}
+.memo-input{width:100%;background:#fff;border:2px solid var(--op-bd);border-radius:8px;padding:12px;font-size:.82rem;font-weight:600;color:var(--td);font-family:var(--font);resize:vertical;min-height:80px;-webkit-user-select:text;user-select:text}
+.memo-actions{display:flex;gap:8px;margin-top:12px}
+.memo-btn{flex:1;background:rgba(0,93,77,.09);border:none;border-radius:8px;padding:10px;font-family:var(--font);font-size:.72rem;font-weight:800;color:var(--tm);cursor:pointer;min-height:44px}
+.memo-btn:active{background:rgba(0,93,77,.2)}
+.memo-btn.save{background:var(--brand);color:#fff}
+.memo-btn.save:active{background:var(--brand-mid)}
 </style>
 </head>
 <body>
-<div class="calc" id="calcRoot">
+<div class="calc">
+  <p class="app-title">GREEN GATHERING CALCULATOR<span class="mode-badge" id="modeBadge">シンプル</span></p>
   <div class="stage" id="stage">
-    <div class="stage-hint" id="stageHint">
-      <span class="si">🃏</span>
-      <span class="st">数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加</span>
-    </div>
+    <div class="stage-hint" id="stageHint"><span class="si">🃏</span><span class="st" id="hintText">数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加</span></div>
     <div class="card-count" id="cardCount"><span id="cardCountNum">0</span> 件</div>
-    <div class="result-overlay" id="resultOverlay" onclick="closeResult()" title="タップして閉じる">
-      <div class="ro-label">集計結果</div>
-      <div class="ro-formula" id="roFormula"></div>
-      <div class="ro-total"   id="roTotal"></div>
-    </div>
   </div>
   <div class="ctrl">
-    <button class="btn bc" onclick="clearAll()">C</button>
-    <div class="disp" id="dispBox">
-      <div class="conv-row">
-        <select id="currencySel" onchange="updateConv()">
-          <option value="USD" selected>🇺🇸 USD ($)</option>
-          <option value="EUR">🇪🇺 EUR (€)</option>
-          <option value="GBP">🇬🇧 GBP (£)</option>
-          <option value="AUD">🇦🇺 AUD (A$)</option>
-          <option value="KRW">🇰🇷 KRW (₩)</option>
-          <option value="TWD">🇹🇼 TWD (NT$)</option>
-          <option value="HKD">🇭🇰 HKD (HK$)</option>
-          <option value="THB">🇹🇭 THB (฿)</option>
-          <option value="SGD">🇸🇬 SGD (S$)</option>
-          <option value="PHP">🇵🇭 PHP (₱)</option>
-          <option value="MXN">🇲🇽 MXN (Mex$)</option>
-          <option value="MVR">🇲🇻 MVR (Rf)</option>
-        </select>
-        <div class="d-conv" id="convLine">¥0</div>
-      </div>
-      <div class="d-expr" id="exprLine">&nbsp;</div>
-      <div class="d-num"  id="numLine">0</div>
-    </div>
-    <button class="btn bga" onclick="gatherAll()" title="全カードを合計">
-      <svg class="gather-svg" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="16" stroke="rgba(255,255,255,.85)" stroke-width="2.8" fill="none"/>
-        <circle cx="20" cy="20" r="3.2" fill="rgba(255,255,255,.95)"/>
-        <line x1="8" y1="8" x2="15.5" y2="15.5" stroke="rgba(255,255,255,.92)" stroke-width="2.5" stroke-linecap="round"/>
-        <polyline points="12,15.5 15.5,15.5 15.5,12" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <line x1="32" y1="8" x2="24.5" y2="15.5" stroke="rgba(255,255,255,.92)" stroke-width="2.5" stroke-linecap="round"/>
-        <polyline points="28,15.5 24.5,15.5 24.5,12" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <line x1="8" y1="32" x2="15.5" y2="24.5" stroke="rgba(255,255,255,.92)" stroke-width="2.5" stroke-linecap="round"/>
-        <polyline points="12,24.5 15.5,24.5 15.5,28" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <line x1="32" y1="32" x2="24.5" y2="24.5" stroke="rgba(255,255,255,.92)" stroke-width="2.5" stroke-linecap="round"/>
-        <polyline points="28,24.5 24.5,24.5 24.5,28" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </svg>
-    </button>
+    <button class="btn bc" onclick="C.clear()">C</button>
+    <div class="disp" id="dispBox"><span class="currency-badge">JPY</span><div class="d-expr" id="exprLine">&nbsp;</div><div class="d-num" id="numLine">0</div></div>
+    <button class="btn bga" onclick="C.gather()">Σ</button>
   </div>
   <div class="kpad">
-    <button class="btn bn"   onclick="inp('7')">7</button>
-    <button class="btn bn"   onclick="inp('8')">8</button>
-    <button class="btn bn"   onclick="inp('9')">9</button>
-    <button class="btn bop"  onclick="setOp('÷')">÷</button>
-    <button class="btn bu"   onclick="bspc()">⌫</button>
-    <button class="btn bn"   onclick="inp('4')">4</button>
-    <button class="btn bn"   onclick="inp('5')">5</button>
-    <button class="btn bn"   onclick="inp('6')">6</button>
-    <button class="btn bop"  onclick="setOp('×')">×</button>
-    <button class="btn bu"   onclick="tglSign()">±</button>
-    <button class="btn bn"   onclick="inp('1')">1</button>
-    <button class="btn bn"   onclick="inp('2')">2</button>
-    <button class="btn bn"   onclick="inp('3')">3</button>
-    <button class="btn bop"  onclick="setOp('−')">−</button>
-    <button class="btn bu"   onclick="pct()">%</button>
-    <button class="btn bn"   onclick="inp('0')">0</button>
-    <button class="btn bn"   onclick="inp('.')">.</button>
-    <button class="btn beq"  onclick="calcOnly()">＝</button>
-    <button class="btn bop"  onclick="setOp('＋')">＋</button>
-    <button class="btn btax" onclick="doTax()">TAX</button>
+    <button class="btn bn" onclick="C.inp('7')">7</button>
+    <button class="btn bn" onclick="C.inp('8')">8</button>
+    <button class="btn bn" onclick="C.inp('9')">9</button>
+    <button class="btn bop" onclick="C.op('÷')">÷</button>
+    <button class="btn bu" onclick="C.bs()">⌫</button>
+    <button class="btn bn" onclick="C.inp('4')">4</button>
+    <button class="btn bn" onclick="C.inp('5')">5</button>
+    <button class="btn bn" onclick="C.inp('6')">6</button>
+    <button class="btn bop" onclick="C.op('×')">×</button>
+    <button class="btn bu" onclick="C.sign()">±</button>
+    <button class="btn bn" onclick="C.inp('1')">1</button>
+    <button class="btn bn" onclick="C.inp('2')">2</button>
+    <button class="btn bn" onclick="C.inp('3')">3</button>
+    <button class="btn bop" onclick="C.op('−')">−</button>
+    <button class="btn bu" onclick="C.pct()">%</button>
+    <button class="btn bn" onclick="C.inp('0')">0</button>
+    <button class="btn bn" onclick="C.inp('.')">.</button>
+    <button class="btn beq" onclick="C.eq()">＝</button>
+    <button class="btn bop" onclick="C.op('＋')">＋</button>
+    <button class="btn bfx" id="fxBtn" onclick="M.fx()">FX</button>
   </div>
 </div>
+<button class="hamburger-btn" id="hamburgerBtn" onclick="M.toggle()"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button>
+<div class="menu-overlay" id="menuOverlay" onclick="M.close()"></div>
+<nav class="side-menu" id="sideMenu">
+  <div class="menu-header"><div class="menu-app-name">Gathering Calculator</div><div class="menu-app-desc">サブリー兄弟アプリ</div></div>
+  <div class="menu-items">
+    <button class="menu-item" id="m1" onclick="M.mode('simple')"><span class="menu-item-icon">🏠</span><div class="menu-item-text"><span class="menu-item-label">シンプルモード</span><span class="menu-item-desc">iPhone純正風</span></div></button>
+    <button class="menu-item" id="m2" onclick="M.mode('memo')"><span class="menu-item-icon">📝</span><div class="menu-item-text"><span class="menu-item-label">メモモード</span><span class="menu-item-desc">カードにメモ追加</span></div></button>
+    <button class="menu-item" id="m3" onclick="M.mode('travel')"><span class="menu-item-icon">✈️</span><div class="menu-item-text"><span class="menu-item-label">海外旅行モード</span><span class="menu-item-desc">外貨換算</span></div></button>
+    <button class="menu-item" onclick="M.hist()"><span class="menu-item-icon">📋</span><div class="menu-item-text"><span class="menu-item-label">履歴</span><span class="menu-item-desc">過去の集計</span></div></button>
+    <button class="menu-item" onclick="M.del()"><span class="menu-item-icon">🗑️</span><div class="menu-item-text"><span class="menu-item-label">全削除</span><span class="menu-item-desc">リセット</span></div></button>
+  </div>
+  <div class="menu-footer">Green Gathering Calculator v3.0</div>
+</nav>
+<div class="modal" id="historyModal"><div class="modal-content"><div class="modal-title">履歴<button class="modal-close" onclick="M.histClose()">✕</button></div><div id="historyList"></div></div></div>
+<div class="modal" id="memoModal"><div class="modal-content"><div class="modal-title">メモ編集<button class="modal-close" onclick="M.memoClose()">✕</button></div><textarea class="memo-input" id="memoInput" placeholder="この金額について..." maxlength="100"></textarea><div class="memo-actions"><button class="memo-btn" onclick="M.memoClose()">キャンセル</button><button class="memo-btn save" onclick="M.memoSave()">保存</button></div></div></div>
 <script>
-function recalcLayout() {
-  const root = document.getElementById('calcRoot');
-  const style = getComputedStyle(root);
-  const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-  const innerW = root.clientWidth - padX;
-  const kpad = document.querySelector('.kpad');
-  const gapPx = parseFloat(getComputedStyle(kpad).columnGap) || parseFloat(getComputedStyle(kpad).gap) || 6;
-  const btn = Math.floor((innerW - gapPx * 4) / 5);
-  root.style.setProperty('--btn', btn + 'px');
-}
-recalcLayout();
-window.addEventListener('resize', recalcLayout);
+const $=id=>document.getElementById(id),
+NL=$('numLine'),EL=$('exprLine'),DB=$('dispBox'),ST=$('stage'),SH=$('stageHint'),
+CCB=$('cardCount'),CCN=$('cardCountNum'),MB=$('modeBadge'),HT=$('hintText'),FB=$('fxBtn');
 
-let cur='0',prev='',op=null,rst=false;
-const NL=document.getElementById('numLine'),EL=document.getElementById('exprLine'),DB=document.getElementById('dispBox'),ST=document.getElementById('stage'),SH=document.getElementById('stageHint'),ROV=document.getElementById('resultOverlay'),ROF=document.getElementById('roFormula'),ROT=document.getElementById('roTotal'),CCB=document.getElementById('cardCount'),CCN=document.getElementById('cardCountNum'),CSEL=document.getElementById('currencySel'),CVL=document.getElementById('convLine');
-let cards=[],cid=0;
+const S={cur:'0',prev:'',op:null,rst:false,cards:[],id:0,mode:'simple',editId:null,hist:[]};
 
-const rates = {
-  USD: 150.5, EUR: 163.0, GBP: 190.0, AUD: 98.0, KRW: 0.113, TWD: 4.75,
-  HKD: 19.3, THB: 4.2, SGD: 111.5, PHP: 2.65, MXN: 8.8, MVR: 9.8
+const MODES={
+simple:{n:'シンプル',h:'数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加',f:'FX'},
+memo:{n:'メモ',h:'数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加<br><small style="opacity:.6;">カード長押しでメモ編集</small>',f:'FX'},
+travel:{n:'旅行',h:'外貨換算モード<br>複数通貨で計算できます',f:'＄€'}
 };
 
-function updateConv() {
-  const n = parseFloat(cur);
-  if (isNaN(n) || cur === 'Error') {
-    CVL.textContent = '';
-    return;
-  }
-  const rate = rates[CSEL.value];
-  const converted = Math.floor(n * rate);
-  CVL.textContent = '≈ ¥' + converted.toLocaleString('ja-JP');
-}
+const fmt=v=>Number.isInteger(v)?'¥'+v.toLocaleString('ja-JP'):'¥'+parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:2});
 
-function updD(v){const s=String(v);NL.textContent=s;NL.classList.remove('sm','xs');const l=s.replace(/[^0-9.]/g,'').length;if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm'); updateConv();}
-function inp(ch){if(rst){cur='';rst=false;}if(cur==='0'&&ch!='.')cur='';if(ch==='.'&&cur.includes('.'))return;if(cur.replace('-','').length>=13)return;cur+=ch;if(!cur||cur==='-')cur='0';updD(cur);}
-function setOp(o){if(op&&!rst)calcOnly(true);prev=cur;op=o;EL.textContent=cur+' '+o;rst=true;}
-function calcOnly(chain){if(!op)return false;const p=parseFloat(prev),c=parseFloat(cur);if(isNaN(p)||isNaN(c))return false;let res;switch(op){case '＋':res=p+c;break;case '−':res=p-c;break;case '×':res=p*c;break;case '÷':res=c===0?null:p/c;break;}if(res===null){EL.textContent='0除算エラー';cur='0';op=null;updD('Error');return false;}res=parseFloat(res.toPrecision(12));EL.textContent=prev+' '+op+' '+cur+' ＝';prev=String(res);cur=String(res);op=chain?op:null;rst=!chain;updD(res);return res;}
-function clearAll(){cur='0';prev='';op=null;rst=false;updD('0');EL.textContent='';closeResult();}
-function bspc(){if(rst)return;cur=cur.slice(0,-1)||'0';updD(cur);}
-function tglSign(){const n=parseFloat(cur);if(!isNaN(n)&&n!==0){cur=String(n*-1);updD(cur);}}
-function pct(){const n=parseFloat(cur);if(!isNaN(n)){cur=String(n/100);updD(cur);}}
-function doTax(){const n=parseFloat(cur);if(isNaN(n))return;const r=Math.floor(n*1.1);EL.textContent=cur+'×1.1（税10%）＝';cur=String(r);rst=true;updD(r);}
-function fmt(v){if(Number.isInteger(v))return v.toLocaleString('ja-JP');return parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:6});}
-function addCard(value,dropX,dropY){cid++;const id=cid,sw=ST.offsetWidth,sh=ST.clientHeight,cw=Math.max(72,fmt(value).length*14+52),ch=44;let x,y;if(dropX!=null&&dropY!=null){x=dropX-cw/2;y=dropY-ch/2;}else if(cards.length===0){x=Math.min(7+Math.random()*22,sw-cw-7);y=7;}else{const l=cards[cards.length-1];x=l.x+8+Math.random()*15-7;y=l.y+48+Math.random()*5-2;}x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,sh-ch-5));const el=document.createElement('div');el.className='ncard enter';el.innerHTML=`<span class="clbl">#${id}</span><span class="cval">${fmt(value)}</span><button class="cdel" onclick="removeCard(${id})">✕</button>`;el.style.left=x+'px';el.style.top=y+'px';ST.appendChild(el);const c={id,value,x,y,el};cards.push(c);el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});makeDrag(el,c);updStage();closeResult();}
-function removeCard(id){const i=cards.findIndex(c=>c.id===id);if(i<0)return;const{el}=cards[i];el.classList.add('leaving');setTimeout(()=>{el.remove();cards.splice(i,1);updStage();},200);}
+const upd=v=>{const s=String(v);NL.textContent=s;NL.className='d-num';const l=s.replace(/[^0-9.]/g,'').length;if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm')};
 
-function gatherAll(){
-  let v = null;
-  if (op && !rst) {
-    const r = calcOnly(false);
-    v = (r === false) ? null : r;
-  } else {
-    const n = parseFloat(cur);
-    v = isNaN(n) ? null : n;
-  }
-  
-  let includeCurrent = (v !== null && v !== 0);
-  if (cards.length === 0 && (!includeCurrent || rst)) return;
-  
-  let allValues = cards.map(c => c.value);
-  if (includeCurrent) {
-    allValues.push(v);
-  }
-  
-  if (allValues.length === 0) return;
-  
-  const cnt = allValues.length;
-  const sum = allValues.reduce((a,c) => a + c, 0);
-  const total = parseFloat(sum.toPrecision(12));
-  
-  let html = '';
-  allValues.forEach((val, i) => {
-    if (i > 0) html += `<span class="pl"> ＋ </span>`;
-    html += `<strong>${fmt(val)}</strong>`;
-  });
-  
-  ROF.innerHTML = html + '<span class="pl"> ＝ </span>';
-  ROT.textContent = fmt(total);
-  ROV.classList.add('show');
-  
-  if (cards.length > 0) {
-    cards.forEach(c => c.el.classList.add('leaving'));
-    setTimeout(() => {
-      cards.forEach(c => c.el.remove());
-      cards = [];
-      updStage();
-    }, 210);
-  }
-  
-  cur = String(total);
-  rst = true;
-  op = null;
-  updD(fmt(total));
-  EL.textContent = cnt + '件 合計 ＝';
-}
+const updS=()=>{SH.style.opacity=S.cards.length?'0':'1';CCB.style.display=S.cards.length?'block':'none';if(S.cards.length)CCN.textContent=S.cards.length};
 
-// ボタンを消したので「閉じる処理」にディスプレイを光らせるアニメーションを統合しました
-function closeResult(){
-  ROV.classList.remove('show');
-  DB.classList.remove('flash');
-  void DB.offsetWidth; 
-  DB.classList.add('flash'); // 閉じた瞬間に「入力に合計値が入ったよ」と強調
-}
-function updStage(){SH.style.opacity=cards.length===0?'1':'0';CCB.style.display=cards.length===0?'none':'block';if(cards.length)CCN.textContent=cards.length;}
+const C={
+inp(c){if(S.rst){S.cur='';S.rst=false}if(S.cur==='0'&&c!=='.')S.cur='';if(c==='.'&&S.cur.includes('.'))return;if(S.cur.replace('-','').length>=13)return;S.cur+=c;if(!S.cur||S.cur==='-')S.cur='0';upd(S.cur)},
+op(o){if(S.op&&!S.rst)C.eq(true);S.prev=S.cur;S.op=o;EL.textContent=S.cur+' '+o;S.rst=true},
+eq(chain){if(!S.op)return false;const p=parseFloat(S.prev),c=parseFloat(S.cur);if(isNaN(p)||isNaN(c))return false;let r;switch(S.op){case'＋':r=p+c;break;case'−':r=p-c;break;case'×':r=p*c;break;case'÷':r=c===0?null:p/c;break}if(r===null){EL.textContent='0除算エラー';S.cur='0';S.op=null;upd('Error');return false}r=parseFloat(r.toPrecision(12));EL.textContent=S.prev+' '+S.op+' '+S.cur+' ＝';S.prev=String(r);S.cur=String(r);S.op=chain?S.op:null;S.rst=!chain;upd(r);return r},
+clear(){S.cur='0';S.prev='';S.op=null;S.rst=false;upd('0');EL.textContent=''},
+bs(){if(S.rst)return;S.cur=S.cur.slice(0,-1)||'0';upd(S.cur)},
+sign(){const n=parseFloat(S.cur);if(!isNaN(n)&&n!==0){S.cur=String(n*-1);upd(S.cur)}},
+pct(){const n=parseFloat(S.cur);if(!isNaN(n)){S.cur=String(n/100);upd(S.cur)}},
+add(v,m=''){S.id++;const id=S.id,sw=ST.offsetWidth,cw=Math.max(60,fmt(v).length*12+44);let x,y;if(!S.cards.length){x=Math.min(7+Math.random()*22,sw-cw-7);y=7}else{const l=S.cards[S.cards.length-1];x=l.x+8+Math.random()*15-7;y=l.y+42+Math.random()*5-2;x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,ST.clientHeight-40-5))}const el=document.createElement('div');el.className='ncard';el.innerHTML='<div class="ncard-front"><span class="clbl">#'+id+'</span><span class="cval">'+fmt(v)+'</span><button class="cdel" onclick="C.del('+id+');event.stopPropagation()">✕</button></div><div class="ncard-back"><span class="memo-label">MEMO</span><div class="memo-text">'+(m||'（メモなし）')+'</div><button class="memo-edit-btn" onclick="M.memoEdit('+id+');event.stopPropagation()">編集</button></div>';el.style.left=x+'px';el.style.top=y+'px';ST.appendChild(el);const c={id,v,x,y,m,el};S.cards.push(c);if(S.mode==='memo'){let t;el.addEventListener('touchstart',e=>{if(e.target.classList.contains('cdel')||e.target.classList.contains('memo-edit-btn'))return;t=setTimeout(()=>el.classList.toggle('flipped'),500)});el.addEventListener('touchend',()=>clearTimeout(t));el.addEventListener('touchmove',()=>clearTimeout(t))}let sx,sy,d=false;el.addEventListener('touchstart',function(e){if(e.target.classList.contains('cdel')||e.target.classList.contains('memo-edit-btn'))return;e.preventDefault();d=true;el.classList.add('dragging');const r=ST.getBoundingClientRect(),t=e.touches[0];sx=t.clientX-r.left-c.x;sy=t.clientY-r.top-c.y;document.querySelectorAll('.ncard').forEach(n=>n.style.zIndex=10);el.style.zIndex=80},{passive:false});document.addEventListener('touchmove',function(e){if(!d)return;e.preventDefault();const r=ST.getBoundingClientRect(),t=e.touches[0];let nx=t.clientX-r.left-sx,ny=t.clientY-r.top-sy;nx=Math.max(4,Math.min(nx,ST.clientWidth-el.offsetWidth-4));ny=Math.max(4,Math.min(ny,ST.clientHeight-el.offsetHeight-4));c.x=nx;c.y=ny;el.style.left=nx+'px';el.style.top=ny+'px'},{passive:false});document.addEventListener('touchend',()=>{if(!d)return;d=false;el.classList.remove('dragging')});el.classList.add('enter');el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});updS()},
+del(id){const i=S.cards.findIndex(c=>c.id===id);if(i<0)return;const el=S.cards[i].el;el.classList.add('leaving');setTimeout(()=>{el.remove();S.cards.splice(i,1);updS()},200)},
+gather(){if(!S.cards.length){alert('カードがありません');return}const n=S.cards.length,s=S.cards.reduce((a,c)=>a+c.v,0),t=parseFloat(s.toPrecision(12));S.hist.unshift({d:new Date().toISOString(),n,t});if(S.hist.length>50)S.hist=S.hist.slice(0,50);localStorage.setItem('gc_h',JSON.stringify(S.hist));alert('合計: '+fmt(t)+'\n'+n+'件のカードを集計しました');S.cards.forEach(c=>c.el.classList.add('leaving'));setTimeout(()=>{S.cards.forEach(c=>c.el.remove());S.cards=[];updS()},210);S.cur=String(t);S.rst=true;S.op=null;upd(fmt(t));EL.textContent=n+'件 合計 ＝'}
+};
 
-(function(){let dragging=false,ghost=null,startY=0;const THR=26;function getVal(){if(op&&!rst){const r=calcOnly(false);return r===false?null:r;}const n=parseFloat(cur);return isNaN(n)?null:n;}function mkG(val){const g=document.createElement('div');g.className='ghost-card';g.textContent=fmt(val);document.body.appendChild(g);return g;}function mvG(cx,cy){if(!ghost)return;ghost.style.left=(cx-ghost.offsetWidth/2)+'px';ghost.style.top=(cy-ghost.offsetHeight/2)+'px';}function onSt(cx,cy){const r=ST.getBoundingClientRect();return cx>=r.left&&cx<=r.right&&cy>=r.top&&cy<=r.bottom;}function start(cx,cy){const v=getVal();if(v===null)return;dragging=true;startY=cy;DB.classList.add('lift');ghost=mkG(v);mvG(cx,cy);}function move(cx,cy){if(!dragging)return;mvG(cx,cy);ST.classList.toggle('drop-ready',onSt(cx,cy)||cy<startY-THR);}function end(cx,cy){if(!dragging)return;dragging=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(ghost){ghost.remove();ghost=null;}if(onSt(cx,cy)||cy<startY-THR){const v=getVal();if(v!==null){const sr=ST.getBoundingClientRect();let lx=cx-sr.left,ly=cy-sr.top;if(!onSt(cx,cy)){lx=Math.max(30,Math.min(sr.width-30,lx));ly=Math.max(20,Math.min(sr.height/2,Math.random()*sr.height*0.6+10));}addCard(v,lx,ly);cur='0';rst=false;op=null;updD('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');}}}
-DB.addEventListener('mousedown',e=>{
-  if(e.target.tagName === 'SELECT') return; 
-  e.preventDefault();start(e.clientX,e.clientY);
-});
-document.addEventListener('mousemove',e=>move(e.clientX,e.clientY));
-document.addEventListener('mouseup',e=>end(e.clientX,e.clientY));
-DB.addEventListener('touchstart',e=>{
-  if(e.target.tagName === 'SELECT') return; 
-  e.preventDefault();const t=e.touches[0];start(t.clientX,t.clientY);
-},{passive:false});
-document.addEventListener('touchmove',e=>{if(!dragging)return;e.preventDefault();const t=e.touches[0];move(t.clientX,t.clientY);},{passive:false});
-document.addEventListener('touchend',e=>{const t=e.changedTouches[0];end(t.clientX,t.clientY);});})();
+const M={
+toggle(){const m=$('sideMenu'),o=$('menuOverlay'),b=$('hamburgerBtn');if(m.classList.contains('open'))M.close();else{m.classList.add('open');o.classList.add('show');b.classList.add('open')}},
+close(){$('sideMenu').classList.remove('open');$('menuOverlay').classList.remove('show');$('hamburgerBtn').classList.remove('open')},
+mode(m){S.mode=m;const md=MODES[m];MB.textContent=md.n;HT.innerHTML=md.h;FB.textContent=md.f;document.querySelectorAll('.menu-item').forEach(i=>i.classList.remove('active'));$('m'+(m==='simple'?1:m==='memo'?2:3)).classList.add('active');localStorage.setItem('gc_m',m);M.close()},
+fx(){alert(S.mode==='travel'?'外貨換算機能（開発中）':'外貨換算は「海外旅行モード」で使用できます')},
+hist(){M.close();const l=$('historyList');if(!S.hist.length)l.innerHTML='<div class="hist-empty">まだ履歴がありません</div>';else l.innerHTML=S.hist.map(h=>{const d=new Date(h.d),ds=d.getFullYear()+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getDate().toString().padStart(2,'0')+' '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');return'<div class="history-item"><div class="hist-date">'+ds+'</div><div class="hist-formula">'+h.n+'件を集計</div><div class="hist-total">'+fmt(h.t)+'</div></div>'}).join('');$('historyModal').classList.add('show')},
+histClose(){$('historyModal').classList.remove('show')},
+memoEdit(id){if(S.mode!=='memo'){alert('メモ機能は「メモモード」で使用できます');return}const c=S.cards.find(c=>c.id===id);if(!c)return;S.editId=id;$('memoInput').value=c.m||'';$('memoModal').classList.add('show')},
+memoClose(){$('memoModal').classList.remove('show');S.editId=null},
+memoSave(){if(S.editId===null)return;const c=S.cards.find(c=>c.id===S.editId);if(!c)return;c.m=$('memoInput').value.trim();const mt=c.el.querySelector('.memo-text');if(mt)mt.textContent=c.m||'（メモなし）';M.memoClose()},
+del(){if(!confirm('全てのカードと履歴を削除しますか？'))return;S.cards.forEach(c=>c.el.remove());S.cards=[];S.id=0;S.hist=[];localStorage.removeItem('gc_h');updS();M.close()}
+};
 
-function makeDrag(el,card){let sx,sy,drag=false;el.addEventListener('mousedown',e=>{if(e.target.classList.contains('cdel'))return;e.preventDefault();drag=true;el.classList.add('dragging');const r=ST.getBoundingClientRect();sx=e.clientX-r.left-card.x;sy=e.clientY-r.top-card.y;front(el);});document.addEventListener('mousemove',e=>{if(!drag)return;mv(e.clientX,e.clientY,sx,sy,card,el);});document.addEventListener('mouseup',()=>{if(!drag)return;drag=false;el.classList.remove('dragging');});el.addEventListener('touchstart',e=>{if(e.target.classList.contains('cdel'))return;e.preventDefault();drag=true;el.classList.add('dragging');const r=ST.getBoundingClientRect(),t=e.touches[0];sx=t.clientX-r.left-card.x;sy=t.clientY-r.top-card.y;front(el);},{passive:false});document.addEventListener('touchmove',e=>{if(!drag)return;e.preventDefault();const t=e.touches[0];mv(t.clientX,t.clientY,sx,sy,card,el);},{passive:false});document.addEventListener('touchend',()=>{if(!drag)return;drag=false;el.classList.remove('dragging');});}
-function mv(cx,cy,sx,sy,card,el){const r=ST.getBoundingClientRect();let nx=cx-r.left-sx,ny=cy-r.top-sy;nx=Math.max(4,Math.min(nx,ST.clientWidth-el.offsetWidth-4));ny=Math.max(4,Math.min(ny,ST.clientHeight-el.offsetHeight-4));card.x=nx;card.y=ny;el.style.left=nx+'px';el.style.top=ny+'px';}
-function front(el){document.querySelectorAll('.ncard').forEach(c=>c.style.zIndex=10);el.style.zIndex=80;}
-updD('0');
+(()=>{let d=false,g=null,sy=0;const T=50,getV=()=>{if(S.op&&!S.rst){const r=C.eq(false);return r===false?null:r}const n=parseFloat(S.cur);return isNaN(n)?null:n},mkG=v=>{const e=document.createElement('div');e.className='ghost-card';e.textContent=fmt(v);document.body.appendChild(e);return e},mvG=(x,y)=>{if(!g)return;g.style.left=(x-g.offsetWidth/2)+'px';g.style.top=(y-g.offsetHeight/2)+'px'},onS=(x,y)=>{const r=ST.getBoundingClientRect();return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom};DB.addEventListener('touchstart',e=>{e.preventDefault();const v=getV();if(v===null)return;const t=e.touches[0];d=true;sy=t.clientY;DB.classList.add('lift');g=mkG(v);mvG(t.clientX,t.clientY)},{passive:false});document.addEventListener('touchmove',e=>{if(!d)return;e.preventDefault();const t=e.touches[0];mvG(t.clientX,t.clientY);ST.classList.toggle('drop-ready',onS(t.clientX,t.clientY)||t.clientY<sy-T)},{passive:false});document.addEventListener('touchend',e=>{if(!d)return;const t=e.changedTouches[0];d=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(g){g.remove();g=null}if(onS(t.clientX,t.clientY)||t.clientY<sy-T){const v=getV();if(v!==null){C.add(v);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash')}}})})();
+
+const sm=localStorage.getItem('gc_m'),sh=localStorage.getItem('gc_h');if(sh)S.hist=JSON.parse(sh);if(sm&&MODES[sm])M.mode(sm);else{S.mode='simple';$('m1').classList.add('active')}upd('0');
 </script>
 </body>
 </html>
