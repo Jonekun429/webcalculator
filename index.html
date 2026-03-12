@@ -6,23 +6,52 @@
 <title>Green Gathering Calculator</title>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#005D4D">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" id="metaTheme" content="#005D4D">
+<!-- PWA Manifest (inline) -->
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiR2F0aGVyaW5nIENhbGN1bGF0b3IiLCJzaG9ydF9uYW1lIjoiR2F0aGVyaW5nIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJzdGFydF91cmwiOiIuIiwiYmFja2dyb3VuZF9jb2xvciI6IiNGMEZCRjkiLCJ0aGVtZV9jb2xvciI6IiMwMDVENEQiLCJpY29ucyI6W119">
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 :root{--font:'Nunito','Noto Sans JP',sans-serif;--brand:#005D4D;--brand-mid:#007A66;--bg-s:#9CCEC6;--bg-e:#6AAFAA;--body-bg:#F0FBF9;--stage-a:#D4EEE9;--stage-b:#BFE4DC;--disp-bg:#C4EAE4;--disp-bd:#84C8C0;--card-a:#00B896;--card-b:#007A66;--card-sh:#004D40;--bn-a:#00A070;--bn-b:#006850;--bn-sh:#003828;--op-bg:#FFF;--op-bd:#9CCEC6;--op-tx:#005D4D;--ut-a:#68B4AC;--ut-b:#46948C;--ut-sh:#2A6860;--eq-a:#F04838;--eq-sh:#9E2010;--cl-a:#8858D0;--cl-sh:#4C2898;--ga-a:#009C6A;--ga-b:#006C48;--ga-sh:#003828;--td:#001A12;--tm:#003428;--tp:#469080}
+/* ダークモード */
+html.dark{--brand:#00A88A;--brand-mid:#00C9A0;--bg-s:#0A1A18;--bg-e:#061210;--body-bg:#0F1F1C;--stage-a:#162E28;--stage-b:#1A3830;--disp-bg:#1A302A;--disp-bd:#2A5048;--card-a:#009878;--card-b:#006858;--card-sh:#003828;--bn-a:#008868;--bn-b:#005840;--bn-sh:#002818;--op-bg:#1A302A;--op-bd:#2A5048;--op-tx:#70C8B8;--ut-a:#4A8880;--ut-b:#306860;--ut-sh:#1A4840;--eq-a:#D83828;--eq-sh:#881808;--cl-a:#7848C0;--cl-sh:#3C1888;--ga-a:#008858;--ga-b:#005838;--ga-sh:#002818;--td:#E0F0EC;--tm:#A0D0C4;--tp:#60A898}
+html.dark body{background:linear-gradient(150deg,var(--bg-s),var(--bg-e))}
+html.dark .calc{box-shadow:0 0 0 1px rgba(255,255,255,.06) inset}
+html.dark .modal-content{background:#142420}
+html.dark .memo-input,html.dark .gather-input{background:#1A302A;border-color:#2A5048;color:var(--td)}
+html.dark .menu-header{background:linear-gradient(135deg,#003828,#004838)}
+html.dark .side-menu{background:#0F1F1C}
+html.dark .welcome-hero{background:linear-gradient(135deg,#003828,#004838)}
+html.dark .history-item{background:rgba(0,168,138,.06)}
+html.dark .guide-tip{background:rgba(0,168,138,.08)}
+html.dark .ncard{box-shadow:0 3px 0 var(--card-sh),0 4px 12px rgba(0,0,0,.4)}
+html.dark .ncard-back{background:linear-gradient(145deg,#007858,#005040)}
+html.dark .fx-row.from{background:linear-gradient(135deg,var(--stage-a),var(--stage-b))}
+html.dark .fx-row.to{background:linear-gradient(135deg,#1A3830,#162E28)}
+html.dark .stage.drop-ready{border-color:rgba(0,168,138,.5);background:linear-gradient(138deg,#1A4038,#163830)}
+html.dark .bop{box-shadow:0 3px 0 #1A4840}
+html.dark .bop:active{box-shadow:0 1px 0 #1A4840}
+html.dark .fx-cur-btn{background:rgba(0,168,138,.12);border-color:rgba(0,168,138,.2);color:var(--brand)}
+html.dark .fx-swap-btn{background:var(--brand)}
+html.dark .fx-divider-line{background:rgba(0,168,138,.15)}
+html.dark .menu-toggle{background:rgba(0,168,138,.12)}
+html.dark .menu-toggle .ml{background:var(--brand)}
+html.dark .fx-tab{background:rgba(0,168,138,.08);color:var(--tp)}
+html.dark .fx-tab.on{background:var(--brand);color:#fff}
 html{height:100%;overflow:hidden}
 body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradient(150deg,var(--bg-s),var(--bg-e));background-attachment:fixed;display:flex;justify-content:center;align-items:center;padding:0;overflow:hidden;overscroll-behavior:none;position:fixed;width:100%}
 .calc{--gap:clamp(4px,1vw,7px);--inner-w:min(100vw,480px);--pad:clamp(10px,2.5vw,16px);--btn:calc((var(--inner-w) - var(--pad)*2 - var(--gap)*4)/5);width:100%;height:100%;max-width:480px;background:var(--body-bg);padding:env(safe-area-inset-top,6px) var(--pad) env(safe-area-inset-bottom,6px);display:flex;flex-direction:column;gap:clamp(3px,.6vh,6px);box-shadow:0 0 0 1.5px rgba(255,255,255,.88) inset;overflow:hidden;transform:translateZ(0)}
-.app-title{font-size:clamp(.56rem,1.5vw,.72rem);font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--tp);flex-shrink:0;display:flex;align-items:center;gap:6px;padding-top:2px}
-.menu-toggle{width:32px;height:32px;border-radius:8px;background:rgba(0,93,77,.1);border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3.5px;cursor:pointer;flex-shrink:0;margin-right:auto}
+.app-title{font-size:clamp(.56rem,1.5vw,.72rem);font-weight:900;color:var(--tp);flex-shrink:0;display:flex;align-items:center;gap:6px;padding-top:2px}
+.menu-toggle{width:32px;height:32px;border-radius:8px;background:rgba(0,93,77,.1);border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3.5px;cursor:pointer;flex-shrink:0}
 .menu-toggle:active{background:rgba(0,93,77,.25)}
 .menu-toggle .ml{width:16px;height:2px;background:var(--brand);border-radius:2px;transition:all .2s}
 .menu-toggle.open .ml:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
 .menu-toggle.open .ml:nth-child(2){opacity:0}
 .menu-toggle.open .ml:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
-.title-text{flex:1;text-align:center}
-.mode-badge{background:var(--brand);color:#fff;padding:2px 8px;border-radius:12px;font-size:clamp(.44rem,1.1vw,.54rem);font-weight:800;margin-left:auto}
+.mode-badge{margin-left:auto;background:var(--brand);color:#fff;padding:4px 12px;border-radius:14px;font-family:var(--font);font-size:clamp(.52rem,1.3vw,.64rem);font-weight:800;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;transition:background .15s}
+.mode-badge:active{background:var(--brand-mid)}
+.mode-badge::after{content:'▾';font-size:.5em;opacity:.6}
 .stage{position:relative;width:100%;flex:1 1 0;min-height:80px;background:linear-gradient(138deg,var(--stage-a),var(--stage-b));border-radius:clamp(9px,2vw,16px);border:2px dashed rgba(0,93,77,.2);overflow:hidden;transition:background .2s,border-color .2s}
 .stage.drop-ready{border-color:rgba(0,93,77,.45);background:linear-gradient(138deg,#B4E8E0,#9CDDD4)}
 .stage-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;pointer-events:none;transition:opacity .28s}
@@ -35,6 +64,8 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 .ncard.leaving{animation:cOut .17s ease-in forwards}
 @keyframes cIn{from{transform:scale(.3) translateY(15px);opacity:0}to{transform:scale(1);opacity:1}}
 @keyframes cOut{to{transform:scale(.4);opacity:0}}
+@keyframes nudge{0%,100%{transform:scale(1)}25%{transform:scale(1.08) rotate(-2deg)}50%{transform:scale(1.05) rotate(1deg)}75%{transform:scale(1.08) rotate(-1deg)}}
+.ncard.nudge{animation:nudge .5s ease;z-index:90!important}
 .ncard-inner{position:relative;width:100%;height:100%;transition:transform .4s ease;transform-style:preserve-3d}
 .ncard.flipped .ncard-inner{transform:rotateY(180deg)}
 .ncard-front,.ncard-back{backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:clamp(8px,1.8vw,12px) clamp(12px,3vw,18px)}
@@ -58,6 +89,8 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 .d-num.sm{font-size:clamp(1.3rem,3.9vw,1.8rem)}
 .d-num.xs{font-size:clamp(1rem,2.9vw,1.3rem)}
 @keyframes dfl{0%,100%{background:var(--disp-bg)}40%{background:#78D8CC}}
+html.dark .disp.flash{animation:dflD .36s ease}
+@keyframes dflD{0%,100%{background:var(--disp-bg)}40%{background:#1A5848}}
 .disp.flash{animation:dfl .36s ease}
 .ghost-card{position:fixed;pointer-events:none;z-index:9999;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(8px,1.9vw,13px);padding:clamp(5px,1.3vw,8px) clamp(9px,2.3vw,13px);font-family:var(--font);font-size:clamp(.98rem,2.5vw,1.26rem);font-weight:900;color:#fff;box-shadow:0 7px 18px rgba(0,30,20,.4);transform:scale(1.06) rotate(-2deg);opacity:.87;white-space:nowrap}
 .btn{border:none;border-radius:50%;width:var(--btn);height:var(--btn);font-family:var(--font);font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;flex-shrink:0;transition:transform .08s}
@@ -75,6 +108,13 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 .fx-panel{display:none;flex-direction:column;flex:1 1 0;min-height:0}
 .fx-panel.active{display:flex}
 .stage.fx-hidden{display:none}
+/* 旅行モードでカードがある時のタブ切替 */
+.fx-tab-bar{display:none;flex-shrink:0}
+.fx-tab-bar.active{display:flex;gap:0}
+.fx-tab{flex:1;padding:6px 0;border:none;background:rgba(0,93,77,.06);font-family:var(--font);font-size:clamp(.56rem,1.4vw,.68rem);font-weight:800;color:var(--tp);cursor:pointer;text-align:center;transition:all .15s}
+.fx-tab:first-child{border-radius:8px 0 0 8px}
+.fx-tab:last-child{border-radius:0 8px 8px 0}
+.fx-tab.on{background:var(--brand);color:#fff}
 .fx-row{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px clamp(8px,2vw,14px);flex:1;min-height:40px}
 .fx-row.from{background:linear-gradient(135deg,var(--stage-a),var(--stage-b));border-radius:clamp(9px,2vw,16px) clamp(9px,2vw,16px) 0 0}
 .fx-row.to{background:linear-gradient(135deg,#B8E0D8,#9CD4CA);border-radius:0 0 clamp(9px,2vw,16px) clamp(9px,2vw,16px)}
@@ -87,7 +127,7 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 .fx-swap-btn{width:32px;height:32px;border-radius:50%;background:var(--brand);border:none;color:#fff;font-size:.8rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s}
 .fx-swap-btn:active{transform:rotate(180deg)}
 .fx-divider-line{flex:1;height:1.5px;background:rgba(0,93,77,.15)}
-.fx-rate-label{font-size:clamp(.48rem,1.1vw,.56rem);font-weight:700;color:var(--tp);opacity:.6;flex-shrink:0}
+.fx-rate-label{font-size:clamp(.42rem,1vw,.52rem);font-weight:700;color:var(--tp);opacity:.6;flex-shrink:1;text-align:right;min-width:0}
 
 /* FX Currency picker modal */
 .fx-cur-list{max-height:50vh;overflow-y:auto}
@@ -160,6 +200,21 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 .privacy-section{margin-bottom:14px}
 .privacy-h{font-size:.78rem;font-weight:900;color:var(--brand);margin-bottom:6px}
 .privacy-p{font-size:.68rem;font-weight:600;color:var(--tm);line-height:1.7;margin-bottom:6px}
+/* Welcome onboarding */
+.welcome-content{padding:0;overflow:hidden}
+.welcome-hero{background:linear-gradient(135deg,var(--brand),var(--brand-mid));padding:28px 24px 22px;text-align:center;color:#fff}
+.welcome-icon{font-size:2.4rem;margin-bottom:6px}
+.welcome-app-name{font-size:1.1rem;font-weight:900;margin-bottom:4px;letter-spacing:.06em}
+.welcome-tagline{font-size:.68rem;font-weight:600;opacity:.85}
+.welcome-features{padding:18px 20px 10px}
+.welcome-feature{display:flex;gap:12px;margin-bottom:16px;align-items:flex-start}
+.wf-icon{font-size:1.5rem;width:36px;height:36px;background:rgba(0,93,77,.07);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wf-body{flex:1}
+.wf-title{font-size:.78rem;font-weight:900;color:var(--td);margin-bottom:3px}
+.wf-desc{font-size:.66rem;font-weight:600;color:var(--tm);line-height:1.6;opacity:.8}
+.welcome-start-btn{display:block;width:calc(100% - 40px);margin:4px 20px 14px;padding:14px;background:var(--brand);color:#fff;border:none;border-radius:12px;font-family:var(--font);font-size:.88rem;font-weight:900;cursor:pointer;transition:background .15s}
+.welcome-start-btn:active{background:var(--brand-mid)}
+.welcome-hint{text-align:center;padding:0 20px 18px;font-size:.58rem;font-weight:600;color:var(--tp);opacity:.55}
 .toast{position:fixed;bottom:20%;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brand);color:#fff;padding:12px 24px;border-radius:12px;font-family:var(--font);font-size:.78rem;font-weight:800;box-shadow:0 8px 24px rgba(0,20,16,.35);opacity:0;pointer-events:none;z-index:600;transition:opacity .3s,transform .3s;text-align:center;max-width:90vw}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
@@ -168,12 +223,16 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 <div class="calc">
   <div class="app-title">
     <button class="menu-toggle" id="menuToggle" onclick="M.toggle()"><span class="ml"></span><span class="ml"></span><span class="ml"></span></button>
-    <span class="title-text">GATHERING CALCULATOR</span>
-    <span class="mode-badge" id="modeBadge">シンプル</span>
+    <button class="mode-badge" id="modeBadge" onclick="M.cycleMode()">シンプル</button>
   </div>
   <div class="stage" id="stage">
     <div class="stage-hint" id="stageHint"><span class="si">🃏</span><span class="st" id="hintText">数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加</span></div>
     <div class="card-count" id="cardCount"><span id="cardCountNum">0/20</span></div>
+  </div>
+  <!-- Travel mode tab bar -->
+  <div class="fx-tab-bar" id="fxTabBar">
+    <button class="fx-tab on" id="fxTabConvert" onclick="M.fxTab('convert')">💱 換算</button>
+    <button class="fx-tab" id="fxTabCards" onclick="M.fxTab('cards')">🃏 カード <span id="fxTabCount"></span></button>
   </div>
   <!-- FX Panel (iPhone style, shown in travel mode) -->
   <div class="fx-panel" id="fxPanel">
@@ -194,7 +253,7 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
   <div class="ctrl">
     <button class="btn bc" onclick="C.clear()">C</button>
     <div class="disp" id="dispBox"><span class="currency-badge" id="curBadge">JPY</span><div class="d-expr" id="exprLine">&nbsp;</div><div class="d-num" id="numLine">0</div></div>
-    <button class="btn bga" onclick="C.gather()"><svg viewBox="0 0 40 40" width="62%" height="62%" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="16" x2="10" y2="16"/><line x1="16" y1="16" x2="16" y2="10"/><line x1="34" y1="6" x2="24" y2="16"/><line x1="24" y1="16" x2="30" y2="16"/><line x1="24" y1="16" x2="24" y2="10"/><line x1="6" y1="34" x2="16" y2="24"/><line x1="16" y1="24" x2="10" y2="24"/><line x1="16" y1="24" x2="16" y2="30"/><line x1="34" y1="34" x2="24" y2="24"/><line x1="24" y1="24" x2="30" y2="24"/><line x1="24" y1="24" x2="24" y2="30"/><circle cx="20" cy="20" r="5" fill="#fff" stroke="none" opacity=".3"/></svg></button>
+    <button class="btn bga" onclick="C.gather()"><svg viewBox="0 0 36 36" width="58%" height="58%" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l10 10M14 8v6H8"/><path d="M32 4L22 14M22 8v6h6"/><path d="M4 32l10-10M14 28v-6H8"/><path d="M32 32L22 22M22 28v-6h6"/><circle cx="18" cy="18" r="3" fill="#fff" stroke="none" opacity=".4"/></svg></button>
   </div>
   <div class="kpad">
     <button class="btn bn" onclick="C.inp('7')">7</button><button class="btn bn" onclick="C.inp('8')">8</button><button class="btn bn" onclick="C.inp('9')">9</button><button class="btn bop" onclick="C.op('÷')">÷</button><button class="btn bu" onclick="C.bs()">⌫</button>
@@ -219,6 +278,9 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
     <div class="menu-divider"></div>
     <div class="menu-section-label">ヘルプ</div>
     <button class="menu-item" onclick="M.guide()"><span class="menu-item-icon">📖</span><div class="menu-item-text"><span class="menu-item-label">使い方ガイド</span><span class="menu-item-desc">各モードの操作方法</span></div></button>
+    <div class="menu-divider"></div>
+    <div class="menu-section-label">設定</div>
+    <button class="menu-item" id="darkToggleItem" onclick="M.toggleDark()"><span class="menu-item-icon" id="darkToggleIcon">🌙</span><div class="menu-item-text"><span class="menu-item-label" id="darkToggleLabel">ダークモード</span><span class="menu-item-desc" id="darkToggleDesc">画面を暗くする</span></div></button>
   </div>
   <div class="menu-footer">
     <div class="menu-footer-links">
@@ -271,7 +333,40 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
   <div class="privacy-section"><div class="privacy-h">6. お子様のプライバシー</div><div class="privacy-p">個人情報の収集を行わないため、お子様にも安心してご利用いただけます。</div></div>
   <div class="privacy-section"><div class="privacy-h">7. ポリシーの変更</div><div class="privacy-p">本ポリシーは予告なく変更する場合があります。最新のポリシーはアプリ内で確認できます。</div></div>
   <div class="privacy-section"><div class="privacy-h">8. お問い合わせ</div><div class="privacy-p">プライバシーに関するご質問は、メニューの「お問合せ」よりご連絡ください。</div></div>
-  <div class="privacy-p" style="opacity:.5;margin-top:12px;font-size:.6rem">最終更新日: 2026年3月12日</div>
+  <div class="privacy-p" style="opacity:.5;margin-top:12px;font-size:.6rem">最終更新日: 2026年4月1日</div>
+</div></div>
+<!-- Welcome Onboarding (初回のみ) -->
+<div class="modal" id="welcomeModal"><div class="modal-content welcome-content">
+  <div class="welcome-hero">
+    <div class="welcome-icon">🧮</div>
+    <div class="welcome-app-name">Gathering Calculator</div>
+    <div class="welcome-tagline">金額を集めて、まとめて集計</div>
+  </div>
+  <div class="welcome-features">
+    <div class="welcome-feature">
+      <div class="wf-icon">👆</div>
+      <div class="wf-body">
+        <div class="wf-title">明細をスワイプで集める</div>
+        <div class="wf-desc">金額を入力したら、ディスプレイを上にスワイプ。カードがどんどん溜まります。最後にまとめて集計！</div>
+      </div>
+    </div>
+    <div class="welcome-feature">
+      <div class="wf-icon">📝</div>
+      <div class="wf-body">
+        <div class="wf-title">メモ機能でわかりやすく</div>
+        <div class="wf-desc">メモモードなら、カードに「ランチ代」「交通費」などメモを残せます。何の出費か忘れません。</div>
+      </div>
+    </div>
+    <div class="welcome-feature">
+      <div class="wf-icon">✈️</div>
+      <div class="wf-body">
+        <div class="wf-title">海外旅行でも活躍</div>
+        <div class="wf-desc">旅行モードで外貨をリアルタイム換算。現地通貨でも安心してお買い物できます。</div>
+      </div>
+    </div>
+  </div>
+  <button class="welcome-start-btn" onclick="M.welcomeClose()">はじめる</button>
+  <div class="welcome-hint">メニュー ☰ →「使い方ガイド」でいつでも確認できます</div>
 </div></div>
 <div class="toast" id="toast"></div>
 
@@ -284,9 +379,9 @@ const MB=$('modeBadge'),HT=$('hintText'),FB=$('fxBtn');
 const S={cur:'0',prev:'',op:null,rst:false,cards:[],id:0,mode:'simple',editId:null,hist:[],links:{request:'',contact:''}};
 
 const MODES={
-  simple:{n:'シンプル',h:'数字を入力して<br>ディスプレイを<strong>ダブルタップ</strong>か<strong>上スワイプ</strong>でカード追加',f:'FX'},
-  memo:{n:'メモ',h:'ディスプレイ<strong>ダブルタップ</strong>でカード追加<br><small style="opacity:.6">カードをタップでメモ面に裏返し</small>',f:'FX'},
-  travel:{n:'旅行',h:'金額を入力すると自動換算<br><strong>ダブルタップ</strong>か<strong>スワイプ</strong>でカード追加',f:'＄€'}
+  simple:{n:'シンプル',i:'🏠',h:'数字を入力して<br>ディスプレイを<strong>ダブルタップ</strong>か<strong>上スワイプ</strong>でカード追加<br><small style="opacity:.5">右上から📝メモモードに切替でメモも残せます</small>',f:'FX'},
+  memo:{n:'メモ',i:'📝',h:'ディスプレイ<strong>ダブルタップ</strong>でカード追加<br><small style="opacity:.6">カードをタップでメモ面に裏返し</small>',f:'FX'},
+  travel:{n:'旅行',i:'✈️',h:'金額を入力すると自動換算<br><strong>ダブルタップ</strong>か<strong>スワイプ</strong>でカード追加',f:'＄€'}
 };
 
 /* ===== Currency Data (rates to JPY, offline reference) ===== */
@@ -316,15 +411,14 @@ const CURRENCIES=[
 /* ===== FX Converter State ===== */
 const FX={
   from:'JPY',to:'USD',picking:null,
+  rateDate:'内蔵レート', // 表示用の日付
   getRate(from,to){
     const f=CURRENCIES.find(c=>c.code===from);
     const t=CURRENCIES.find(c=>c.code===to);
     if(!f||!t)return 1;
-    return f.rate/t.rate; // from→JPY→to
+    return f.rate/t.rate;
   },
-  convert(amount,from,to){
-    return amount*FX.getRate(from,to);
-  },
+  convert(amount,from,to){return amount*FX.getRate(from,to)},
   updateDisplay(){
     if(S.mode!=='travel')return;
     const v=parseFloat(S.cur)||0;
@@ -334,10 +428,9 @@ const FX={
     $('fxToAmt').textContent=converted===0?'0.00':converted.toLocaleString('ja-JP',{minimumFractionDigits:dp,maximumFractionDigits:dp});
     $('fxFromCode').textContent=FX.from;
     $('fxToCode').textContent=FX.to;
-    // Rate label
     const r=FX.getRate(FX.from,FX.to);
     const rDp=r<0.01?6:r<1?4:2;
-    $('fxRateLabel').textContent='1 '+FX.from+' = '+r.toFixed(rDp)+' '+FX.to;
+    $('fxRateLabel').textContent='1 '+FX.from+' = '+r.toFixed(rDp)+' '+FX.to+'  ('+FX.rateDate+')';
     $('curBadge').textContent=FX.from;
   },
   swap(){
@@ -364,12 +457,64 @@ const FX={
     localStorage.setItem('gc_fx',JSON.stringify({from:FX.from,to:FX.to}));
     FX.pickClose();
     FX.updateDisplay();
+  },
+  // レート自動取得（起動時に実行）
+  async fetchRates(){
+    // キャッシュ確認（6時間以内なら再取得しない）
+    const cached=localStorage.getItem('gc_rates');
+    if(cached){
+      try{
+        const c=JSON.parse(cached);
+        if(c.ts&&Date.now()-c.ts<6*60*60*1000){
+          FX._applyRates(c.rates,c.date);return;
+        }
+      }catch(e){}
+    }
+    // API1: exchangerate-api (無料・キー不要)
+    try{
+      const r=await fetch('https://open.er-api.com/v6/latest/JPY');
+      const d=await r.json();
+      if(d.result==='success'&&d.rates){
+        const rates={};const map={USD:1,EUR:1,GBP:1,CNY:1,KRW:1,TWD:1,HKD:1,THB:1,SGD:1,AUD:1,CAD:1,CHF:1,NZD:1,PHP:1,VND:1,INR:1,MYR:1,IDR:1,ZAR:1};
+        for(const code in map){if(d.rates[code])rates[code]=1/d.rates[code]}
+        rates.JPY=1;
+        const dateStr=d.time_last_update_utc?d.time_last_update_utc.split(' ').slice(1,4).join(' '):'取得済';
+        FX._applyRates(rates,dateStr);
+        localStorage.setItem('gc_rates',JSON.stringify({rates,date:dateStr,ts:Date.now()}));
+        return;
+      }
+    }catch(e){}
+    // API2: frankfurter (フォールバック)
+    try{
+      const r=await fetch('https://api.frankfurter.dev/v1/latest?base=JPY');
+      const d=await r.json();
+      if(d.rates){
+        const rates={JPY:1};
+        for(const code in d.rates){rates[code]=1/d.rates[code]}
+        const dateStr=d.date||'取得済';
+        FX._applyRates(rates,dateStr);
+        localStorage.setItem('gc_rates',JSON.stringify({rates,date:dateStr,ts:Date.now()}));
+        return;
+      }
+    }catch(e){}
+    // フォールバック：キャッシュがあれば使う
+    if(cached){try{const c=JSON.parse(cached);FX._applyRates(c.rates,c.date+' (キャッシュ)')}catch(e){}}
+  },
+  _applyRates(rates,dateStr){
+    CURRENCIES.forEach(c=>{
+      if(rates[c.code]!==undefined)c.rate=rates[c.code];
+    });
+    FX.rateDate=dateStr;
+    FX.updateDisplay();
   }
 };
 
 const fmt=v=>{if(Number.isInteger(v))return'¥'+v.toLocaleString('ja-JP');return'¥'+parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:2})};
 const upd=v=>{const s=String(v);NL.textContent=s;NL.className='d-num';const l=s.replace(/[^0-9.]/g,'').length;if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm');FX.updateDisplay()};
-const updS=()=>{SH.style.opacity=S.cards.length?'0':'1';CCB.style.display=S.cards.length?'block':'none';if(S.cards.length)CCN.textContent=S.cards.length+'/20'};
+const updS=()=>{SH.style.opacity=S.cards.length?'0':'1';CCB.style.display=S.cards.length?'block':'none';if(S.cards.length)CCN.textContent=S.cards.length+'/20';
+  // 旅行モードのタブカウント更新
+  const tc=$('fxTabCount');if(tc)tc.textContent=S.cards.length?'('+S.cards.length+')':'';
+};
 const toast=(msg,dur=1800)=>{const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),dur)};
 
 const C={
@@ -424,29 +569,58 @@ const C={
 const M={
   toggle(){const m=$('sideMenu'),o=$('menuOverlay'),b=$('menuToggle');if(m.classList.contains('open'))M.close();else{m.classList.add('open');o.classList.add('show');b.classList.add('open')}},
   close(){$('sideMenu').classList.remove('open');$('menuOverlay').classList.remove('show');$('menuToggle').classList.remove('open')},
+  cycleMode(){const order=['simple','memo','travel'];const i=order.indexOf(S.mode);const next=order[(i+1)%order.length];M.mode(next);
+    // モード切替時のコンテキスト付きメッセージ
+    if(next==='memo'&&S.cards.length){toast('📝 カードをタップするとメモできます',2500)}
+    else if(next==='memo'){toast('📝 メモモード — カード追加時にメモ入力',2200)}
+    else{toast({simple:'🏠 シンプルモード',travel:'✈️ 海外旅行モード'}[next])}
+  },
   mode(m){
-    S.mode=m;const md=MODES[m];MB.textContent=md.n;HT.innerHTML=md.h;FB.textContent=md.f;
+    S.mode=m;const md=MODES[m];MB.innerHTML=md.i+' '+md.n;HT.innerHTML=md.h;FB.textContent=md.f;
     document.querySelectorAll('.menu-item').forEach(i=>i.classList.remove('active'));
     $('m'+(m==='simple'?1:m==='memo'?2:3)).classList.add('active');
     localStorage.setItem('gc_m',m);
     // Toggle FX panel vs stage
     const isTr=m==='travel';
-    $('fxPanel').classList.toggle('active',isTr);
-    ST.classList.toggle('fx-hidden',isTr);
-    $('curBadge').textContent=isTr?FX.from:'JPY';
-    if(isTr)FX.updateDisplay();
+    $('fxTabBar').classList.toggle('active',isTr);
+    if(isTr){
+      // 旅行モード：換算タブをデフォルト表示
+      M.fxTab(S.cards.length?'cards':'convert');
+      $('curBadge').textContent=FX.from;
+      FX.updateDisplay();
+    }else{
+      // 通常モード：FXパネル非表示、ステージ表示
+      $('fxPanel').classList.remove('active');
+      ST.classList.remove('fx-hidden');
+      $('curBadge').textContent='JPY';
+    }
     // Card flip hints
     S.cards.forEach(c=>{c.flipped=false;c.el.classList.remove('flipped');const h=c.el.querySelector('.flip-hint');if(m==='memo'&&!h){const s=document.createElement('span');s.className='flip-hint';s.textContent='↻';c.el.querySelector('.ncard-front').appendChild(s)}else if(m!=='memo'&&h){h.remove()}});
+    // メモモード切替時：カードがあれば最初のカードをナッジ（タップ誘導）
+    if(m==='memo'&&S.cards.length){const first=S.cards[0].el;first.classList.add('nudge');first.addEventListener('animationend',()=>first.classList.remove('nudge'),{once:true})}
     M.close();
   },
   fx(){
     if(S.mode!=='travel'){M.mode('travel');toast('海外旅行モードに切り替えました')}
     else{FX.pickCur('from')}
   },
+  fxTab(tab){
+    S._fxTab=tab;
+    const isConvert=tab==='convert';
+    $('fxTabConvert').classList.toggle('on',isConvert);
+    $('fxTabCards').classList.toggle('on',!isConvert);
+    $('fxPanel').classList.toggle('active',isConvert);
+    ST.classList.toggle('fx-hidden',isConvert);
+    // カード件数バッジ更新
+    $('fxTabCount').textContent=S.cards.length?'('+S.cards.length+')':'';
+  },
 
   hist(){M.close();const l=$('historyList');if(!S.hist.length){l.innerHTML='<div class="hist-empty">まだ履歴がありません</div>'}else{l.innerHTML=S.hist.map((h,idx)=>{const d=new Date(h.d),ds=d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');const title=h.title||'無題の集計',hasCards=h.cards&&h.cards.length;return`<div class="history-item"><div class="hist-date">${ds}</div><div class="hist-title"><span class="hist-title-icon">📌</span>${title}</div><div class="hist-formula">${h.n}件を集計</div><div class="hist-total">${fmt(h.t)}</div><div class="hist-actions">${hasCards?`<button class="hist-btn restore" onclick="M.histRestore(${idx})">復元する</button>`:''}<button class="hist-btn" onclick="M.histEdit(${idx})">編集</button><button class="hist-btn" onclick="M.histDel(${idx})">削除</button></div></div>`}).join('')}$('historyModal').classList.add('show')},
   histClose(){$('historyModal').classList.remove('show')},
-  histRestore(idx){const h=S.hist[idx];if(!h||!h.cards||!h.cards.length){toast('復元データがありません');return}if(S.cards.length&&!confirm('現在のカードを置き換えますか？'))return;S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];S.id=0;h.cards.forEach(c=>C.add(c.v,c.m||''));M.histClose();toast('「'+(h.title||'無題')+'」を復元しました')},
+  histRestore(idx){const h=S.hist[idx];if(!h||!h.cards||!h.cards.length){toast('復元データがありません');return}if(S.cards.length&&!confirm('現在のカードを置き換えますか？'))return;S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];S.id=0;
+    // 旅行モード中はカードタブに切替
+    if(S.mode==='travel'){M.fxTab('cards')}
+    h.cards.forEach(c=>C.add(c.v,c.m||''));M.histClose();toast('「'+(h.title||'無題')+'」を復元しました')},
   histDel(idx){S.hist.splice(idx,1);localStorage.setItem('gc_h',JSON.stringify(S.hist));M.hist();toast('履歴を削除しました')},
   histEdit(idx){const h=S.hist[idx];if(!h)return;const nw=prompt('タイトルを編集',h.title||'');if(nw===null)return;h.title=nw.trim();localStorage.setItem('gc_h',JSON.stringify(S.hist));M.hist();toast('タイトルを更新しました')},
 
@@ -456,10 +630,28 @@ const M={
 
   gatherClose(){$('gatherModal').classList.remove('show');S._gatherTemp=null},
   gatherConfirm(){const title=$('gatherTitleInput').value.trim()||'';$('gatherModal').classList.remove('show');M._doGather(title)},
-  _doGather(title){const gt=S._gatherTemp;if(!gt)return;S.hist.unshift({d:new Date().toISOString(),n:gt.n,t:gt.t,title,cards:gt.cards});if(S.hist.length>50)S.hist=S.hist.slice(0,50);localStorage.setItem('gc_h',JSON.stringify(S.hist));S.cards.forEach(c=>c.el.classList.add('leaving'));setTimeout(()=>{S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];updS()},210);S.cur=String(gt.t);S.rst=true;S.op=null;upd(fmt(gt.t));EL.textContent=gt.n+'件 合計 ＝';S._gatherTemp=null;toast('合計: '+fmt(gt.t)+'（'+gt.n+'件）')},
+  _doGather(title){const gt=S._gatherTemp;if(!gt)return;S.hist.unshift({d:new Date().toISOString(),n:gt.n,t:gt.t,title,cards:gt.cards});if(S.hist.length>50)S.hist=S.hist.slice(0,50);localStorage.setItem('gc_h',JSON.stringify(S.hist));S.cards.forEach(c=>c.el.classList.add('leaving'));setTimeout(()=>{S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];updS()},210);S.cur=String(gt.t);S.rst=true;S.op=null;
+    // 旅行モードでは入力通貨の記号を使う
+    const sym=S.mode==='travel'&&FX.from!=='JPY'?FX.from+' ':'¥';
+    const fmtResult=Number.isInteger(gt.t)?sym+gt.t.toLocaleString('ja-JP'):sym+parseFloat(gt.t.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:2});
+    upd(fmtResult);EL.textContent=gt.n+'件 合計 ＝';S._gatherTemp=null;toast('合計: '+fmtResult+'（'+gt.n+'件）')},
 
   guide(){M.close();$('guideModal').classList.add('show')},
   guideClose(){$('guideModal').classList.remove('show')},
+  welcomeClose(){$('welcomeModal').classList.remove('show');localStorage.setItem('gc_welcomed','1')},
+  toggleDark(){
+    const isDark=document.documentElement.classList.toggle('dark');
+    localStorage.setItem('gc_dark',isDark?'1':'0');
+    M._updDarkUI(isDark);
+    $('metaTheme').content=isDark?'#0F1F1C':'#005D4D';
+    M.close();
+    toast(isDark?'ダークモードON':'ライトモードON');
+  },
+  _updDarkUI(isDark){
+    $('darkToggleIcon').textContent=isDark?'☀️':'🌙';
+    $('darkToggleLabel').textContent=isDark?'ライトモード':'ダークモード';
+    $('darkToggleDesc').textContent=isDark?'画面を明るくする':'画面を暗くする';
+  },
   privacy(){M.close();$('privacyModal').classList.add('show')},
   privacyClose(){$('privacyModal').classList.remove('show')},
   openLink(type){const url=S.links[type];if(url){window.open(url,'_blank')}else{toast(type==='request'?'機能リクエストURLは準備中です':'お問合せURLは準備中です')}M.close()},
@@ -473,22 +665,33 @@ const M={
   const mG=v=>{const e=document.createElement('div');e.className='ghost-card';e.textContent=fmt(v);document.body.appendChild(e);return e};
   const mvG=(x,y)=>{if(!gh)return;gh.style.left=(x-gh.offsetWidth/2)+'px';gh.style.top=(y-gh.offsetHeight/2)+'px'};
   const inS=(x,y)=>{const r=ST.getBoundingClientRect();return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom};
-  const doAdd=()=>{const v=gV();if(v!==null&&v!==0){C.add(v);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash')}};
+  const doAdd=()=>{const v=gV();if(v!==null&&v!==0){
+    // 旅行モード：まずカードタブに切替（ステージ表示が必要）
+    if(S.mode==='travel'){clearTimeout(fxTabTimer);M.fxTab('cards')}
+    C.add(v);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');
+    // 旅行モード：一定時間後に換算タブに戻る
+    if(S.mode==='travel'){fxTabTimer=setTimeout(()=>{if(S.mode==='travel')M.fxTab('convert')},1500)}
+  }};
   const fin=(cx,cy)=>{dr=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(gh){gh.remove();gh=null}
     const dropOk=S.mode==='travel'?(cy<sy-TH):(inS(cx,cy)||cy<sy-TH);
     if(dropOk){doAdd()}};
 
-  // Double-tap on display to add card (no swipe needed)
-  let lastTap=0;
-  DB.addEventListener('click',e=>{
-    const now=Date.now();
-    if(now-lastTap<350){doAdd();lastTap=0}
-    else{lastTap=now}
-  });
+  // Double-tap to add card
+  let lastTap=0,fxTabTimer=null;
+  // Mouse double-click
+  DB.addEventListener('dblclick',e=>{e.preventDefault();doAdd()});
 
-  DB.addEventListener('touchstart',e=>{e.preventDefault();const v=gV();if(v===null)return;const t=e.touches[0];dr=true;sy=t.clientY;DB.classList.add('lift');gh=mG(v);mvG(t.clientX,t.clientY)},{passive:false});
-  document.addEventListener('touchmove',e=>{if(!dr)return;e.preventDefault();const t=e.touches[0];mvG(t.clientX,t.clientY);const ok=S.mode==='travel'?(t.clientY<sy-TH):(inS(t.clientX,t.clientY)||t.clientY<sy-TH);ST.classList.toggle('drop-ready',ok)},{passive:false});
-  document.addEventListener('touchend',e=>{if(!dr)return;fin(e.changedTouches[0].clientX,e.changedTouches[0].clientY)});
+  DB.addEventListener('touchstart',e=>{e.preventDefault();const v=gV();if(v===null)return;const t=e.touches[0];dr=true;sy=t.clientY;DB._touchStartX=t.clientX;DB._touchStartY=t.clientY;DB._touchMoved=false;DB.classList.add('lift');gh=mG(v);mvG(t.clientX,t.clientY)},{passive:false});
+  document.addEventListener('touchmove',e=>{if(!dr)return;e.preventDefault();const t=e.touches[0];mvG(t.clientX,t.clientY);
+    // 5px以上動いたらドラッグ確定
+    if(DB._touchStartX!==undefined){const dx=t.clientX-DB._touchStartX,dy=t.clientY-DB._touchStartY;if(Math.abs(dx)>5||Math.abs(dy)>5)DB._touchMoved=true}
+    const ok=S.mode==='travel'?(t.clientY<sy-TH):(inS(t.clientX,t.clientY)||t.clientY<sy-TH);ST.classList.toggle('drop-ready',ok)},{passive:false});
+  document.addEventListener('touchend',e=>{if(!dr)return;const t=e.changedTouches[0];
+    const wasMoved=DB._touchMoved;
+    fin(t.clientX,t.clientY);
+    // ドラッグせず短タップだった場合→ダブルタップ判定
+    if(!wasMoved){const now=Date.now();if(now-lastTap<400){lastTap=0;doAdd()}else{lastTap=now}}
+  });
   DB.addEventListener('mousedown',e=>{if(e.button!==0)return;e.preventDefault();const v=gV();if(v===null)return;dr=true;sy=e.clientY;DB.classList.add('lift');gh=mG(v);mvG(e.clientX,e.clientY);
     const mm=ev=>{if(!dr)return;ev.preventDefault();mvG(ev.clientX,ev.clientY);const ok=S.mode==='travel'?(ev.clientY<sy-TH):(inS(ev.clientX,ev.clientY)||ev.clientY<sy-TH);ST.classList.toggle('drop-ready',ok)};
     const mu=ev=>{if(!dr)return;fin(ev.clientX,ev.clientY);document.removeEventListener('mousemove',mm);document.removeEventListener('mouseup',mu)};
@@ -501,6 +704,14 @@ if(sh){try{S.hist=JSON.parse(sh)}catch(e){S.hist=[]}}
 if(sf){try{const p=JSON.parse(sf);if(p.from)FX.from=p.from;if(p.to)FX.to=p.to}catch(e){}}
 if(sm&&MODES[sm])M.mode(sm);else{S.mode='simple';$('m1').classList.add('active')}
 upd('0');
+// ダークモード復元
+if(localStorage.getItem('gc_dark')==='1'){document.documentElement.classList.add('dark');M._updDarkUI(true);$('metaTheme').content='#0F1F1C'}
+// 為替レート取得（非同期・バックグラウンド）
+FX.fetchRates();
+// 初回のみウェルカムガイド表示
+if(!localStorage.getItem('gc_welcomed')){$('welcomeModal').classList.add('show')}
+// PWA: Service Workerはデプロイ時に別ファイル(sw.js)として配置してください
+// ホーム画面追加: manifest.jsonとSWが同一オリジンにあればlocalStorageは保持されます
 </script>
 </body>
 </html>
