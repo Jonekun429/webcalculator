@@ -13,33 +13,23 @@
 :root{--font:'Nunito','Noto Sans JP',sans-serif;--brand:#005D4D;--brand-mid:#007A66;--bg-s:#9CCEC6;--bg-e:#6AAFAA;--body-bg:#F0FBF9;--stage-a:#D4EEE9;--stage-b:#BFE4DC;--disp-bg:#C4EAE4;--disp-bd:#84C8C0;--card-a:#00B896;--card-b:#007A66;--card-sh:#004D40;--bn-a:#00A070;--bn-b:#006850;--bn-sh:#003828;--op-bg:#FFF;--op-bd:#9CCEC6;--op-tx:#005D4D;--ut-a:#68B4AC;--ut-b:#46948C;--ut-sh:#2A6860;--eq-a:#F04838;--eq-sh:#9E2010;--cl-a:#8858D0;--cl-sh:#4C2898;--ga-a:#009C6A;--ga-b:#006C48;--ga-sh:#003828;--td:#001A12;--tm:#003428;--tp:#469080}
 html{height:100%;overflow:hidden}
 body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradient(150deg,var(--bg-s),var(--bg-e));background-attachment:fixed;display:flex;justify-content:center;align-items:center;padding:0;overflow:hidden;overscroll-behavior:none;position:fixed;width:100%}
-
-/* ===== Calculator - 画面フル活用 ===== */
-.calc{
-  --gap:clamp(4px,1vw,7px);
-  --inner-w:min(100vw,480px);
-  --pad:clamp(10px,2.5vw,16px);
-  --btn:calc((var(--inner-w) - var(--pad)*2 - var(--gap)*4)/5);
-  width:100%;height:100%;max-width:480px;
-  background:var(--body-bg);
-  padding:env(safe-area-inset-top,6px) var(--pad) env(safe-area-inset-bottom,6px);
-  display:flex;flex-direction:column;gap:clamp(3px,.6vh,6px);
-  box-shadow:0 0 0 1.5px rgba(255,255,255,.88) inset;
-  overflow:hidden;transform:translateZ(0);
-}
-.app-title{text-align:center;font-size:clamp(.56rem,1.5vw,.72rem);font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--tp);flex-shrink:0;display:flex;align-items:center;justify-content:center;gap:6px;padding-top:2px}
-.mode-badge{background:var(--brand);color:#fff;padding:2px 8px;border-radius:12px;font-size:clamp(.44rem,1.1vw,.54rem);font-weight:800}
-
-/* ===== Stage - flex:1で余白吸収 ===== */
+.calc{--gap:clamp(4px,1vw,7px);--inner-w:min(100vw,480px);--pad:clamp(10px,2.5vw,16px);--btn:calc((var(--inner-w) - var(--pad)*2 - var(--gap)*4)/5);width:100%;height:100%;max-width:480px;background:var(--body-bg);padding:env(safe-area-inset-top,6px) var(--pad) env(safe-area-inset-bottom,6px);display:flex;flex-direction:column;gap:clamp(3px,.6vh,6px);box-shadow:0 0 0 1.5px rgba(255,255,255,.88) inset;overflow:hidden;transform:translateZ(0)}
+.app-title{font-size:clamp(.56rem,1.5vw,.72rem);font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--tp);flex-shrink:0;display:flex;align-items:center;gap:6px;padding-top:2px}
+.menu-toggle{width:32px;height:32px;border-radius:8px;background:rgba(0,93,77,.1);border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3.5px;cursor:pointer;flex-shrink:0;margin-right:auto}
+.menu-toggle:active{background:rgba(0,93,77,.25)}
+.menu-toggle .ml{width:16px;height:2px;background:var(--brand);border-radius:2px;transition:all .2s}
+.menu-toggle.open .ml:nth-child(1){transform:translateY(5.5px) rotate(45deg)}
+.menu-toggle.open .ml:nth-child(2){opacity:0}
+.menu-toggle.open .ml:nth-child(3){transform:translateY(-5.5px) rotate(-45deg)}
+.title-text{flex:1;text-align:center}
+.mode-badge{background:var(--brand);color:#fff;padding:2px 8px;border-radius:12px;font-size:clamp(.44rem,1.1vw,.54rem);font-weight:800;margin-left:auto}
 .stage{position:relative;width:100%;flex:1 1 0;min-height:80px;background:linear-gradient(138deg,var(--stage-a),var(--stage-b));border-radius:clamp(9px,2vw,16px);border:2px dashed rgba(0,93,77,.2);overflow:hidden;transition:background .2s,border-color .2s}
 .stage.drop-ready{border-color:rgba(0,93,77,.45);background:linear-gradient(138deg,#B4E8E0,#9CDDD4)}
 .stage-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;pointer-events:none;transition:opacity .28s}
 .stage-hint .si{font-size:clamp(1.05rem,4.4vw,1.65rem);opacity:.2}
 .stage-hint .st{font-size:clamp(.57rem,1.55vw,.7rem);font-weight:700;color:var(--tp);line-height:1.75;text-align:center}
 .card-count{position:absolute;top:7px;right:9px;display:none;background:rgba(0,93,77,.13);border-radius:20px;padding:2px 9px;font-size:clamp(.51rem,1.25vw,.62rem);font-weight:900;color:var(--tm);pointer-events:none;z-index:5}
-
-/* ===== Cards ===== */
-.ncard{position:absolute;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(8px,1.9vw,13px);min-width:clamp(60px,13.5vw,80px);box-shadow:0 3px 0 var(--card-sh),0 4px 10px rgba(0,30,20,.26);cursor:grab;z-index:10;perspective:600px;-webkit-tap-highlight-color:transparent}
+.ncard{position:absolute;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(10px,2.2vw,15px);min-width:clamp(90px,22vw,140px);box-shadow:0 3px 0 var(--card-sh),0 4px 10px rgba(0,30,20,.26);cursor:grab;z-index:10;perspective:600px;-webkit-tap-highlight-color:transparent}
 .ncard.dragging{cursor:grabbing;z-index:80}
 .ncard.enter{animation:cIn .3s cubic-bezier(.34,1.56,.64,1)}
 .ncard.leaving{animation:cOut .17s ease-in forwards}
@@ -47,20 +37,18 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 @keyframes cOut{to{transform:scale(.4);opacity:0}}
 .ncard-inner{position:relative;width:100%;height:100%;transition:transform .4s ease;transform-style:preserve-3d}
 .ncard.flipped .ncard-inner{transform:rotateY(180deg)}
-.ncard-front,.ncard-back{backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:clamp(5px,1.3vw,8px) clamp(9px,2.3vw,13px)}
+.ncard-front,.ncard-back{backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:clamp(8px,1.8vw,12px) clamp(12px,3vw,18px)}
 .ncard-front{display:flex;align-items:center;gap:3px}
 .ncard-back{position:absolute;inset:0;transform:rotateY(180deg);background:linear-gradient(145deg,#00A890,#00806A);border-radius:inherit;display:flex;flex-direction:column;gap:4px;padding:clamp(6px,1.5vw,9px)}
-.clbl{font-size:clamp(.45rem,1.05vw,.58rem);font-weight:900;color:rgba(255,255,255,.46);white-space:nowrap}
-.cval{font-size:clamp(1.05rem,2.7vw,1.35rem);font-weight:900;color:#fff;white-space:nowrap;flex:1;text-align:right}
-.cdel{width:16px;height:16px;flex-shrink:0;background:rgba(255,255,255,.17);border:none;border-radius:50%;color:rgba(255,255,255,.76);font-size:.51rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:4px;margin:-4px}
+.clbl{font-size:clamp(.5rem,1.2vw,.65rem);font-weight:900;color:rgba(255,255,255,.46);white-space:nowrap}
+.cval{font-size:clamp(1.2rem,3.2vw,1.6rem);font-weight:900;color:#fff;white-space:nowrap;flex:1;text-align:right}
+.cdel{width:22px;height:22px;flex-shrink:0;background:rgba(255,255,255,.17);border:none;border-radius:50%;color:rgba(255,255,255,.76);font-size:.6rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 .cdel:active{background:rgba(210,45,25,.6)}
 .memo-label{font-size:clamp(.4rem,.95vw,.52rem);font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase}
 .memo-text{font-size:clamp(.62rem,1.65vw,.78rem);font-weight:700;color:#fff;line-height:1.4;word-break:break-word;flex:1;max-height:3.6em;overflow:hidden}
 .memo-edit-btn{background:rgba(255,255,255,.2);border:none;border-radius:6px;padding:4px 8px;font-size:clamp(.48rem,1.1vw,.58rem);font-weight:800;color:#fff;cursor:pointer;align-self:flex-end}
 .memo-edit-btn:active{background:rgba(255,255,255,.35)}
 .flip-hint{position:absolute;top:3px;right:3px;font-size:.5rem;opacity:.35;pointer-events:none}
-
-/* ===== Display ===== */
 .ctrl{display:grid;grid-template-columns:var(--btn) 1fr var(--btn);gap:var(--gap);align-items:center;flex-shrink:0}
 .disp{background:var(--disp-bg);border:2px solid var(--disp-bd);border-radius:clamp(9px,1.9vw,15px);height:var(--btn);padding:3px clamp(9px,2.1vw,13px);display:flex;flex-direction:column;justify-content:center;align-items:flex-end;overflow:hidden;cursor:grab;transition:transform .12s,box-shadow .12s,border-color .13s;position:relative}
 .disp.lift{cursor:grabbing;transform:scale(1.03) translateY(-3px);box-shadow:0 9px 22px rgba(0,30,20,.24);border-color:var(--brand)}
@@ -72,33 +60,47 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 @keyframes dfl{0%,100%{background:var(--disp-bg)}40%{background:#78D8CC}}
 .disp.flash{animation:dfl .36s ease}
 .ghost-card{position:fixed;pointer-events:none;z-index:9999;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(8px,1.9vw,13px);padding:clamp(5px,1.3vw,8px) clamp(9px,2.3vw,13px);font-family:var(--font);font-size:clamp(.98rem,2.5vw,1.26rem);font-weight:900;color:#fff;box-shadow:0 7px 18px rgba(0,30,20,.4);transform:scale(1.06) rotate(-2deg);opacity:.87;white-space:nowrap}
-
-/* ===== Buttons ===== */
 .btn{border:none;border-radius:50%;width:var(--btn);height:var(--btn);font-family:var(--font);font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;flex-shrink:0;transition:transform .08s}
 .btn:active{transform:scale(.88) translateY(2px)}
-.bn{background:linear-gradient(170deg,var(--bn-a),var(--bn-b));color:#fff;font-size:calc(var(--btn)*.46);box-shadow:0 4px 0 var(--bn-sh),0 5px 12px rgba(0,30,20,.3)}
-.bn:active{box-shadow:0 1px 0 var(--bn-sh)}
-.bop{background:var(--op-bg);color:var(--op-tx);font-size:calc(var(--btn)*.42);border:2px solid var(--op-bd);box-shadow:0 3px 0 #88C0B8}
-.bop:active{box-shadow:0 1px 0 #88C0B8}
-.bu{background:linear-gradient(170deg,var(--ut-a),var(--ut-b));color:#fff;font-size:calc(var(--btn)*.32);box-shadow:0 3px 0 var(--ut-sh)}
-.bu:active{box-shadow:0 1px 0 var(--ut-sh)}
-.bc{background:linear-gradient(170deg,var(--cl-a),#5A38B0);color:#fff;font-size:calc(var(--btn)*.36);box-shadow:0 4px 0 var(--cl-sh)}
-.bc:active{box-shadow:0 1px 0 var(--cl-sh)}
-.beq{background:linear-gradient(170deg,var(--eq-a),#B82008);color:#fff;font-size:calc(var(--btn)*.44);box-shadow:0 4px 0 var(--eq-sh)}
-.beq:active{box-shadow:0 1px 0 var(--eq-sh)}
-.bga{background:linear-gradient(170deg,var(--ga-a),var(--ga-b));color:#fff;box-shadow:0 4px 0 var(--ga-sh);font-size:calc(var(--btn)*.5)}
-.bga:active{box-shadow:0 1px 0 var(--ga-sh)}
-.bfx{background:linear-gradient(170deg,#4CA488,#347C68);color:#fff;font-size:calc(var(--btn)*.24);box-shadow:0 3px 0 #1C5040}
-.bfx:active{box-shadow:0 1px 0 #1C5040}
+.bn{background:linear-gradient(170deg,var(--bn-a),var(--bn-b));color:#fff;font-size:calc(var(--btn)*.46);box-shadow:0 4px 0 var(--bn-sh),0 5px 12px rgba(0,30,20,.3)}.bn:active{box-shadow:0 1px 0 var(--bn-sh)}
+.bop{background:var(--op-bg);color:var(--op-tx);font-size:calc(var(--btn)*.42);border:2px solid var(--op-bd);box-shadow:0 3px 0 #88C0B8}.bop:active{box-shadow:0 1px 0 #88C0B8}
+.bu{background:linear-gradient(170deg,var(--ut-a),var(--ut-b));color:#fff;font-size:calc(var(--btn)*.32);box-shadow:0 3px 0 var(--ut-sh)}.bu:active{box-shadow:0 1px 0 var(--ut-sh)}
+.bc{background:linear-gradient(170deg,var(--cl-a),#5A38B0);color:#fff;font-size:calc(var(--btn)*.36);box-shadow:0 4px 0 var(--cl-sh)}.bc:active{box-shadow:0 1px 0 var(--cl-sh)}
+.beq{background:linear-gradient(170deg,var(--eq-a),#B82008);color:#fff;font-size:calc(var(--btn)*.44);box-shadow:0 4px 0 var(--eq-sh)}.beq:active{box-shadow:0 1px 0 var(--eq-sh)}
+.bga{background:linear-gradient(170deg,var(--ga-a),var(--ga-b));color:#fff;box-shadow:0 4px 0 var(--ga-sh);font-size:calc(var(--btn)*.5)}.bga:active{box-shadow:0 1px 0 var(--ga-sh)}
+.bfx{background:linear-gradient(170deg,#4CA488,#347C68);color:#fff;font-size:calc(var(--btn)*.24);box-shadow:0 3px 0 #1C5040}.bfx:active{box-shadow:0 1px 0 #1C5040}
 .kpad{display:grid;grid-template-columns:repeat(5,var(--btn));gap:var(--gap);justify-content:center;flex-shrink:0}
 
-/* ===== Hamburger & Side Menu ===== */
-.hamburger-btn{position:fixed;top:env(safe-area-inset-top,8px);left:8px;width:40px;height:40px;border-radius:10px;background:rgba(0,93,77,.12);border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;z-index:300}
-.hamburger-btn:active{background:rgba(0,93,77,.25)}
-.hamburger-line{width:20px;height:2.5px;background:var(--brand);border-radius:2px;transition:all .2s}
-.hamburger-btn.open .hamburger-line:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
-.hamburger-btn.open .hamburger-line:nth-child(2){opacity:0}
-.hamburger-btn.open .hamburger-line:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+/* ===== FX Converter Panel (iPhone style) ===== */
+.fx-panel{display:none;flex-direction:column;flex:1 1 0;min-height:0}
+.fx-panel.active{display:flex}
+.stage.fx-hidden{display:none}
+.fx-row{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px clamp(8px,2vw,14px);flex:1;min-height:40px}
+.fx-row.from{background:linear-gradient(135deg,var(--stage-a),var(--stage-b));border-radius:clamp(9px,2vw,16px) clamp(9px,2vw,16px) 0 0}
+.fx-row.to{background:linear-gradient(135deg,#B8E0D8,#9CD4CA);border-radius:0 0 clamp(9px,2vw,16px) clamp(9px,2vw,16px)}
+.fx-amount{font-size:clamp(1.6rem,5vw,2.2rem);font-weight:900;color:var(--td);text-align:right;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fx-amount.secondary{color:var(--brand);opacity:.85}
+.fx-cur-btn{background:rgba(0,93,77,.1);border:2px solid rgba(0,93,77,.15);border-radius:10px;padding:4px 10px;font-family:var(--font);font-size:clamp(.62rem,1.6vw,.78rem);font-weight:900;color:var(--brand);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:3px;min-width:60px;justify-content:center}
+.fx-cur-btn:active{background:rgba(0,93,77,.2)}
+.fx-cur-btn .chevron{font-size:.5rem;opacity:.5}
+.fx-divider{display:flex;align-items:center;gap:8px;padding:0 clamp(8px,2vw,14px)}
+.fx-swap-btn{width:32px;height:32px;border-radius:50%;background:var(--brand);border:none;color:#fff;font-size:.8rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s}
+.fx-swap-btn:active{transform:rotate(180deg)}
+.fx-divider-line{flex:1;height:1.5px;background:rgba(0,93,77,.15)}
+.fx-rate-label{font-size:clamp(.48rem,1.1vw,.56rem);font-weight:700;color:var(--tp);opacity:.6;flex-shrink:0}
+
+/* FX Currency picker modal */
+.fx-cur-list{max-height:50vh;overflow-y:auto}
+.fx-cur-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:none;background:transparent;width:100%;text-align:left;cursor:pointer;font-family:var(--font);border-bottom:1px solid rgba(0,93,77,.06)}
+.fx-cur-item:active{background:rgba(0,93,77,.08)}
+.fx-cur-item.selected{background:rgba(0,93,77,.06)}
+.fx-cur-item .fx-flag{font-size:1.2rem;width:28px;text-align:center}
+.fx-cur-item .fx-info{flex:1}
+.fx-cur-item .fx-code{font-size:.78rem;font-weight:900;color:var(--td);display:block}
+.fx-cur-item .fx-name{font-size:.6rem;font-weight:600;color:var(--tp);opacity:.7}
+.fx-cur-item .fx-check{color:var(--brand);font-weight:900;font-size:.9rem}
+
+/* Hamburger is now in title bar, remove fixed button styles */
 .side-menu{position:fixed;top:0;left:-290px;width:290px;height:100vh;height:100dvh;background:var(--body-bg);box-shadow:4px 0 20px rgba(0,20,16,.2);z-index:400;transition:left .3s;overflow-y:auto;display:flex;flex-direction:column}
 .side-menu.open{left:0}
 .menu-header{background:linear-gradient(135deg,var(--brand),var(--brand-mid));color:#fff;padding:calc(env(safe-area-inset-top,20px) + 4px) 20px 18px}
@@ -121,8 +123,6 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 .menu-footer-ver{font-size:.52rem;color:var(--tp);opacity:.4}
 .menu-overlay{position:fixed;inset:0;background:rgba(0,20,16,.5);opacity:0;pointer-events:none;z-index:399;transition:opacity .3s}
 .menu-overlay.show{opacity:1;pointer-events:auto}
-
-/* ===== Modals ===== */
 .modal{position:fixed;inset:0;background:rgba(0,20,16,.7);display:none;align-items:center;justify-content:center;z-index:500;padding:16px}
 .modal.show{display:flex}
 .modal-content{background:var(--body-bg);border-radius:16px;width:min(440px,100%);max-height:85vh;overflow-y:auto;padding:20px;box-shadow:0 20px 60px rgba(0,20,16,.4)}
@@ -148,8 +148,6 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 .memo-btn:active{background:rgba(0,93,77,.2)}
 .memo-btn.save{background:var(--brand);color:#fff}
 .memo-btn.save:active{background:var(--brand-mid)}
-
-/* Guide */
 .guide-section{margin-bottom:16px}
 .guide-section-title{font-size:.82rem;font-weight:900;color:var(--brand);margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .guide-section-title .gs-icon{font-size:1rem}
@@ -159,28 +157,44 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 .guide-step-text strong{color:var(--brand)}
 .guide-tip{background:rgba(0,93,77,.06);border-radius:8px;padding:10px 12px;font-size:.66rem;font-weight:600;color:var(--tm);line-height:1.6;margin-top:6px}
 .guide-tip::before{content:'💡';margin-right:4px}
-
-/* Privacy */
 .privacy-section{margin-bottom:14px}
 .privacy-h{font-size:.78rem;font-weight:900;color:var(--brand);margin-bottom:6px}
 .privacy-p{font-size:.68rem;font-weight:600;color:var(--tm);line-height:1.7;margin-bottom:6px}
-
-/* Toast */
 .toast{position:fixed;bottom:20%;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brand);color:#fff;padding:12px 24px;border-radius:12px;font-family:var(--font);font-size:.78rem;font-weight:800;box-shadow:0 8px 24px rgba(0,20,16,.35);opacity:0;pointer-events:none;z-index:600;transition:opacity .3s,transform .3s;text-align:center;max-width:90vw}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 <div class="calc">
-  <p class="app-title">GREEN GATHERING CALCULATOR<span class="mode-badge" id="modeBadge">シンプル</span></p>
+  <div class="app-title">
+    <button class="menu-toggle" id="menuToggle" onclick="M.toggle()"><span class="ml"></span><span class="ml"></span><span class="ml"></span></button>
+    <span class="title-text">GATHERING CALCULATOR</span>
+    <span class="mode-badge" id="modeBadge">シンプル</span>
+  </div>
   <div class="stage" id="stage">
     <div class="stage-hint" id="stageHint"><span class="si">🃏</span><span class="st" id="hintText">数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加</span></div>
-    <div class="card-count" id="cardCount"><span id="cardCountNum">0</span> 件</div>
+    <div class="card-count" id="cardCount"><span id="cardCountNum">0/20</span></div>
+  </div>
+  <!-- FX Panel (iPhone style, shown in travel mode) -->
+  <div class="fx-panel" id="fxPanel">
+    <div class="fx-row from">
+      <div class="fx-amount" id="fxFromAmt">0</div>
+      <button class="fx-cur-btn" id="fxFromBtn" onclick="FX.pickCur('from')"><span id="fxFromCode">JPY</span><span class="chevron">▼</span></button>
+    </div>
+    <div class="fx-divider">
+      <button class="fx-swap-btn" onclick="FX.swap()">⇅</button>
+      <div class="fx-divider-line"></div>
+      <div class="fx-rate-label" id="fxRateLabel">1 JPY = 0.0067 USD</div>
+    </div>
+    <div class="fx-row to">
+      <div class="fx-amount secondary" id="fxToAmt">0.00</div>
+      <button class="fx-cur-btn" id="fxToBtn" onclick="FX.pickCur('to')"><span id="fxToCode">USD</span><span class="chevron">▼</span></button>
+    </div>
   </div>
   <div class="ctrl">
     <button class="btn bc" onclick="C.clear()">C</button>
-    <div class="disp" id="dispBox"><span class="currency-badge">JPY</span><div class="d-expr" id="exprLine">&nbsp;</div><div class="d-num" id="numLine">0</div></div>
-    <button class="btn bga" onclick="C.gather()">Σ</button>
+    <div class="disp" id="dispBox"><span class="currency-badge" id="curBadge">JPY</span><div class="d-expr" id="exprLine">&nbsp;</div><div class="d-num" id="numLine">0</div></div>
+    <button class="btn bga" onclick="C.gather()"><svg viewBox="0 0 40 40" width="62%" height="62%" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="16" y2="16"/><line x1="16" y1="16" x2="10" y2="16"/><line x1="16" y1="16" x2="16" y2="10"/><line x1="34" y1="6" x2="24" y2="16"/><line x1="24" y1="16" x2="30" y2="16"/><line x1="24" y1="16" x2="24" y2="10"/><line x1="6" y1="34" x2="16" y2="24"/><line x1="16" y1="24" x2="10" y2="24"/><line x1="16" y1="24" x2="16" y2="30"/><line x1="34" y1="34" x2="24" y2="24"/><line x1="24" y1="24" x2="30" y2="24"/><line x1="24" y1="24" x2="24" y2="30"/><circle cx="20" cy="20" r="5" fill="#fff" stroke="none" opacity=".3"/></svg></button>
   </div>
   <div class="kpad">
     <button class="btn bn" onclick="C.inp('7')">7</button><button class="btn bn" onclick="C.inp('8')">8</button><button class="btn bn" onclick="C.inp('9')">9</button><button class="btn bop" onclick="C.op('÷')">÷</button><button class="btn bu" onclick="C.bs()">⌫</button>
@@ -190,16 +204,14 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
   </div>
 </div>
 
-<button class="hamburger-btn" id="hamburgerBtn" onclick="M.toggle()"><span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span></button>
 <div class="menu-overlay" id="menuOverlay" onclick="M.close()"></div>
-
 <nav class="side-menu" id="sideMenu">
   <div class="menu-header"><div class="menu-app-name">Gathering Calculator</div><div class="menu-app-desc">サブリー兄弟アプリ</div></div>
   <div class="menu-items">
     <div class="menu-section-label">モード</div>
     <button class="menu-item" id="m1" onclick="M.mode('simple')"><span class="menu-item-icon">🏠</span><div class="menu-item-text"><span class="menu-item-label">シンプルモード</span><span class="menu-item-desc">通常の電卓＋カード集計</span></div></button>
     <button class="menu-item" id="m2" onclick="M.mode('memo')"><span class="menu-item-icon">📝</span><div class="menu-item-text"><span class="menu-item-label">メモモード</span><span class="menu-item-desc">タップでカード裏返し・メモ付き</span></div></button>
-    <button class="menu-item" id="m3" onclick="M.mode('travel')"><span class="menu-item-icon">✈️</span><div class="menu-item-text"><span class="menu-item-label">海外旅行モード</span><span class="menu-item-desc">外貨換算</span></div></button>
+    <button class="menu-item" id="m3" onclick="M.mode('travel')"><span class="menu-item-icon">✈️</span><div class="menu-item-text"><span class="menu-item-label">海外旅行モード</span><span class="menu-item-desc">外貨換算＋カード集計</span></div></button>
     <div class="menu-divider"></div>
     <div class="menu-section-label">データ</div>
     <button class="menu-item" onclick="M.hist()"><span class="menu-item-icon">📋</span><div class="menu-item-text"><span class="menu-item-label">履歴</span><span class="menu-item-desc">過去の集計・復元</span></div></button>
@@ -214,55 +226,53 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
       <button class="menu-footer-link" onclick="M.openLink('contact')">お問合せ</button>
       <button class="menu-footer-link" onclick="M.privacy()">プライバシーポリシー</button>
     </div>
-    <div class="menu-footer-ver">Green Gathering Calculator v4.1</div>
+    <div class="menu-footer-ver">Green Gathering Calculator v5.0</div>
   </div>
 </nav>
 
 <!-- Modals -->
 <div class="modal" id="historyModal"><div class="modal-content"><div class="modal-title">履歴<button class="modal-close" onclick="M.histClose()">✕</button></div><div id="historyList"></div></div></div>
-
 <div class="modal" id="memoModal"><div class="modal-content"><div class="modal-title">メモ編集<button class="modal-close" onclick="M.memoClose()">✕</button></div><textarea class="memo-input" id="memoInput" placeholder="この金額について..." maxlength="100"></textarea><div class="memo-actions"><button class="memo-btn" onclick="M.memoClose()">キャンセル</button><button class="memo-btn save" onclick="M.memoSave()">保存</button></div></div></div>
-
 <div class="modal" id="gatherModal"><div class="modal-content"><div class="modal-title">集計タイトル<button class="modal-close" onclick="M.gatherClose()">✕</button></div><p style="font-size:.72rem;font-weight:600;color:var(--tp);margin-bottom:10px" id="gatherInfo"></p><input class="gather-input" id="gatherTitleInput" placeholder="例: 3月の食費、旅行代..." maxlength="40"><div class="memo-actions"><button class="memo-btn" onclick="M.gatherClose()">キャンセル</button><button class="memo-btn save" onclick="M.gatherConfirm()">集計する</button></div></div></div>
-
+<div class="modal" id="fxCurModal"><div class="modal-content"><div class="modal-title"><span id="fxCurModalTitle">通貨を選択</span><button class="modal-close" onclick="FX.pickClose()">✕</button></div><div class="fx-cur-list" id="fxCurList"></div></div></div>
 <div class="modal" id="guideModal"><div class="modal-content"><div class="modal-title">使い方ガイド<button class="modal-close" onclick="M.guideClose()">✕</button></div>
   <div class="guide-section"><div class="guide-section-title"><span class="gs-icon">🧮</span>基本操作</div>
-    <div class="guide-step"><span class="guide-step-num">1</span><div class="guide-step-text">キーパッドで<strong>金額を入力</strong>します。四則演算もOK。</div></div>
-    <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text">ディスプレイを<strong>上にスワイプ</strong>（PCはドラッグ）でカードをステージに追加。</div></div>
-    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text">カードが溜まったら<strong>Σボタン</strong>で合計を集計。タイトルを付けて履歴に保存できます。</div></div>
+    <div class="guide-step"><span class="guide-step-num">1</span><div class="guide-step-text">キーパッドで<strong>金額を入力</strong>。四則演算もOK。</div></div>
+    <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text">ディスプレイを<strong>ダブルタップ</strong>、または<strong>上にスワイプ</strong>でカードをステージに追加。</div></div>
+    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text">カードが溜まったら<strong>Σボタン</strong>で合計を集計。メモ・旅行モードではタイトルも付けられます。</div></div>
     <div class="guide-tip">カードはドラッグで並べ替え自由。✕ボタンで個別削除もできます。</div>
   </div>
   <div class="guide-section"><div class="guide-section-title"><span class="gs-icon">📝</span>メモモード</div>
     <div class="guide-step"><span class="guide-step-num">1</span><div class="guide-step-text">メニューから<strong>メモモード</strong>に切り替えます。</div></div>
-    <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text">カードを<strong>タップ</strong>するとメモ面にフリップ。もう一度タップで元に戻ります。</div></div>
-    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text">メモ面の<strong>「編集」ボタン</strong>でメモを書き込めます。</div></div>
+    <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text">カードを追加すると<strong>自動でメモ入力</strong>が開きます。</div></div>
+    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text">カードを<strong>タップ</strong>するとメモ面にフリップ。もう一度タップで戻ります。</div></div>
     <div class="guide-tip">「ランチ代」「タクシー」などメモしておくと何の出費か一目瞭然。</div>
   </div>
   <div class="guide-section"><div class="guide-section-title"><span class="gs-icon">✈️</span>海外旅行モード</div>
     <div class="guide-step"><span class="guide-step-num">1</span><div class="guide-step-text">メニューから<strong>海外旅行モード</strong>に切り替え。</div></div>
-    <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text"><strong>FXボタン</strong>で外貨換算が使えます。（開発中）</div></div>
-    <div class="guide-tip">複数通貨を混ぜて旅行費用を集計する際に便利です。</div>
+    <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text">iPhone電卓風の<strong>換算パネル</strong>が表示。入力すると自動でリアルタイム換算。</div></div>
+    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text"><strong>通貨ボタン</strong>で通貨を変更。<strong>⇅</strong>で入れ替え。</div></div>
+    <div class="guide-step"><span class="guide-step-num">4</span><div class="guide-step-text">換算結果をそのまま<strong>カードに追加</strong>して集計できます。</div></div>
+    <div class="guide-tip">レートはオフライン用の参考値です。正確なレートは各金融機関でご確認ください。</div>
   </div>
   <div class="guide-section"><div class="guide-section-title"><span class="gs-icon">📋</span>履歴機能</div>
     <div class="guide-step"><span class="guide-step-num">1</span><div class="guide-step-text">集計するたびに<strong>履歴に自動保存</strong>。タイトルも付けられます。</div></div>
     <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text">メニューの「履歴」から過去の集計を確認。</div></div>
-    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text"><strong>「復元する」ボタン</strong>でカードを復元して再編集できます。</div></div>
+    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text"><strong>「復元する」ボタン</strong>でカードを復元して再編集。<strong>「編集」</strong>でタイトル変更。</div></div>
     <div class="guide-tip">最大50件まで保存。個別削除も可能です。</div>
   </div>
 </div></div>
-
 <div class="modal" id="privacyModal"><div class="modal-content"><div class="modal-title">プライバシーポリシー<button class="modal-close" onclick="M.privacyClose()">✕</button></div>
-  <div class="privacy-section"><div class="privacy-h">1. はじめに</div><div class="privacy-p">Green Gathering Calculator（以下「本アプリ」）は、ユーザーのプライバシーを尊重し、個人情報の保護に努めます。本ポリシーは、本アプリにおけるデータの取り扱いについて説明します。</div></div>
-  <div class="privacy-section"><div class="privacy-h">2. 収集するデータ</div><div class="privacy-p">本アプリは、サーバーへのデータ送信を一切行いません。すべてのデータ（計算履歴、カード情報、設定）は、お使いのデバイスのローカルストレージ（localStorage）にのみ保存されます。</div></div>
-  <div class="privacy-section"><div class="privacy-h">3. データの保存場所</div><div class="privacy-p">入力された金額・メモ・集計履歴はすべてブラウザのlocalStorageに保存されます。外部サーバーやクラウドへの送信は行いません。ブラウザのデータを消去すると、保存データも削除されます。</div></div>
-  <div class="privacy-section"><div class="privacy-h">4. 第三者への提供</div><div class="privacy-p">本アプリは個人情報を第三者に提供、共有、販売することはありません。広告やアナリティクスのためのトラッキングツールも使用していません。</div></div>
-  <div class="privacy-section"><div class="privacy-h">5. 外部サービス</div><div class="privacy-p">本アプリはGoogle Fontsを使用してフォントを読み込みます。これによりGoogleのサーバーにアクセスが発生しますが、個人を特定するデータの送信は行われません。</div></div>
-  <div class="privacy-section"><div class="privacy-h">6. お子様のプライバシー</div><div class="privacy-p">本アプリは特定の年齢層を対象としていません。個人情報の収集を行わないため、お子様にも安心してご利用いただけます。</div></div>
+  <div class="privacy-section"><div class="privacy-h">1. はじめに</div><div class="privacy-p">Green Gathering Calculator（以下「本アプリ」）は、ユーザーのプライバシーを尊重し、個人情報の保護に努めます。</div></div>
+  <div class="privacy-section"><div class="privacy-h">2. 収集するデータ</div><div class="privacy-p">本アプリは、サーバーへのデータ送信を一切行いません。すべてのデータはお使いのデバイスのlocalStorageにのみ保存されます。</div></div>
+  <div class="privacy-section"><div class="privacy-h">3. データの保存場所</div><div class="privacy-p">入力された金額・メモ・集計履歴はすべてブラウザのlocalStorageに保存され、外部サーバーへの送信は行いません。</div></div>
+  <div class="privacy-section"><div class="privacy-h">4. 第三者への提供</div><div class="privacy-p">本アプリは個人情報を第三者に提供、共有、販売することはありません。トラッキングツールも使用していません。</div></div>
+  <div class="privacy-section"><div class="privacy-h">5. 外部サービス</div><div class="privacy-p">本アプリはGoogle Fontsを使用してフォントを読み込みます。個人を特定するデータの送信は行われません。</div></div>
+  <div class="privacy-section"><div class="privacy-h">6. お子様のプライバシー</div><div class="privacy-p">個人情報の収集を行わないため、お子様にも安心してご利用いただけます。</div></div>
   <div class="privacy-section"><div class="privacy-h">7. ポリシーの変更</div><div class="privacy-p">本ポリシーは予告なく変更する場合があります。最新のポリシーはアプリ内で確認できます。</div></div>
   <div class="privacy-section"><div class="privacy-h">8. お問い合わせ</div><div class="privacy-p">プライバシーに関するご質問は、メニューの「お問合せ」よりご連絡ください。</div></div>
   <div class="privacy-p" style="opacity:.5;margin-top:12px;font-size:.6rem">最終更新日: 2026年3月12日</div>
 </div></div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -271,18 +281,95 @@ const NL=$('numLine'),EL=$('exprLine'),DB=$('dispBox'),ST=$('stage');
 const SH=$('stageHint'),CCB=$('cardCount'),CCN=$('cardCountNum');
 const MB=$('modeBadge'),HT=$('hintText'),FB=$('fxBtn');
 
-const S={cur:'0',prev:'',op:null,rst:false,cards:[],id:0,mode:'simple',editId:null,hist:[],
-  links:{request:'',contact:''}};
+const S={cur:'0',prev:'',op:null,rst:false,cards:[],id:0,mode:'simple',editId:null,hist:[],links:{request:'',contact:''}};
 
 const MODES={
-  simple:{n:'シンプル',h:'数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加',f:'FX'},
-  memo:{n:'メモ',h:'カードを<strong>タップ</strong>でメモ面に裏返し<br><small style="opacity:.6">メモ面の「編集」でメモ入力</small>',f:'FX'},
-  travel:{n:'旅行',h:'外貨換算モード<br>複数通貨で計算できます',f:'＄€'}
+  simple:{n:'シンプル',h:'数字を入力して<br>ディスプレイを<strong>ダブルタップ</strong>か<strong>上スワイプ</strong>でカード追加',f:'FX'},
+  memo:{n:'メモ',h:'ディスプレイ<strong>ダブルタップ</strong>でカード追加<br><small style="opacity:.6">カードをタップでメモ面に裏返し</small>',f:'FX'},
+  travel:{n:'旅行',h:'金額を入力すると自動換算<br><strong>ダブルタップ</strong>か<strong>スワイプ</strong>でカード追加',f:'＄€'}
+};
+
+/* ===== Currency Data (rates to JPY, offline reference) ===== */
+const CURRENCIES=[
+  {code:'JPY',name:'日本円',flag:'🇯🇵',rate:1},
+  {code:'USD',name:'米ドル',flag:'🇺🇸',rate:149.5},
+  {code:'EUR',name:'ユーロ',flag:'🇪🇺',rate:162.3},
+  {code:'GBP',name:'英ポンド',flag:'🇬🇧',rate:189.8},
+  {code:'CNY',name:'中国人民元',flag:'🇨🇳',rate:20.6},
+  {code:'KRW',name:'韓国ウォン',flag:'🇰🇷',rate:0.109},
+  {code:'TWD',name:'新台湾ドル',flag:'🇹🇼',rate:4.62},
+  {code:'HKD',name:'香港ドル',flag:'🇭🇰',rate:19.2},
+  {code:'THB',name:'タイバーツ',flag:'🇹🇭',rate:4.28},
+  {code:'SGD',name:'シンガポールドル',flag:'🇸🇬',rate:112.1},
+  {code:'AUD',name:'豪ドル',flag:'🇦🇺',rate:96.8},
+  {code:'CAD',name:'カナダドル',flag:'🇨🇦',rate:108.2},
+  {code:'CHF',name:'スイスフラン',flag:'🇨🇭',rate:168.5},
+  {code:'NZD',name:'NZドル',flag:'🇳🇿',rate:87.4},
+  {code:'PHP',name:'フィリピンペソ',flag:'🇵🇭',rate:2.62},
+  {code:'VND',name:'ベトナムドン',flag:'🇻🇳',rate:0.00596},
+  {code:'INR',name:'インドルピー',flag:'🇮🇳',rate:1.78},
+  {code:'MYR',name:'マレーシアリンギット',flag:'🇲🇾',rate:33.8},
+  {code:'IDR',name:'インドネシアルピア',flag:'🇮🇩',rate:0.00935},
+  {code:'ZAR',name:'南アフリカランド',flag:'🇿🇦',rate:8.15},
+];
+
+/* ===== FX Converter State ===== */
+const FX={
+  from:'JPY',to:'USD',picking:null,
+  getRate(from,to){
+    const f=CURRENCIES.find(c=>c.code===from);
+    const t=CURRENCIES.find(c=>c.code===to);
+    if(!f||!t)return 1;
+    return f.rate/t.rate; // from→JPY→to
+  },
+  convert(amount,from,to){
+    return amount*FX.getRate(from,to);
+  },
+  updateDisplay(){
+    if(S.mode!=='travel')return;
+    const v=parseFloat(S.cur)||0;
+    const converted=FX.convert(v,FX.from,FX.to);
+    $('fxFromAmt').textContent=v===0?'0':v.toLocaleString('ja-JP',{maximumFractionDigits:2});
+    const dp=FX.to==='JPY'||FX.to==='KRW'||FX.to==='VND'||FX.to==='IDR'?0:2;
+    $('fxToAmt').textContent=converted===0?'0.00':converted.toLocaleString('ja-JP',{minimumFractionDigits:dp,maximumFractionDigits:dp});
+    $('fxFromCode').textContent=FX.from;
+    $('fxToCode').textContent=FX.to;
+    // Rate label
+    const r=FX.getRate(FX.from,FX.to);
+    const rDp=r<0.01?6:r<1?4:2;
+    $('fxRateLabel').textContent='1 '+FX.from+' = '+r.toFixed(rDp)+' '+FX.to;
+    $('curBadge').textContent=FX.from;
+  },
+  swap(){
+    const tmp=FX.from;FX.from=FX.to;FX.to=tmp;
+    localStorage.setItem('gc_fx',JSON.stringify({from:FX.from,to:FX.to}));
+    FX.updateDisplay();
+  },
+  pickCur(which){
+    FX.picking=which;
+    $('fxCurModalTitle').textContent=which==='from'?'変換元の通貨':'変換先の通貨';
+    const sel=which==='from'?FX.from:FX.to;
+    $('fxCurList').innerHTML=CURRENCIES.map(c=>`<button class="fx-cur-item${c.code===sel?' selected':''}" onclick="FX.selectCur('${c.code}')"><span class="fx-flag">${c.flag}</span><div class="fx-info"><span class="fx-code">${c.code}</span><span class="fx-name">${c.name}</span></div>${c.code===sel?'<span class="fx-check">✓</span>':''}</button>`).join('');
+    $('fxCurModal').classList.add('show');
+  },
+  pickClose(){$('fxCurModal').classList.remove('show');FX.picking=null},
+  selectCur(code){
+    if(FX.picking==='from'){
+      FX.from=code;
+      if(FX.from===FX.to)FX.to=FX.from==='JPY'?'USD':'JPY';
+    }else{
+      FX.to=code;
+      if(FX.to===FX.from)FX.from=FX.to==='JPY'?'USD':'JPY';
+    }
+    localStorage.setItem('gc_fx',JSON.stringify({from:FX.from,to:FX.to}));
+    FX.pickClose();
+    FX.updateDisplay();
+  }
 };
 
 const fmt=v=>{if(Number.isInteger(v))return'¥'+v.toLocaleString('ja-JP');return'¥'+parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:2})};
-const upd=v=>{const s=String(v);NL.textContent=s;NL.className='d-num';const l=s.replace(/[^0-9.]/g,'').length;if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm')};
-const updS=()=>{SH.style.opacity=S.cards.length?'0':'1';CCB.style.display=S.cards.length?'block':'none';if(S.cards.length)CCN.textContent=S.cards.length};
+const upd=v=>{const s=String(v);NL.textContent=s;NL.className='d-num';const l=s.replace(/[^0-9.]/g,'').length;if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm');FX.updateDisplay()};
+const updS=()=>{SH.style.opacity=S.cards.length?'0':'1';CCB.style.display=S.cards.length?'block':'none';if(S.cards.length)CCN.textContent=S.cards.length+'/20'};
 const toast=(msg,dur=1800)=>{const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),dur)};
 
 const C={
@@ -295,16 +382,18 @@ const C={
   pct(){const n=parseFloat(S.cur);if(!isNaN(n)){S.cur=String(n/100);upd(S.cur)}},
 
   add(v,m=''){
-    S.id++;const id=S.id,sw=ST.offsetWidth,cw=Math.max(60,fmt(v).length*12+44);
+    if(S.cards.length>=20){toast('カードは最大20件までです');return}
+    S.id++;const id=S.id,sw=ST.offsetWidth,cw=Math.max(90,fmt(v).length*14+52);
     let x,y;
-    if(!S.cards.length){x=Math.min(7+Math.random()*22,sw-cw-7);y=7}
-    else{const last=S.cards[S.cards.length-1];x=last.x+8+Math.random()*15-7;y=last.y+42+Math.random()*5-2;x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,ST.clientHeight-40-5))}
+    if(!S.cards.length){x=Math.min(6+Math.random()*15,sw-cw-6);y=6}
+    else{const last=S.cards[S.cards.length-1];x=last.x+10+Math.random()*12-6;y=last.y+46+Math.random()*5-2;x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,ST.clientHeight-46-5))}
     const el=document.createElement('div');el.className='ncard';el.dataset.cardId=id;
     const isMemo=S.mode==='memo';
     el.innerHTML=`<div class="ncard-inner"><div class="ncard-front"><span class="clbl">#${id}</span><span class="cval">${fmt(v)}</span><button class="cdel" data-del="${id}">✕</button>${isMemo?'<span class="flip-hint">↻</span>':''}</div><div class="ncard-back"><span class="memo-label">MEMO</span><div class="memo-text">${m||'（メモなし）'}</div><button class="memo-edit-btn" data-memo="${id}">編集</button></div></div>`;
     el.style.left=x+'px';el.style.top=y+'px';ST.appendChild(el);
     const card={id,v,x,y,m,el,flipped:false};S.cards.push(card);C._bindCard(card);
-    el.classList.add('enter');el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});updS()
+    el.classList.add('enter');el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});updS();
+    if(S.mode==='memo'){setTimeout(()=>{S.editId=card.id;$('memoInput').value='';$('memoModal').classList.add('show');setTimeout(()=>$('memoInput').focus(),100)},350)}
   },
 
   _bindCard(card){
@@ -313,8 +402,7 @@ const C={
     const onM=(cx,cy,e)=>{if(!ds)return;e.preventDefault();const dx=cx-ds.sx,dy=cy-ds.sy;if(!ds.moved&&Math.abs(dx)<5&&Math.abs(dy)<5)return;ds.moved=true;let nx=ds.startX+dx,ny=ds.startY+dy;nx=Math.max(4,Math.min(nx,ST.clientWidth-el.offsetWidth-4));ny=Math.max(4,Math.min(ny,ST.clientHeight-el.offsetHeight-4));card.x=nx;card.y=ny;el.style.left=nx+'px';el.style.top=ny+'px'};
     const onE=()=>{if(!ds)return;const wasDrag=ds.moved;ds=null;el.classList.remove('dragging');if(!wasDrag&&S.mode==='memo'){card.flipped=!card.flipped;el.classList.toggle('flipped',card.flipped)}};
     el.addEventListener('touchstart',e=>{const t=e.touches[0];onS(t.clientX,t.clientY,e)},{passive:true});
-    const tmH=e=>{if(!ds)return;const t=e.touches[0];onM(t.clientX,t.clientY,e)};
-    const teH=()=>onE();
+    const tmH=e=>{if(!ds)return;const t=e.touches[0];onM(t.clientX,t.clientY,e)};const teH=()=>onE();
     document.addEventListener('touchmove',tmH,{passive:false});document.addEventListener('touchend',teH);
     el.addEventListener('mousedown',e=>{if(e.button!==0)return;e.preventDefault();onS(e.clientX,e.clientY,e);const mm=ev=>onM(ev.clientX,ev.clientY,ev);const mu=()=>{onE();document.removeEventListener('mousemove',mm);document.removeEventListener('mouseup',mu)};document.addEventListener('mousemove',mm);document.addEventListener('mouseup',mu)});
     card._cleanup=()=>{document.removeEventListener('touchmove',tmH);document.removeEventListener('touchend',teH)};
@@ -326,29 +414,49 @@ const C={
   gather(){
     if(!S.cards.length){toast('カードがありません');return}
     const n=S.cards.length,s=S.cards.reduce((a,c)=>a+c.v,0),t=parseFloat(s.toPrecision(12));
+    S._gatherTemp={n,t,cards:S.cards.map(c=>({id:c.id,v:c.v,m:c.m}))};
+    if(S.mode==='simple'){M._doGather('');return}
     $('gatherInfo').textContent=n+'件 合計: '+fmt(t);$('gatherTitleInput').value='';
-    $('gatherModal').classList.add('show');setTimeout(()=>$('gatherTitleInput').focus(),100);
-    S._gatherTemp={n,t,cards:S.cards.map(c=>({id:c.id,v:c.v,m:c.m}))}
+    $('gatherModal').classList.add('show');setTimeout(()=>$('gatherTitleInput').focus(),100)
   }
 };
 
 const M={
-  toggle(){const m=$('sideMenu'),o=$('menuOverlay'),b=$('hamburgerBtn');if(m.classList.contains('open'))M.close();else{m.classList.add('open');o.classList.add('show');b.classList.add('open')}},
-  close(){$('sideMenu').classList.remove('open');$('menuOverlay').classList.remove('show');$('hamburgerBtn').classList.remove('open')},
-  mode(m){S.mode=m;const md=MODES[m];MB.textContent=md.n;HT.innerHTML=md.h;FB.textContent=md.f;document.querySelectorAll('.menu-item').forEach(i=>i.classList.remove('active'));$('m'+(m==='simple'?1:m==='memo'?2:3)).classList.add('active');localStorage.setItem('gc_m',m);S.cards.forEach(c=>{c.flipped=false;c.el.classList.remove('flipped');const h=c.el.querySelector('.flip-hint');if(m==='memo'&&!h){const s=document.createElement('span');s.className='flip-hint';s.textContent='↻';c.el.querySelector('.ncard-front').appendChild(s)}else if(m!=='memo'&&h){h.remove()}});M.close()},
-  fx(){toast(S.mode==='travel'?'外貨換算機能（開発中）':'外貨換算は「海外旅行モード」で使用できます')},
+  toggle(){const m=$('sideMenu'),o=$('menuOverlay'),b=$('menuToggle');if(m.classList.contains('open'))M.close();else{m.classList.add('open');o.classList.add('show');b.classList.add('open')}},
+  close(){$('sideMenu').classList.remove('open');$('menuOverlay').classList.remove('show');$('menuToggle').classList.remove('open')},
+  mode(m){
+    S.mode=m;const md=MODES[m];MB.textContent=md.n;HT.innerHTML=md.h;FB.textContent=md.f;
+    document.querySelectorAll('.menu-item').forEach(i=>i.classList.remove('active'));
+    $('m'+(m==='simple'?1:m==='memo'?2:3)).classList.add('active');
+    localStorage.setItem('gc_m',m);
+    // Toggle FX panel vs stage
+    const isTr=m==='travel';
+    $('fxPanel').classList.toggle('active',isTr);
+    ST.classList.toggle('fx-hidden',isTr);
+    $('curBadge').textContent=isTr?FX.from:'JPY';
+    if(isTr)FX.updateDisplay();
+    // Card flip hints
+    S.cards.forEach(c=>{c.flipped=false;c.el.classList.remove('flipped');const h=c.el.querySelector('.flip-hint');if(m==='memo'&&!h){const s=document.createElement('span');s.className='flip-hint';s.textContent='↻';c.el.querySelector('.ncard-front').appendChild(s)}else if(m!=='memo'&&h){h.remove()}});
+    M.close();
+  },
+  fx(){
+    if(S.mode!=='travel'){M.mode('travel');toast('海外旅行モードに切り替えました')}
+    else{FX.pickCur('from')}
+  },
 
-  hist(){M.close();const l=$('historyList');if(!S.hist.length){l.innerHTML='<div class="hist-empty">まだ履歴がありません</div>'}else{l.innerHTML=S.hist.map((h,idx)=>{const d=new Date(h.d),ds=d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');const title=h.title||'無題の集計',hasCards=h.cards&&h.cards.length;return`<div class="history-item"><div class="hist-date">${ds}</div><div class="hist-title"><span class="hist-title-icon">📌</span>${title}</div><div class="hist-formula">${h.n}件を集計</div><div class="hist-total">${fmt(h.t)}</div><div class="hist-actions">${hasCards?`<button class="hist-btn restore" onclick="M.histRestore(${idx})">復元する</button>`:''}<button class="hist-btn" onclick="M.histDel(${idx})">削除</button></div></div>`}).join('')}$('historyModal').classList.add('show')},
+  hist(){M.close();const l=$('historyList');if(!S.hist.length){l.innerHTML='<div class="hist-empty">まだ履歴がありません</div>'}else{l.innerHTML=S.hist.map((h,idx)=>{const d=new Date(h.d),ds=d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');const title=h.title||'無題の集計',hasCards=h.cards&&h.cards.length;return`<div class="history-item"><div class="hist-date">${ds}</div><div class="hist-title"><span class="hist-title-icon">📌</span>${title}</div><div class="hist-formula">${h.n}件を集計</div><div class="hist-total">${fmt(h.t)}</div><div class="hist-actions">${hasCards?`<button class="hist-btn restore" onclick="M.histRestore(${idx})">復元する</button>`:''}<button class="hist-btn" onclick="M.histEdit(${idx})">編集</button><button class="hist-btn" onclick="M.histDel(${idx})">削除</button></div></div>`}).join('')}$('historyModal').classList.add('show')},
   histClose(){$('historyModal').classList.remove('show')},
   histRestore(idx){const h=S.hist[idx];if(!h||!h.cards||!h.cards.length){toast('復元データがありません');return}if(S.cards.length&&!confirm('現在のカードを置き換えますか？'))return;S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];S.id=0;h.cards.forEach(c=>C.add(c.v,c.m||''));M.histClose();toast('「'+(h.title||'無題')+'」を復元しました')},
   histDel(idx){S.hist.splice(idx,1);localStorage.setItem('gc_h',JSON.stringify(S.hist));M.hist();toast('履歴を削除しました')},
+  histEdit(idx){const h=S.hist[idx];if(!h)return;const nw=prompt('タイトルを編集',h.title||'');if(nw===null)return;h.title=nw.trim();localStorage.setItem('gc_h',JSON.stringify(S.hist));M.hist();toast('タイトルを更新しました')},
 
   memoEdit(id){if(S.mode!=='memo'){toast('メモ機能は「メモモード」で使えます');return}const c=S.cards.find(c=>c.id===id);if(!c)return;S.editId=id;$('memoInput').value=c.m||'';$('memoModal').classList.add('show');setTimeout(()=>$('memoInput').focus(),100)},
   memoClose(){$('memoModal').classList.remove('show');S.editId=null},
   memoSave(){if(S.editId===null)return;const c=S.cards.find(c=>c.id===S.editId);if(!c)return;c.m=$('memoInput').value.trim();const mt=c.el.querySelector('.memo-text');if(mt)mt.textContent=c.m||'（メモなし）';M.memoClose();toast('メモを保存しました')},
 
   gatherClose(){$('gatherModal').classList.remove('show');S._gatherTemp=null},
-  gatherConfirm(){const gt=S._gatherTemp;if(!gt)return;const title=$('gatherTitleInput').value.trim()||'';S.hist.unshift({d:new Date().toISOString(),n:gt.n,t:gt.t,title,cards:gt.cards});if(S.hist.length>50)S.hist=S.hist.slice(0,50);localStorage.setItem('gc_h',JSON.stringify(S.hist));S.cards.forEach(c=>c.el.classList.add('leaving'));setTimeout(()=>{S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];updS()},210);S.cur=String(gt.t);S.rst=true;S.op=null;upd(fmt(gt.t));EL.textContent=gt.n+'件 合計 ＝';$('gatherModal').classList.remove('show');S._gatherTemp=null;toast('合計: '+fmt(gt.t)+'（'+gt.n+'件）')},
+  gatherConfirm(){const title=$('gatherTitleInput').value.trim()||'';$('gatherModal').classList.remove('show');M._doGather(title)},
+  _doGather(title){const gt=S._gatherTemp;if(!gt)return;S.hist.unshift({d:new Date().toISOString(),n:gt.n,t:gt.t,title,cards:gt.cards});if(S.hist.length>50)S.hist=S.hist.slice(0,50);localStorage.setItem('gc_h',JSON.stringify(S.hist));S.cards.forEach(c=>c.el.classList.add('leaving'));setTimeout(()=>{S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];updS()},210);S.cur=String(gt.t);S.rst=true;S.op=null;upd(fmt(gt.t));EL.textContent=gt.n+'件 合計 ＝';S._gatherTemp=null;toast('合計: '+fmt(gt.t)+'（'+gt.n+'件）')},
 
   guide(){M.close();$('guideModal').classList.add('show')},
   guideClose(){$('guideModal').classList.remove('show')},
@@ -358,28 +466,39 @@ const M={
   del(){if(!confirm('全てのカードと履歴を削除しますか？'))return;S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];S.id=0;S.hist=[];localStorage.removeItem('gc_h');updS();C.clear();M.close();toast('全てリセットしました')}
 };
 
-/* Display drag → add card */
+/* Display drag → add card + tap to add */
 (()=>{
   let dr=false,gh=null,sy=0;const TH=50;
   const gV=()=>{if(S.op&&!S.rst){const r=C.eq(false);return r===false?null:r}const n=parseFloat(S.cur);return isNaN(n)?null:n};
   const mG=v=>{const e=document.createElement('div');e.className='ghost-card';e.textContent=fmt(v);document.body.appendChild(e);return e};
   const mvG=(x,y)=>{if(!gh)return;gh.style.left=(x-gh.offsetWidth/2)+'px';gh.style.top=(y-gh.offsetHeight/2)+'px'};
   const inS=(x,y)=>{const r=ST.getBoundingClientRect();return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom};
-  const fin=(cx,cy)=>{dr=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(gh){gh.remove();gh=null}if(inS(cx,cy)||cy<sy-TH){const v=gV();if(v!==null){C.add(v);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash')}}};
+  const doAdd=()=>{const v=gV();if(v!==null&&v!==0){C.add(v);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash')}};
+  const fin=(cx,cy)=>{dr=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(gh){gh.remove();gh=null}
+    const dropOk=S.mode==='travel'?(cy<sy-TH):(inS(cx,cy)||cy<sy-TH);
+    if(dropOk){doAdd()}};
+
+  // Double-tap on display to add card (no swipe needed)
+  let lastTap=0;
+  DB.addEventListener('click',e=>{
+    const now=Date.now();
+    if(now-lastTap<350){doAdd();lastTap=0}
+    else{lastTap=now}
+  });
 
   DB.addEventListener('touchstart',e=>{e.preventDefault();const v=gV();if(v===null)return;const t=e.touches[0];dr=true;sy=t.clientY;DB.classList.add('lift');gh=mG(v);mvG(t.clientX,t.clientY)},{passive:false});
-  document.addEventListener('touchmove',e=>{if(!dr)return;e.preventDefault();const t=e.touches[0];mvG(t.clientX,t.clientY);ST.classList.toggle('drop-ready',inS(t.clientX,t.clientY)||t.clientY<sy-TH)},{passive:false});
+  document.addEventListener('touchmove',e=>{if(!dr)return;e.preventDefault();const t=e.touches[0];mvG(t.clientX,t.clientY);const ok=S.mode==='travel'?(t.clientY<sy-TH):(inS(t.clientX,t.clientY)||t.clientY<sy-TH);ST.classList.toggle('drop-ready',ok)},{passive:false});
   document.addEventListener('touchend',e=>{if(!dr)return;fin(e.changedTouches[0].clientX,e.changedTouches[0].clientY)});
-
   DB.addEventListener('mousedown',e=>{if(e.button!==0)return;e.preventDefault();const v=gV();if(v===null)return;dr=true;sy=e.clientY;DB.classList.add('lift');gh=mG(v);mvG(e.clientX,e.clientY);
-    const mm=ev=>{if(!dr)return;ev.preventDefault();mvG(ev.clientX,ev.clientY);ST.classList.toggle('drop-ready',inS(ev.clientX,ev.clientY)||ev.clientY<sy-TH)};
+    const mm=ev=>{if(!dr)return;ev.preventDefault();mvG(ev.clientX,ev.clientY);const ok=S.mode==='travel'?(ev.clientY<sy-TH):(inS(ev.clientX,ev.clientY)||ev.clientY<sy-TH);ST.classList.toggle('drop-ready',ok)};
     const mu=ev=>{if(!dr)return;fin(ev.clientX,ev.clientY);document.removeEventListener('mousemove',mm);document.removeEventListener('mouseup',mu)};
     document.addEventListener('mousemove',mm);document.addEventListener('mouseup',mu)});
 })();
 
 /* Init */
-const sm=localStorage.getItem('gc_m'),sh=localStorage.getItem('gc_h');
+const sm=localStorage.getItem('gc_m'),sh=localStorage.getItem('gc_h'),sf=localStorage.getItem('gc_fx');
 if(sh){try{S.hist=JSON.parse(sh)}catch(e){S.hist=[]}}
+if(sf){try{const p=JSON.parse(sf);if(p.from)FX.from=p.from;if(p.to)FX.to=p.to}catch(e){}}
 if(sm&&MODES[sm])M.mode(sm);else{S.mode='simple';$('m1').classList.add('active')}
 upd('0');
 </script>
