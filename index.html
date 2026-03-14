@@ -10,34 +10,34 @@
 <meta name="theme-color" id="metaTheme" content="#5C8E84">
 <!-- PWA Manifest (inline) -->
 <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiR2F0aGVyaW5nIENhbGN1bGF0b3IiLCJzaG9ydF9uYW1lIjoiR2F0aGVyaW5nIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJzdGFydF91cmwiOiIuIiwiYmFja2dyb3VuZF9jb2xvciI6IiNGNkY3RjUiLCJ0aGVtZV9jb2xvciI6IiM1QzhFODQiLCJpY29ucyI6W119">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
-:root{--font:'Nunito','Noto Sans JP',sans-serif;--brand:#5C8E84;--brand-mid:#4E8B82;--bg-s:#D6E4E0;--bg-e:#B8CEC8;--body-bg:#F6F7F5;--stage-a:#EDF4F2;--stage-b:#DDE9E5;--disp-bg:#E8F0ED;--disp-bd:#A8BEB8;--card-a:#5C8E84;--card-b:#4A7A70;--card-sh:#3E6B62;--bn-a:#5C8E84;--bn-b:#4A7A70;--bn-sh:#3E6B62;--op-bg:#FFF;--op-bd:#B8CEC8;--op-tx:#3E6B62;--ut-a:#8A9E96;--ut-b:#728880;--ut-sh:#5A706A;--eq-a:#D4923A;--eq-sh:#8A6030;--cl-a:#7E928C;--cl-sh:#5A706A;--ga-a:#4E8B82;--ga-b:#3D8C7A;--ga-sh:#2E6B5A;--td:#2B3830;--tm:#4A5E56;--tp:#7E928C}
+:root{--font:'DM Sans','Noto Sans JP',sans-serif;--brand:#5C8E84;--brand-mid:#3E6B62;--bg-s:#EDF4F2;--bg-e:#DDE9E5;--body-bg:#F6F7F5;--stage-a:#EDF4F2;--stage-b:#E5EBE8;--disp-bg:#EDF4F2;--disp-bd:#E5EBE8;--card-a:#5C8E84;--card-b:#4A7A70;--card-sh:#3E6B62;--bn-a:#5C8E84;--bn-b:#4A7A70;--bn-sh:#3E6B62;--op-bg:#FFF;--op-bd:#E5EBE8;--op-tx:#3E6B62;--ut-a:#8A9E96;--ut-b:#728880;--ut-sh:#5A706A;--eq-a:#D4923A;--eq-sh:#8A6030;--cl-a:#7E928C;--cl-sh:#5A706A;--ga-a:#5C8E84;--ga-b:#3E6B62;--ga-sh:#2E5A4A;--td:#2B3830;--tm:#4A5E56;--tp:#7E928C;--dn:#B36060}
 /* ダークモード */
-html.dark{--brand:#7AADA2;--brand-mid:#8ABEB4;--bg-s:#0A0A0A;--bg-e:#000;--body-bg:#141414;--stage-a:#1E1E1E;--stage-b:#242424;--disp-bg:#1A1A1A;--disp-bd:#333;--card-a:#5C8E84;--card-b:#4A7A70;--card-sh:#2E5A52;--bn-a:#5C8E84;--bn-b:#4A7A70;--bn-sh:#2E5A52;--op-bg:#1E1E1E;--op-bd:#3A3A3A;--op-tx:#8ABEB4;--ut-a:#4A4A4A;--ut-b:#3A3A3A;--ut-sh:#2A2A2A;--eq-a:#D4923A;--eq-sh:#7A5020;--cl-a:#4A4A4A;--cl-sh:#2A2A2A;--ga-a:#5C8E84;--ga-b:#4A7A70;--ga-sh:#2E5A52;--td:#E8E8E8;--tm:#A0A0A0;--tp:#707070}
-html.dark body{background:#000}
-html.dark .calc{box-shadow:none}
-html.dark .modal-content{background:#1A1A1A}
-html.dark .memo-input,html.dark .gather-input{background:#222;border-color:#3A3A3A;color:var(--td)}
-html.dark .menu-header{background:linear-gradient(135deg,#1A1A1A,#222)}
-html.dark .side-menu{background:#141414}
-html.dark .history-item{background:rgba(255,255,255,.04)}
-html.dark .guide-tip{background:rgba(255,255,255,.05)}
-html.dark .ncard{box-shadow:0 3px 0 var(--card-sh),0 4px 12px rgba(0,0,0,.6)}
+html.dark{--brand:#6BA99F;--brand-mid:#8EC8BE;--bg-s:#162220;--bg-e:#121816;--body-bg:#121816;--stage-a:#1E2622;--stage-b:#242E2A;--disp-bg:#1E2622;--disp-bd:#2E3E3A;--card-a:#5C8E84;--card-b:#4A7A70;--card-sh:#2E5A52;--bn-a:#5C8E84;--bn-b:#4A7A70;--bn-sh:#2E5A52;--op-bg:#1E2622;--op-bd:#2E3E3A;--op-tx:#8EC8BE;--ut-a:#3A4E48;--ut-b:#2E3E3A;--ut-sh:#1E2E2A;--eq-a:#D4923A;--eq-sh:#7A5020;--cl-a:#3A4E48;--cl-sh:#2E3E3A;--ga-a:#5C8E84;--ga-b:#4A7A70;--ga-sh:#2E5A52;--td:#C8D8D2;--tm:#7A9A91;--tp:#5A7A72;--dn:#D08080}
+html.dark body{background:#121816}
+html.dark .calc{box-shadow:0 0 0 1px rgba(255,255,255,.04) inset}
+html.dark .modal-content{background:#1E2622}
+html.dark .memo-input,html.dark .gather-input{background:#242E2A;border-color:#2E3E3A;color:var(--td)}
+html.dark .menu-header{background:linear-gradient(135deg,#1E2622,#242E2A)}
+html.dark .side-menu{background:#121816}
+html.dark .history-item{background:rgba(92,142,132,.06)}
+html.dark .guide-tip{background:rgba(92,142,132,.08)}
+html.dark .ncard{box-shadow:0 3px 0 var(--card-sh),0 4px 12px rgba(0,0,0,.4)}
 html.dark .ncard-back{background:linear-gradient(145deg,#4A7A70,#3E6B62)}
-html.dark .fx-row.from{background:#1E1E1E;border-radius:clamp(9px,2vw,16px) clamp(9px,2vw,16px) 0 0}
-html.dark .fx-row.to{background:#242424}
-html.dark .stage.drop-ready{border-color:rgba(122,173,162,.5);background:#1A2A26}
-html.dark .bop{box-shadow:0 3px 0 #222;border-color:#3A3A3A}
-html.dark .bop:active{box-shadow:0 1px 0 #222}
-html.dark .fx-cur-btn{background:rgba(122,173,162,.12);border-color:rgba(122,173,162,.2);color:var(--brand)}
+html.dark .fx-row.from{background:#1E2622;border-radius:clamp(9px,2vw,16px) clamp(9px,2vw,16px) 0 0}
+html.dark .fx-row.to{background:#242E2A}
+html.dark .stage.drop-ready{border-color:rgba(107,169,159,.4);background:#1E3230}
+html.dark .bop{box-shadow:0 3px 0 #1E2E2A;border-color:#2E3E3A}
+html.dark .bop:active{box-shadow:0 1px 0 #1E2E2A}
+html.dark .fx-cur-btn{background:rgba(107,169,159,.12);border-color:rgba(107,169,159,.2);color:var(--brand)}
 html.dark .fx-swap-btn{background:var(--brand)}
-html.dark .fx-divider-line{background:rgba(255,255,255,.08)}
-html.dark .menu-toggle{background:rgba(255,255,255,.08);box-shadow:none}
-html.dark .menu-toggle:active{background:rgba(255,255,255,.14)}
-html.dark .menu-toggle .ml{background:rgba(255,255,255,.8)}
-html.dark .fx-tab{background:rgba(255,255,255,.06);color:var(--tp)}
+html.dark .fx-divider-line{background:rgba(107,169,159,.15)}
+html.dark .menu-toggle{background:rgba(107,169,159,.12);box-shadow:2px 2px 6px rgba(0,0,0,.25),-2px -2px 5px rgba(255,255,255,.03)}
+html.dark .menu-toggle:active{background:rgba(107,169,159,.2)}
+html.dark .menu-toggle .ml{background:rgba(200,216,210,.8)}
+html.dark .fx-tab{background:rgba(107,169,159,.08);color:var(--tp)}
 html.dark .fx-tab.on{background:var(--brand);color:#fff}
 html{height:100%;overflow:hidden}
 body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradient(150deg,var(--bg-s),var(--bg-e));background-attachment:fixed;display:flex;justify-content:center;align-items:center;padding:0;overflow:hidden;overscroll-behavior:none;position:fixed;width:100%}
@@ -53,14 +53,14 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 .mode-sw-btn{border:none;background:transparent;font-family:var(--font);font-size:clamp(.52rem,1.3vw,.62rem);font-weight:800;color:var(--tp);padding:5px 11px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.02em;position:relative}
 .mode-sw-btn:active{transform:scale(.95)}
 .mode-sw-btn.on{background:var(--brand);color:#fff;box-shadow:0 1px 6px rgba(92,142,132,.25)}
-html.dark .mode-switch{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.08)}
-html.dark .mode-sw-btn.on{box-shadow:0 1px 6px rgba(0,0,0,.4)}
+html.dark .mode-switch{background:rgba(107,169,159,.08);border-color:rgba(107,169,159,.12)}
+html.dark .mode-sw-btn.on{box-shadow:0 1px 6px rgba(0,0,0,.3)}
 .stage{position:relative;width:100%;flex:1 1 0;min-height:80px;background:linear-gradient(138deg,var(--stage-a),var(--stage-b));border-radius:clamp(9px,2vw,16px);border:2px dashed rgba(92,142,132,.2);overflow:hidden;transition:background .2s,border-color .2s}
 .stage.drop-ready{border-color:rgba(92,142,132,.45);background:linear-gradient(138deg,#D8E8E4,#C4DAD4)}
 .stage-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;pointer-events:none;transition:opacity .28s}
 .stage-hint .si{font-size:clamp(1.05rem,4.4vw,1.65rem);opacity:.2}
 .stage-hint .st{font-size:clamp(.57rem,1.55vw,.7rem);font-weight:700;color:var(--tp);line-height:1.75;text-align:center}
-.card-count{position:absolute;top:7px;right:9px;display:none;background:rgba(92,142,132,.13);border-radius:20px;padding:2px 9px;font-size:clamp(.51rem,1.25vw,.62rem);font-weight:900;color:var(--tm);pointer-events:none;z-index:5}
+.card-count{position:absolute;top:7px;right:9px;display:none;background:var(--brand);color:#fff;border-radius:20px;padding:3px 10px;font-size:clamp(.52rem,1.3vw,.64rem);font-weight:800;pointer-events:none;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.15)}
 .ncard{position:absolute;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(12px,2.5vw,16px);min-width:clamp(110px,28vw,170px);box-shadow:0 3px 0 var(--card-sh),0 4px 10px rgba(0,30,20,.26);cursor:grab;z-index:10;perspective:600px;-webkit-tap-highlight-color:transparent}
 .ncard.dragging{cursor:grabbing;z-index:80}
 .ncard.enter{animation:cIn .3s cubic-bezier(.34,1.56,.64,1)}
@@ -98,7 +98,7 @@ html.dark .mode-sw-btn.on{box-shadow:0 1px 6px rgba(0,0,0,.4)}
 .d-num.xs{font-size:clamp(1rem,2.9vw,1.3rem)}
 @keyframes dfl{0%,100%{background:var(--disp-bg)}40%{background:#A8CEC4}}
 html.dark .disp.flash{animation:dflD .36s ease}
-@keyframes dflD{0%,100%{background:var(--disp-bg)}40%{background:#2A3A36}}
+@keyframes dflD{0%,100%{background:var(--disp-bg)}40%{background:#2A3E38}}
 .disp.flash{animation:dfl .36s ease}
 .ghost-card{position:fixed;pointer-events:none;z-index:9999;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(8px,1.9vw,13px);padding:clamp(5px,1.3vw,8px) clamp(9px,2.3vw,13px);font-family:var(--font);font-size:clamp(.98rem,2.5vw,1.26rem);font-weight:900;color:#fff;box-shadow:0 7px 18px rgba(0,30,20,.4);transform:scale(1.06) rotate(-2deg);opacity:.87;white-space:nowrap}
 .btn{border:none;border-radius:50%;width:var(--btn);height:var(--btn);font-family:var(--font);font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;flex-shrink:0;transition:transform .08s}
@@ -107,8 +107,10 @@ html.dark .disp.flash{animation:dflD .36s ease}
 .bop{background:var(--op-bg);color:var(--op-tx);font-size:calc(var(--btn)*.42);border:2px solid var(--op-bd);box-shadow:0 3px 0 #A8BEB8}.bop:active{box-shadow:0 1px 0 #A8BEB8}
 .bu{background:linear-gradient(170deg,var(--ut-a),var(--ut-b));color:#fff;font-size:calc(var(--btn)*.32);box-shadow:0 3px 0 var(--ut-sh)}.bu:active{box-shadow:0 1px 0 var(--ut-sh)}
 .bc{background:linear-gradient(170deg,var(--cl-a),#7E928C);color:#fff;font-size:calc(var(--btn)*.36);box-shadow:0 4px 0 var(--cl-sh)}.bc:active{box-shadow:0 1px 0 var(--cl-sh)}
-.beq{background:linear-gradient(170deg,var(--eq-a),#B07828);color:#fff;font-size:calc(var(--btn)*.44);box-shadow:0 4px 0 var(--eq-sh)}.beq:active{box-shadow:0 1px 0 var(--eq-sh)}
-.bga{background:linear-gradient(170deg,var(--ga-a),var(--ga-b));color:#fff;box-shadow:0 4px 0 var(--ga-sh);font-size:calc(var(--btn)*.5)}.bga:active{box-shadow:0 1px 0 var(--ga-sh)}
+.beq{background:linear-gradient(170deg,var(--eq-a),#B07828);color:#fff;font-size:calc(var(--btn)*.44);box-shadow:0 4px 0 var(--eq-sh),0 4px 12px rgba(212,146,58,.25)}.beq:active{box-shadow:0 1px 0 var(--eq-sh)}
+.bga{background:linear-gradient(170deg,var(--ga-a),var(--ga-b));color:#fff;box-shadow:0 4px 0 var(--ga-sh),0 4px 14px rgba(92,142,132,.3);font-size:calc(var(--btn)*.5)}.bga:active{box-shadow:0 1px 0 var(--ga-sh)}
+.bga.has-cards{animation:gaPulse 2s ease-in-out infinite}
+@keyframes gaPulse{0%,100%{box-shadow:0 4px 0 var(--ga-sh),0 4px 14px rgba(92,142,132,.3)}50%{box-shadow:0 4px 0 var(--ga-sh),0 4px 20px rgba(92,142,132,.5)}}
 .bfx{background:linear-gradient(170deg,#6A9E94,#4E8078);color:#fff;font-size:calc(var(--btn)*.24);box-shadow:0 3px 0 #3E6B62}.bfx:active{box-shadow:0 1px 0 #3E6B62}
 .kpad{display:grid;grid-template-columns:repeat(5,var(--btn));gap:var(--gap);justify-content:center;flex-shrink:0}
 
@@ -189,8 +191,8 @@ html.dark .disp.flash{animation:dflD .36s ease}
 .hist-btn.restore{background:var(--brand);color:#fff}
 .hist-btn.restore:active{background:var(--brand-mid)}
 .hist-empty{text-align:center;padding:30px;color:var(--tp);opacity:.5;font-size:.7rem}
-.hist-del-all{display:block;width:100%;margin-top:16px;padding:12px;background:none;border:1.5px solid rgba(200,80,60,.25);border-radius:10px;font-family:var(--font);font-size:.68rem;font-weight:700;color:rgba(200,80,60,.7);cursor:pointer;transition:all .15s}
-.hist-del-all:active{background:rgba(200,80,60,.08)}
+.hist-del-all{display:block;width:100%;margin-top:16px;padding:12px;background:none;border:1.5px solid rgba(179,96,96,.25);border-radius:10px;font-family:var(--font);font-size:.68rem;font-weight:700;color:var(--dn);cursor:pointer;transition:all .15s}
+.hist-del-all:active{background:rgba(179,96,96,.08)}
 .memo-input,.gather-input{width:100%;background:#fff;border:2px solid var(--op-bd);border-radius:8px;padding:12px;font-size:.82rem;font-weight:600;color:var(--td);font-family:var(--font);-webkit-user-select:text;user-select:text}
 .memo-input{resize:vertical;min-height:80px}
 .memo-actions{display:flex;gap:8px;margin-top:12px}
@@ -224,8 +226,29 @@ html.dark .disp.flash{animation:dflD .36s ease}
 .tut-wrap{flex:1;overflow:hidden}
 .tut-track{display:flex;height:100%;transition:transform .4s cubic-bezier(.4,0,.2,1);width:300%}
 .tut-p{width:calc(100%/3);flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 clamp(30px,8vw,48px)}
-.tut-icon{width:clamp(140px,40vw,200px);height:clamp(140px,40vw,200px);border-radius:clamp(30px,8vw,44px);background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin-bottom:clamp(28px,6vh,44px)}
-.tut-icon svg{width:48%;height:48%}
+.tut-icon{width:clamp(160px,44vw,210px);height:clamp(140px,38vw,180px);border-radius:clamp(20px,5vw,28px);background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin-bottom:clamp(24px,5vh,36px);padding:16px}
+/* Demo illustrations (text-based, clear) */
+.tut-demo{width:100%;display:flex;flex-direction:column;align-items:center;gap:6px}
+.td-row{display:flex;align-items:center;gap:6px}
+.td-label{font-size:clamp(.5rem,1.2vw,.6rem);color:rgba(255,255,255,.4);font-weight:700}
+.td-val{font-size:clamp(1.1rem,3.5vw,1.4rem);font-weight:900;color:#fff}
+.td-arrow{font-size:clamp(.6rem,1.5vw,.72rem);font-weight:800;color:rgba(255,255,255,.5);animation:tdBounce 1.5s ease-in-out infinite}
+@keyframes tdBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.td-cards{display:flex;flex-direction:column;gap:4px;width:100%}
+.td-card{background:rgba(255,255,255,.18);border-radius:8px;padding:5px 12px;font-size:clamp(.7rem,1.8vw,.82rem);font-weight:800;color:#fff;width:fit-content}
+/* Flip demo */
+.td-flip{display:flex;align-items:center;gap:8px;width:100%}
+.td-card-lg{background:rgba(255,255,255,.18);border-radius:8px;padding:8px 12px;font-size:clamp(.82rem,2.2vw,.96rem);font-weight:900;color:#fff;flex:1;text-align:center}
+.td-arrow-sm{font-size:clamp(.5rem,1.2vw,.58rem);font-weight:700;color:rgba(255,255,255,.35);white-space:nowrap}
+.td-card-back{background:rgba(255,255,255,.12);border-radius:8px;padding:8px 10px;flex:1;text-align:center}
+.td-memo-label{display:block;font-size:clamp(.4rem,.9vw,.48rem);font-weight:800;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:2px}
+.td-memo-val{font-size:clamp(.62rem,1.5vw,.72rem);font-weight:700;color:#fff;line-height:1.4}
+/* FX demo */
+.td-fx-row{display:flex;align-items:center;justify-content:space-between;width:100%;background:rgba(255,255,255,.12);border-radius:8px;padding:8px 12px}
+.td-fx-amt{font-size:clamp(.92rem,2.5vw,1.1rem);font-weight:900;color:#fff}
+.td-fx-result{color:rgba(255,255,255,.65)}
+.td-fx-cur{font-size:clamp(.5rem,1.2vw,.6rem);font-weight:800;color:rgba(255,255,255,.5);background:rgba(255,255,255,.1);padding:2px 8px;border-radius:6px}
+.td-fx-mid{font-size:clamp(.7rem,1.8vw,.82rem);font-weight:900;color:rgba(255,255,255,.35);text-align:center;padding:2px 0}
 .tut-sub{font-size:clamp(.54rem,1.3vw,.64rem);font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px;width:100%}
 .tut-h{font-size:clamp(1.4rem,6vw,1.9rem);font-weight:900;color:#fff;line-height:1.3;width:100%;margin-bottom:clamp(14px,3vh,22px)}
 .tut-h span{color:rgba(255,255,255,.55)}
@@ -238,12 +261,12 @@ html.dark .disp.flash{animation:dflD .36s ease}
 .tut-b:active{transform:scale(.97)}
 .tut-sk{background:rgba(0,0,0,.08);color:rgba(255,255,255,.55);flex:0 0 26%}
 .tut-nx{background:#fff;color:#3E6B62;flex:1;box-shadow:0 4px 16px rgba(0,0,0,.08)}
-html.dark .tut{background:#111}
-html.dark .tut-icon{background:rgba(255,255,255,.04)}
-html.dark .tut-x{background:rgba(255,255,255,.06)}
-html.dark .tut-sk{background:rgba(255,255,255,.05)}
-html.dark .tut-nx{color:#111}
-.toast{position:fixed;bottom:20%;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brand);color:#fff;padding:12px 24px;border-radius:12px;font-family:var(--font);font-size:.78rem;font-weight:800;box-shadow:0 8px 24px rgba(0,20,16,.35);opacity:0;pointer-events:none;z-index:600;transition:opacity .3s,transform .3s;text-align:center;max-width:90vw}
+html.dark .tut{background:#1E2622}
+html.dark .tut-icon{background:rgba(255,255,255,.05)}
+html.dark .tut-x{background:rgba(107,169,159,.1)}
+html.dark .tut-sk{background:rgba(107,169,159,.08)}
+html.dark .tut-nx{color:#1E2622}
+.toast{position:fixed;bottom:18%;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brand);color:#fff;padding:14px 28px;border-radius:14px;font-family:var(--font);font-size:.82rem;font-weight:700;box-shadow:0 8px 28px rgba(0,20,16,.25);opacity:0;pointer-events:none;z-index:600;transition:opacity .3s,transform .3s;text-align:center;max-width:90vw}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
@@ -302,7 +325,7 @@ html.dark .tut-nx{color:#111}
 
 <div class="menu-overlay" id="menuOverlay" onclick="M.close()"></div>
 <nav class="side-menu" id="sideMenu">
-  <div class="menu-header"><div class="menu-app-name">Gathering Calculator</div><div class="menu-app-desc">サブリー兄弟アプリ</div></div>
+  <div class="menu-header"><div class="menu-app-name">Gathering Calculator</div><div class="menu-app-desc">金額を集めて、まとめて計算</div></div>
   <div class="menu-items">
     <div class="menu-section-label">モード</div>
     <button class="menu-item" id="m1" onclick="M.mode('simple')"><span class="menu-item-icon">🏠</span><div class="menu-item-text"><span class="menu-item-label">シンプルモード</span><span class="menu-item-desc">通常の電卓＋カード集計</span></div></button>
@@ -398,19 +421,33 @@ html.dark .tut-nx{color:#111}
   <div class="tut-head"><button class="tut-x" onclick="M.welcomeClose()">✕</button></div>
   <div class="tut-wrap"><div class="tut-track" id="tutSlider">
     <div class="tut-p">
-      <div class="tut-icon"><svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="28" width="32" height="12" rx="4"/><text x="32" y="37" font-size="8" font-weight="900" fill="#fff" stroke="none" text-anchor="end">1,280</text><rect x="14" y="6" width="20" height="10" rx="4" fill="rgba(255,255,255,.2)"/><text x="24" y="13.5" font-size="6" font-weight="800" fill="#fff" stroke="none" text-anchor="middle">¥1,280</text><path d="M24 18v6" stroke-dasharray="2 2" opacity=".6"/><path d="M21 22l3-3 3 3" opacity=".8"/></svg></div>
+      <div class="tut-icon"><div class="tut-demo">
+        <div class="td-row"><span class="td-label">入力</span><span class="td-val">1,280</span></div>
+        <div class="td-arrow">↑ スワイプ</div>
+        <div class="td-cards"><span class="td-card">¥1,280</span><span class="td-card">¥850</span><span class="td-card">¥2,400</span></div>
+      </div></div>
       <div class="tut-sub">Step 1</div>
       <div class="tut-h">金額を集めて<br><span>まとめて計算。</span></div>
-      <div class="tut-txt">金額を入力してディスプレイを上にスワイプ。カードが溜まったらワンタップで合計。割り勘・買い物・経費精算に。</div>
+      <div class="tut-txt">金額を入力 → ディスプレイを上にスワイプ → カードが溜まる → ワンタップで合計。割り勘・買い物・経費精算に。</div>
     </div>
     <div class="tut-p">
-      <div class="tut-icon"><svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="24" height="12" rx="4" fill="rgba(255,255,255,.2)"/><text x="8" y="16" font-size="5" fill="rgba(255,255,255,.5)" stroke="none">#1</text><text x="24" y="17" font-size="7" font-weight="900" fill="#fff" stroke="none" text-anchor="end">¥14,000</text><rect x="20" y="26" width="24" height="16" rx="4"/><text x="24" y="33" font-size="4.5" font-weight="800" fill="rgba(255,255,255,.5)" stroke="none">MEMO</text><text x="24" y="39" font-size="5.5" font-weight="700" fill="#fff" stroke="none">新幹線</text><path d="M16 20l4 4" stroke-dasharray="2 2" opacity=".5"/></svg></div>
+      <div class="tut-icon"><div class="tut-demo">
+        <div class="td-flip">
+          <div class="td-card-lg">¥14,000</div>
+          <div class="td-arrow-sm">← タップ →</div>
+          <div class="td-card-back"><span class="td-memo-label">MEMO</span><span class="td-memo-val">新幹線<br>東京→大阪</span></div>
+        </div>
+      </div></div>
       <div class="tut-sub">Step 2</div>
       <div class="tut-h">メモを残して<br><span>あとで見返す。</span></div>
-      <div class="tut-txt">メモモードなら、カードに「新幹線」「ホテル」と内訳メモ。タップで裏返して確認。出張精算やイベント費目管理に。</div>
+      <div class="tut-txt">メモモードに切替 → カードをタップで裏返し → メモを入力。「新幹線」「ホテル」と何の出費か残せます。</div>
     </div>
     <div class="tut-p">
-      <div class="tut-icon"><svg viewBox="0 0 48 48" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="40" height="12" rx="4"/><text x="30" y="17" font-size="8" font-weight="900" fill="#fff" stroke="none" text-anchor="end">5,000</text><rect x="32" y="11" width="9" height="6" rx="2" fill="rgba(255,255,255,.15)" stroke="none"/><text x="36.5" y="16" font-size="4" font-weight="900" fill="#fff" stroke="none" text-anchor="middle">JPY</text><circle cx="8" cy="24" r="4" fill="rgba(255,255,255,.2)"/><text x="8" y="26" font-size="5" font-weight="900" fill="#fff" stroke="none" text-anchor="middle">⇅</text><line x1="14" y1="24" x2="44" y2="24" opacity=".2"/><rect x="4" y="28" width="40" height="12" rx="4" opacity=".6"/><text x="30" y="37" font-size="8" font-weight="900" fill="#fff" stroke="none" text-anchor="end" opacity=".8">33.47</text><rect x="32" y="31" width="9" height="6" rx="2" fill="rgba(255,255,255,.15)" stroke="none"/><text x="36.5" y="36" font-size="4" font-weight="900" fill="#fff" stroke="none" text-anchor="middle">USD</text></svg></div>
+      <div class="tut-icon"><div class="tut-demo">
+        <div class="td-fx-row"><span class="td-fx-amt">¥5,000</span><span class="td-fx-cur">JPY</span></div>
+        <div class="td-fx-mid">⇅</div>
+        <div class="td-fx-row"><span class="td-fx-amt td-fx-result">$33.47</span><span class="td-fx-cur">USD</span></div>
+      </div></div>
       <div class="tut-sub">Step 3</div>
       <div class="tut-h">海外旅行の出費を<br><span>まとめて管理。</span></div>
       <div class="tut-txt">換算モードで現地通貨をリアルタイム変換。カードに集めて、日本円でいくら使ったか一目でわかります。</div>
@@ -568,6 +605,8 @@ const upd=v=>{const s=String(v);NL.textContent=s;NL.className='d-num';const l=s.
 const updS=()=>{SH.style.opacity=S.cards.length?'0':'1';CCB.style.display=S.cards.length?'block':'none';if(S.cards.length)CCN.textContent=S.cards.length+'/20';
   const tc=$('fxTabCount');if(tc)tc.textContent=S.cards.length?'('+S.cards.length+')':'';
   const sg=$('swipeGuide');if(sg)sg.classList.toggle('hidden',S.cards.length>0);
+  // 集計ボタンのパルス（カードがある時だけ）
+  const ga=document.querySelector('.bga');if(ga)ga.classList.toggle('has-cards',S.cards.length>0);
 };
 const toast=(msg,dur=1800)=>{const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),dur)};
 
@@ -702,7 +741,7 @@ const M={
     // 旅行モードでは入力通貨の記号を使う
     const sym=S.mode==='travel'&&FX.from!=='JPY'?FX.from+' ':'¥';
     const fmtResult=Number.isInteger(gt.t)?sym+gt.t.toLocaleString('ja-JP'):sym+parseFloat(gt.t.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:2});
-    upd(fmtResult);EL.textContent=gt.n+'件 合計 ＝';S._gatherTemp=null;toast('合計: '+fmtResult+'（'+gt.n+'件）')},
+    upd(fmtResult);EL.textContent=gt.n+'件 合計 ＝';S._gatherTemp=null;toast('✓ 集計完了 '+fmtResult+'（'+gt.n+'件）',2500)},
 
   guide(){M.close();$('guideModal').classList.add('show')},
   guideClose(){$('guideModal').classList.remove('show')},
@@ -719,7 +758,7 @@ const M={
     const isDark=document.documentElement.classList.toggle('dark');
     localStorage.setItem('gc_dark',isDark?'1':'0');
     M._updDarkUI(isDark);
-    $('metaTheme').content=isDark?'#000':'#5C8E84';
+    $('metaTheme').content=isDark?'#121816':'#5C8E84';
     M.close();
     toast(isDark?'ダークモードON':'ライトモードON');
   },
@@ -745,6 +784,8 @@ const M={
     // 旅行モード：まずカードタブに切替（ステージ表示が必要）
     if(S.mode==='travel'){clearTimeout(fxTabTimer);M.fxTab('cards')}
     C.add(v);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');
+    // 登録フィードバック
+    if(S.mode!=='memo')toast('✓ '+fmt(v)+' を追加しました',1200);
     // 旅行モード：一定時間後に換算タブに戻る
     if(S.mode==='travel'){fxTabTimer=setTimeout(()=>{if(S.mode==='travel')M.fxTab('convert')},1500)}
   }};
@@ -781,7 +822,7 @@ if(sf){try{const p=JSON.parse(sf);if(p.from)FX.from=p.from;if(p.to)FX.to=p.to}ca
 if(sm&&MODES[sm])M.mode(sm);else{S.mode='simple';$('m1').classList.add('active')}
 upd('0');
 // ダークモード復元
-if(localStorage.getItem('gc_dark')==='1'){document.documentElement.classList.add('dark');M._updDarkUI(true);$('metaTheme').content='#000'}
+if(localStorage.getItem('gc_dark')==='1'){document.documentElement.classList.add('dark');M._updDarkUI(true);$('metaTheme').content='#121816'}
 // 為替レート取得（非同期・バックグラウンド）
 FX.fetchRates();
 // 初回のみウェルカムガイド表示
