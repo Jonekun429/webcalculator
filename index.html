@@ -24,12 +24,30 @@ html.t-purple{--brand:#A78BFA;--brand-mid:#C4B5FD;--bg-s:#1A1428;--bg-e:#120E1E;
 /* Dark themes shared overrides */
 html.t-dark body,html.t-night body,html.t-purple body{background:var(--body-bg)}
 html.t-dark .calc,html.t-night .calc,html.t-purple .calc{box-shadow:0 0 0 1px rgba(255,255,255,.04) inset}
+@media (min-width:481px){
+  html.t-dark .calc,html.t-night .calc,html.t-purple .calc{box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.06) inset}
+}
+@media (min-width:769px){
+  html.t-dark .calc,html.t-night .calc,html.t-purple .calc{box-shadow:0 12px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06) inset}
+}
 html.t-dark .modal-content,html.t-night .modal-content,html.t-purple .modal-content{background:var(--stage-a)}
 html.t-dark .memo-input,html.t-dark .gather-input,html.t-night .memo-input,html.t-night .gather-input,html.t-purple .memo-input,html.t-purple .gather-input{background:var(--stage-b);border-color:var(--disp-bd);color:var(--td)}
 html.t-dark .side-menu,html.t-night .side-menu,html.t-purple .side-menu{background:var(--body-bg)}
 html.t-dark .menu-header,html.t-night .menu-header,html.t-purple .menu-header{background:linear-gradient(135deg,var(--stage-a),var(--stage-b))}
 html{height:100%;overflow:hidden}
 body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradient(150deg,var(--bg-s),var(--bg-e));background-attachment:fixed;display:flex;justify-content:center;align-items:center;padding:0;overflow:hidden;overscroll-behavior:none;position:fixed;width:100%}
+/* タブレット (481px〜768px) */
+@media (min-width:481px){
+  body{padding:16px}
+  .calc{border-radius:24px;box-shadow:0 8px 40px rgba(0,0,0,.12),0 0 0 1px rgba(255,255,255,.5) inset;height:auto;max-height:calc(100vh - 32px)}
+  .modal-content{max-height:80vh}
+}
+/* PC (769px以上) */
+@media (min-width:769px){
+  body{padding:24px}
+  .calc{border-radius:28px;max-width:420px;box-shadow:0 12px 60px rgba(0,0,0,.15),0 0 0 1px rgba(255,255,255,.5) inset}
+  .modal-content{max-width:440px;margin:auto}
+}
 .calc{--gap:clamp(4px,1vw,7px);--inner-w:min(100vw,480px);--pad:clamp(10px,2.5vw,16px);--btn:calc((var(--inner-w) - var(--pad)*2 - var(--gap)*4)/5);width:100%;height:100%;max-width:480px;background:var(--body-bg);padding:env(safe-area-inset-top,6px) var(--pad) env(safe-area-inset-bottom,6px);display:flex;flex-direction:column;gap:clamp(3px,.6vh,6px);box-shadow:0 0 0 1.5px rgba(255,255,255,.88) inset;overflow:hidden;transform:translateZ(0)}
 .app-title{font-size:clamp(.56rem,1.5vw,.72rem);font-weight:900;color:var(--tp);flex-shrink:0;display:flex;align-items:center;gap:6px;padding-top:2px}
 .menu-toggle{width:36px;height:36px;border-radius:11px;background:var(--stage-b);border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4.5px;cursor:pointer;flex-shrink:0;box-shadow:3px 3px 7px var(--shc),-2px -2px 5px rgba(255,255,255,.45);transition:box-shadow .15s}
@@ -107,26 +125,22 @@ html.t-dark .disp.flash,html.t-night .disp.flash,html.t-purple .disp.flash{anima
 .fx-panel{display:none;flex-direction:column;flex:1 1 0;min-height:0}
 .fx-panel.active{display:flex}
 .stage.fx-hidden{display:none}
-/* 旅行モードでカードがある時のタブ切替 */
-.fx-tab-bar{display:none;flex-shrink:0}
-.fx-tab-bar.active{display:flex;gap:0}
-.fx-tab{flex:1;padding:6px 0;border:none;background:var(--shc);font-family:var(--font);font-size:clamp(.56rem,1.4vw,.68rem);font-weight:800;color:var(--tp);cursor:pointer;text-align:center;transition:all .15s}
-.fx-tab:first-child{border-radius:8px 0 0 8px}
-.fx-tab:last-child{border-radius:0 8px 8px 0}
-.fx-tab.on{background:var(--brand);color:#fff}
-.fx-row{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px clamp(8px,2vw,14px);flex:1;min-height:40px}
-.fx-row.from{background:linear-gradient(135deg,var(--stage-a),var(--stage-b));border-radius:clamp(9px,2vw,16px) clamp(9px,2vw,16px) 0 0}
+.fx-label{font-size:clamp(.44rem,1vw,.52rem);font-weight:700;color:var(--tp);letter-spacing:.1em;text-transform:uppercase;position:absolute;top:6px;left:clamp(10px,2.5vw,16px)}
+.fx-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:clamp(20px,4.5vw,26px) clamp(10px,2.5vw,16px) clamp(10px,2.5vw,14px);flex:1;min-height:48px;position:relative}
+.fx-row.from{background:var(--stage-a);border-radius:clamp(9px,2vw,16px) clamp(9px,2vw,16px) 0 0}
 .fx-row.to{background:linear-gradient(135deg,var(--stage-b),var(--disp-bd));border-radius:0 0 clamp(9px,2vw,16px) clamp(9px,2vw,16px)}
-.fx-amount{font-size:clamp(1.6rem,5vw,2.2rem);font-weight:900;color:var(--td);text-align:right;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fx-amount{font-family:var(--font);font-size:clamp(1.5rem,4.8vw,2.1rem);font-weight:900;color:var(--td);flex:1;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fx-amount.secondary{color:var(--brand);opacity:.85}
-.fx-cur-btn{background:var(--shc);border:2px solid var(--shc);border-radius:10px;padding:4px 10px;font-family:var(--font);font-size:clamp(.62rem,1.6vw,.78rem);font-weight:900;color:var(--brand);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:3px;min-width:60px;justify-content:center}
-.fx-cur-btn:active{background:var(--shc)}
-.fx-cur-btn .chevron{font-size:.5rem;opacity:.5}
-.fx-divider{display:flex;align-items:center;gap:8px;padding:0 clamp(8px,2vw,14px)}
-.fx-swap-btn{width:32px;height:32px;border-radius:50%;background:var(--brand);border:none;color:#fff;font-size:.8rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s}
-.fx-swap-btn:active{transform:rotate(180deg)}
-.fx-divider-line{flex:1;height:1.5px;background:var(--shc)}
-.fx-rate-label{font-size:clamp(.42rem,1vw,.52rem);font-weight:700;color:var(--tp);opacity:.6;flex-shrink:1;text-align:right;min-width:0}
+.fx-cur-btn{background:var(--shc);border:2px solid var(--disp-bd);border-radius:12px;padding:7px 12px;font-family:var(--font);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;min-width:82px;justify-content:center}
+.fx-cur-btn:active{background:var(--stage-b)}
+.fx-cur-code{font-size:clamp(.82rem,2.2vw,1rem);font-weight:800;color:var(--td)}
+.fx-cur-name{font-size:clamp(.44rem,1vw,.52rem);font-weight:600;color:var(--tp)}
+.chevron{font-size:.5em;opacity:.4;margin-left:2px;color:var(--tp)}
+.fx-divider{display:flex;align-items:center;gap:0;margin:-6px 0;z-index:2;position:relative;padding:0 clamp(10px,2.5vw,16px)}
+.fx-divider-line{flex:1;height:1.5px;background:var(--disp-bd)}
+.fx-swap-btn{width:34px;height:34px;border-radius:50%;background:var(--brand);border:3px solid var(--body-bg);color:#fff;font-size:.9rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:3;transition:transform .15s}
+.fx-swap-btn:active{transform:rotate(180deg) scale(.9)}
+.fx-rate-bar{text-align:center;font-size:clamp(.48rem,1.15vw,.58rem);font-weight:600;color:var(--tp);padding:5px 0 2px;opacity:.7}
 
 /* FX Currency picker modal */
 .fx-cur-list{max-height:50vh;overflow-y:auto}
@@ -255,6 +269,8 @@ html.t-dark .tut-icon,html.t-night .tut-icon,html.t-purple .tut-icon{background:
 html.t-dark .tut-x,html.t-night .tut-x,html.t-purple .tut-x{background:rgba(255,255,255,.08)}
 html.t-dark .tut-sk,html.t-night .tut-sk,html.t-purple .tut-sk{background:rgba(255,255,255,.06)}
 html.t-dark .tut-nx,html.t-night .tut-nx,html.t-purple .tut-nx{color:var(--body-bg)}
+@media (min-width:481px){.tut{border-radius:24px;inset:16px;position:fixed}.tut-p{max-width:400px;margin:0 auto}}
+@media (min-width:769px){.tut{border-radius:28px;inset:24px;max-width:500px;margin:auto}}
 /* Calendar */
 .cal-content{padding:16px}
 .cal-view-sw{display:flex;background:var(--stage-a);border-radius:8px;padding:2px;gap:1px}
@@ -321,26 +337,24 @@ html.t-dark .tut-nx,html.t-night .tut-nx,html.t-purple .tut-nx{color:var(--body-
     <div class="stage-hint" id="stageHint"><span class="si">🃏</span><span class="st" id="hintText">数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加</span></div>
     <div class="card-count" id="cardCount"><span id="cardCountNum">0/20</span></div>
   </div>
-  <!-- Travel mode tab bar -->
-  <div class="fx-tab-bar" id="fxTabBar">
-    <button class="fx-tab on" id="fxTabConvert" onclick="M.fxTab('convert')">💱 換算</button>
-    <button class="fx-tab" id="fxTabCards" onclick="M.fxTab('cards')">🃏 カード <span id="fxTabCount"></span></button>
-  </div>
-  <!-- FX Panel (iPhone style, shown in travel mode) -->
+  <!-- FX Panel (shown in travel mode, replaces stage) -->
   <div class="fx-panel" id="fxPanel">
     <div class="fx-row from">
+      <div class="fx-label">FROM</div>
       <div class="fx-amount" id="fxFromAmt">0</div>
-      <button class="fx-cur-btn" id="fxFromBtn" onclick="FX.pickCur('from')"><span id="fxFromCode">JPY</span><span class="chevron">▼</span></button>
+      <button class="fx-cur-btn" id="fxFromBtn" onclick="FX.pickCur('from')"><span class="fx-cur-code" id="fxFromCode">USD</span><span class="fx-cur-name" id="fxFromName">米ドル</span><span class="chevron">▼</span></button>
     </div>
     <div class="fx-divider">
+      <div class="fx-divider-line"></div>
       <button class="fx-swap-btn" onclick="FX.swap()">⇅</button>
       <div class="fx-divider-line"></div>
-      <div class="fx-rate-label" id="fxRateLabel">1 JPY = 0.0067 USD</div>
     </div>
     <div class="fx-row to">
+      <div class="fx-label">TO</div>
       <div class="fx-amount secondary" id="fxToAmt">0.00</div>
-      <button class="fx-cur-btn" id="fxToBtn" onclick="FX.pickCur('to')"><span id="fxToCode">USD</span><span class="chevron">▼</span></button>
+      <button class="fx-cur-btn" id="fxToBtn" onclick="FX.pickCur('to')"><span class="fx-cur-code" id="fxToCode">JPY</span><span class="fx-cur-name" id="fxToName">日本円</span><span class="chevron">▼</span></button>
     </div>
+    <div class="fx-rate-bar" id="fxRateLabel">1 USD = ¥149.38</div>
   </div>
   <!-- スワイプガイド（カードがない時に表示） -->
   <div class="swipe-guide" id="swipeGuide">
@@ -540,30 +554,30 @@ const MODES={
 /* ===== Currency Data (rates to JPY, offline reference) ===== */
 const CURRENCIES=[
   {code:'JPY',name:'日本円',flag:'🇯🇵',rate:1},
-  {code:'USD',name:'米ドル',flag:'🇺🇸',rate:149.5},
-  {code:'EUR',name:'ユーロ',flag:'🇪🇺',rate:162.3},
-  {code:'GBP',name:'英ポンド',flag:'🇬🇧',rate:189.8},
-  {code:'CNY',name:'中国人民元',flag:'🇨🇳',rate:20.6},
-  {code:'KRW',name:'韓国ウォン',flag:'🇰🇷',rate:0.109},
-  {code:'TWD',name:'新台湾ドル',flag:'🇹🇼',rate:4.62},
-  {code:'HKD',name:'香港ドル',flag:'🇭🇰',rate:19.2},
-  {code:'THB',name:'タイバーツ',flag:'🇹🇭',rate:4.28},
-  {code:'SGD',name:'シンガポールドル',flag:'🇸🇬',rate:112.1},
-  {code:'AUD',name:'豪ドル',flag:'🇦🇺',rate:96.8},
-  {code:'CAD',name:'カナダドル',flag:'🇨🇦',rate:108.2},
-  {code:'CHF',name:'スイスフラン',flag:'🇨🇭',rate:168.5},
-  {code:'NZD',name:'NZドル',flag:'🇳🇿',rate:87.4},
-  {code:'PHP',name:'フィリピンペソ',flag:'🇵🇭',rate:2.62},
-  {code:'VND',name:'ベトナムドン',flag:'🇻🇳',rate:0.00596},
-  {code:'INR',name:'インドルピー',flag:'🇮🇳',rate:1.78},
-  {code:'MYR',name:'マレーシアリンギット',flag:'🇲🇾',rate:33.8},
-  {code:'IDR',name:'インドネシアルピア',flag:'🇮🇩',rate:0.00935},
-  {code:'ZAR',name:'南アフリカランド',flag:'🇿🇦',rate:8.15},
+  {code:'USD',name:'米ドル',flag:'🇺🇸',rate:156.9},
+  {code:'EUR',name:'ユーロ',flag:'🇪🇺',rate:176.5},
+  {code:'GBP',name:'英ポンド',flag:'🇬🇧',rate:209.8},
+  {code:'CNY',name:'中国人民元',flag:'🇨🇳',rate:22.7},
+  {code:'KRW',name:'韓国ウォン',flag:'🇰🇷',rate:0.114},
+  {code:'TWD',name:'新台湾ドル',flag:'🇹🇼',rate:5.08},
+  {code:'HKD',name:'香港ドル',flag:'🇭🇰',rate:20.2},
+  {code:'THB',name:'タイバーツ',flag:'🇹🇭',rate:4.68},
+  {code:'SGD',name:'シンガポールドル',flag:'🇸🇬',rate:121.5},
+  {code:'AUD',name:'豪ドル',flag:'🇦🇺',rate:103.2},
+  {code:'CAD',name:'カナダドル',flag:'🇨🇦',rate:114.8},
+  {code:'CHF',name:'スイスフラン',flag:'🇨🇭',rate:188.5},
+  {code:'NZD',name:'NZドル',flag:'🇳🇿',rate:94.2},
+  {code:'PHP',name:'フィリピンペソ',flag:'🇵🇭',rate:2.78},
+  {code:'VND',name:'ベトナムドン',flag:'🇻🇳',rate:0.00618},
+  {code:'INR',name:'インドルピー',flag:'🇮🇳',rate:1.85},
+  {code:'MYR',name:'マレーシアリンギット',flag:'🇲🇾',rate:36.8},
+  {code:'IDR',name:'インドネシアルピア',flag:'🇮🇩',rate:0.00962},
+  {code:'ZAR',name:'南アフリカランド',flag:'🇿🇦',rate:8.72},
 ];
 
 /* ===== FX Converter State ===== */
 const FX={
-  from:'JPY',to:'USD',picking:null,
+  from:'USD',to:'JPY',picking:null,
   rateDate:'内蔵レート', // 表示用の日付
   getRate(from,to){
     const f=CURRENCIES.find(c=>c.code===from);
@@ -581,6 +595,12 @@ const FX={
     $('fxToAmt').textContent=converted===0?'0.00':converted.toLocaleString('ja-JP',{minimumFractionDigits:dp,maximumFractionDigits:dp});
     $('fxFromCode').textContent=FX.from;
     $('fxToCode').textContent=FX.to;
+    // 通貨名を表示
+    const fromC=CURRENCIES.find(c=>c.code===FX.from);
+    const toC=CURRENCIES.find(c=>c.code===FX.to);
+    $('fxFromName').textContent=fromC?fromC.name:FX.from;
+    $('fxToName').textContent=toC?toC.name:FX.to;
+    // レート表示
     const r=FX.getRate(FX.from,FX.to);
     const rDp=r<0.01?6:r<1?4:2;
     $('fxRateLabel').textContent='1 '+FX.from+' = '+r.toFixed(rDp)+' '+FX.to+'  ('+FX.rateDate+')';
@@ -665,7 +685,7 @@ const FX={
 const fmt=v=>{if(Number.isInteger(v))return'¥'+v.toLocaleString('ja-JP');return'¥'+parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:2})};
 const upd=v=>{const s=String(v);NL.textContent=s;NL.className='d-num';const l=s.replace(/[^0-9.]/g,'').length;if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm');FX.updateDisplay()};
 const updS=()=>{SH.style.opacity=S.cards.length?'0':'1';CCB.style.display=S.cards.length?'block':'none';if(S.cards.length)CCN.textContent=S.cards.length+'/20';
-  const tc=$('fxTabCount');if(tc)tc.textContent=S.cards.length?'('+S.cards.length+')':'';
+  
   const sg=$('swipeGuide');if(sg)sg.classList.toggle('hidden',S.cards.length>0);
   // 集計ボタンのパルス（カードがある時だけ）
   const ga=document.querySelector('.bga');if(ga)ga.classList.toggle('has-cards',S.cards.length>0);
@@ -743,10 +763,10 @@ const M={
     localStorage.setItem('gc_m',m);
     // Toggle FX panel vs stage
     const isTr=m==='travel';
-    $('fxTabBar').classList.toggle('active',isTr);
     if(isTr){
-      // 旅行モード：換算タブをデフォルト表示
-      M.fxTab(S.cards.length?'cards':'convert');
+      // 換算モード：FXパネル表示、ステージ非表示
+      $('fxPanel').classList.add('active');
+      ST.classList.add('fx-hidden');
       $('curBadge').textContent=FX.from;
       FX.updateDisplay();
     }else{
@@ -772,22 +792,11 @@ const M={
     if(S.mode!=='travel'){M.mode('travel');toast('海外旅行モードに切り替えました')}
     else{FX.pickCur('from')}
   },
-  fxTab(tab){
-    S._fxTab=tab;
-    const isConvert=tab==='convert';
-    $('fxTabConvert').classList.toggle('on',isConvert);
-    $('fxTabCards').classList.toggle('on',!isConvert);
-    $('fxPanel').classList.toggle('active',isConvert);
-    ST.classList.toggle('fx-hidden',isConvert);
-    // カード件数バッジ更新
-    $('fxTabCount').textContent=S.cards.length?'('+S.cards.length+')':'';
-  },
-
   hist(){M.close();const l=$('historyList');if(!S.hist.length){l.innerHTML='<div class="hist-empty">まだ履歴がありません</div>'}else{l.innerHTML=S.hist.map((h,idx)=>{const d=new Date(h.d),ds=d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');const title=h.title||'無題の集計',hasCards=h.cards&&h.cards.length;return`<div class="history-item"><div class="hist-date">${ds}</div><div class="hist-title"><span class="hist-title-icon">📌</span>${title}</div><div class="hist-formula">${h.n}件を集計</div><div class="hist-total">${fmt(h.t)}</div><div class="hist-actions">${hasCards?`<button class="hist-btn restore" onclick="M.histRestore(${idx})">復元する</button>`:''}<button class="hist-btn" onclick="M.histEdit(${idx})">編集</button><button class="hist-btn" onclick="M.histDel(${idx})">削除</button></div></div>`}).join('')+'<button class="hist-del-all" onclick="M.histDelAll()">履歴を全件削除</button>'}$('historyModal').classList.add('show')},
   histClose(){$('historyModal').classList.remove('show')},
   histRestore(idx){const h=S.hist[idx];if(!h||!h.cards||!h.cards.length){toast('復元データがありません');return}if(S.cards.length&&!confirm('現在のカードを置き換えますか？'))return;S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];S.id=0;
     // 旅行モード中はカードタブに切替
-    if(S.mode==='travel'){M.fxTab('cards')}
+    
     h.cards.forEach(c=>C.add(c.v,c.m||''));M.histClose();toast('「'+(h.title||'無題')+'」を復元しました')},
   histDel(idx){S.hist.splice(idx,1);localStorage.setItem('gc_h',JSON.stringify(S.hist));M.hist();toast('履歴を削除しました')},
   histDelAll(){if(!confirm(S.hist.length+'件の履歴を全て削除しますか？'))return;S.hist=[];localStorage.removeItem('gc_h');M.hist();toast('履歴を全件削除しました')},
@@ -937,20 +946,16 @@ const CAL={
   const mvG=(x,y)=>{if(!gh)return;gh.style.left=(x-gh.offsetWidth/2)+'px';gh.style.top=(y-gh.offsetHeight/2)+'px'};
   const inS=(x,y)=>{const r=ST.getBoundingClientRect();return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom};
   const doAdd=()=>{const v=gV();if(v!==null&&v!==0){
-    // 旅行モード：まずカードタブに切替（ステージ表示が必要）
-    if(S.mode==='travel'){clearTimeout(fxTabTimer);M.fxTab('cards')}
     C.add(v);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');
     // 登録フィードバック
     if(S.mode!=='memo')toast('✓ '+fmt(v)+' を追加しました',1200);
-    // 旅行モード：一定時間後に換算タブに戻る
-    if(S.mode==='travel'){fxTabTimer=setTimeout(()=>{if(S.mode==='travel')M.fxTab('convert')},1500)}
   }};
   const fin=(cx,cy)=>{dr=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(gh){gh.remove();gh=null}
     const dropOk=S.mode==='travel'?(cy<sy-TH):(inS(cx,cy)||cy<sy-TH);
     if(dropOk){doAdd()}};
 
   // Double-tap to add card
-  let lastTap=0,fxTabTimer=null;
+  let lastTap=0;
   // Mouse double-click
   DB.addEventListener('dblclick',e=>{e.preventDefault();doAdd()});
 
