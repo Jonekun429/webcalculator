@@ -1,7 +1,7 @@
 {
-  "name": "Gathering Calculator",
-  "short_name": "Gathering",
-  "description": "金額を集めて、まとめて計算。割り勘・経費精算・海外旅行に。",
+  "name": "メモタス",
+  "short_name": "メモタス",
+  "description": "金額を集めて、まとめて計算。メモ付き電卓アプリ。",
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "./index.html",
