@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" id="metaTheme" content="#5C8E84">
 <!-- PWA Manifest (inline) -->
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiR2F0aGVyaW5nIENhbGN1bGF0b3IiLCJzaG9ydF9uYW1lIjoiR2F0aGVyaW5nIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJzdGFydF91cmwiOiIuIiwiYmFja2dyb3VuZF9jb2xvciI6IiNGNkY3RjUiLCJ0aGVtZV9jb2xvciI6IiM1QzhFODQiLCJpY29ucyI6W119">
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
@@ -994,8 +994,8 @@ $('metaTheme').content=themeMetas[savedTheme]||'#5C8E84';
 FX.fetchRates();
 // 初回のみウェルカムガイド表示
 if(!localStorage.getItem('gc_welcomed')){$('welcomeModal').classList.add('show')}
-// PWA: Service Workerはデプロイ時に別ファイル(sw.js)として配置してください
-// ホーム画面追加: manifest.jsonとSWが同一オリジンにあればlocalStorageは保持されます
+// PWA Service Worker登録
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').then(r=>console.log('SW registered:',r.scope)).catch(e=>console.log('SW failed:',e))}
 // キーパッドの即時タッチ反応
 document.querySelectorAll('.kpad .btn').forEach(btn=>{
   btn.addEventListener('touchstart',function(){this.style.transform='scale(.9) translateY(2px)'},{ passive:true});
