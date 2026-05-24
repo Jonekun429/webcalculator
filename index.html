@@ -741,6 +741,9 @@ const C={
   del(id){const i=S.cards.findIndex(c=>c.id===id);if(i<0)return;const card=S.cards[i];if(card._cleanup)card._cleanup();card.el.classList.add('leaving');setTimeout(()=>{card.el.remove();S.cards.splice(i,1);updS()},200)},
 
   gather(){
+    // ディスプレイに入力中の数値があれば自動でカードに追加
+    const dv=gV();
+    if(dv!==null&&dv!==0){C.add(dv);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent=''}
     if(!S.cards.length){toast('カードがありません');return}
     const n=S.cards.length,s=S.cards.reduce((a,c)=>a+c.v,0),t=parseFloat(s.toPrecision(12));
     S._gatherTemp={n,t,cards:S.cards.map(c=>({id:c.id,v:c.v,m:c.m}))};
@@ -949,8 +952,6 @@ const CAL={
   const inS=(x,y)=>{const r=ST.getBoundingClientRect();return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom};
   const doAdd=()=>{const v=gV();if(v!==null&&v!==0){
     C.add(v);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');
-    // 登録フィードバック
-    if(S.mode!=='memo')toast('✓ '+fmt(v)+' を追加しました',1200);
   }};
   const fin=(cx,cy)=>{dr=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(gh){gh.remove();gh=null}
     const dropOk=S.mode==='travel'?(cy<sy-TH):(inS(cx,cy)||cy<sy-TH);
