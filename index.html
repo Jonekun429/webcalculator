@@ -742,8 +742,13 @@ const C={
 
   gather(){
     // ディスプレイに入力中の数値があれば自動でカードに追加
-    const dv=gV();
-    if(dv!==null&&dv!==0){C.add(dv);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent=''}
+    try{
+      const cur=parseFloat(S.cur);
+      if(!isNaN(cur)&&cur!==0){
+        C.add(cur);
+        S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';
+      }
+    }catch(e){}
     if(!S.cards.length){toast('カードがありません');return}
     const n=S.cards.length,s=S.cards.reduce((a,c)=>a+c.v,0),t=parseFloat(s.toPrecision(12));
     S._gatherTemp={n,t,cards:S.cards.map(c=>({id:c.id,v:c.v,m:c.m}))};

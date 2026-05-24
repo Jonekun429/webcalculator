@@ -1,4 +1,4 @@
-const CACHE_NAME = 'memotasu-v8';
+const CACHE_NAME = 'memotasu-v9';
 const ASSETS = [
   './',
   './index.html',
