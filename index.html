@@ -14,7 +14,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 button,a,.btn,.menu-item,.modal-close,.fx-cur-btn,.fx-cur-item,.hist-btn,.memo-btn,.cal-nav-btn,.cal-vs,.tp,.tut-b,.tut-x{touch-action:manipulation}
-:root{--font:'DM Sans','Noto Sans JP',sans-serif;--brand:#5C8E84;--brand-mid:#3A6B60;--bg-s:#E8F0ED;--bg-e:#D8E0DC;--body-bg:#F5F5F0;--stage-a:#E8F0ED;--stage-b:#D8E0DC;--disp-bg:#E8F0ED;--disp-bd:#D8E0DC;--card-a:#5C8E84;--card-b:#3A6B60;--card-sh:#2E5A4A;--bn-a:#5C8E84;--bn-b:#3A6B60;--bn-sh:#2E5A4A;--op-bg:#FFF;--op-bd:#D8E0DC;--op-tx:#3A6B60;--ut-a:#A0B0A8;--ut-b:#8A9E96;--ut-sh:#6E847C;--eq-a:#D4923A;--eq-sh:#8A6838;--cl-a:#A0B0A8;--cl-sh:#6E847C;--ga-a:#5C8E84;--ga-b:#3A6B60;--ga-sh:#2E5A4A;--td:#2B3830;--tm:#6E847C;--tp:#A0B0A8;--dn:#C06060;--shc:rgba(0,0,0,.05)}
+:root{--font:'DM Sans','Noto Sans JP',sans-serif;--brand:#5C8E84;--brand-mid:#3A6B60;--bg-s:#E8F0ED;--bg-e:#D8E0DC;--body-bg:#F5F5F0;--stage-a:#E8F0ED;--stage-b:#D8E0DC;--disp-bg:#E8F0ED;--disp-bd:#D8E0DC;--card-a:#5C8E84;--card-b:#3A6B60;--card-sh:#2E5A4A;--bn-a:#5C8E84;--bn-b:#3A6B60;--bn-sh:#2E5A4A;--op-bg:#FFF;--op-bd:#D8E0DC;--op-tx:#3A6B60;--ut-a:#A0B0A8;--ut-b:#8A9E96;--ut-sh:#6E847C;--eq-a:#D4923A;--eq-sh:#8A6838;--cl-a:#A0B0A8;--cl-sh:#6E847C;--ga-a:#5C8E84;--ga-b:#3A6B60;--ga-sh:#2E5A4A;--td:#2B3830;--tm:#5A6E66;--tp:#8A9E96;--dn:#C06060;--shc:rgba(0,0,0,.05)}
 /* === 6 Themes === */
 html.t-ocean{--brand:#4A90D0;--brand-mid:#2A6BAA;--bg-s:#E8F0FA;--bg-e:#D0DDE8;--body-bg:#F0F5FA;--stage-a:#E8F0FA;--stage-b:#D0DDE8;--disp-bg:#E8F0FA;--disp-bd:#D0DDE8;--card-a:#4A90D0;--card-b:#2A6BAA;--card-sh:#1A5090;--bn-a:#4A90D0;--bn-b:#2A6BAA;--bn-sh:#1A5090;--op-bg:#FFF;--op-bd:#D0DDE8;--op-tx:#2A6BAA;--ut-a:#90A8C0;--ut-b:#7A94B0;--ut-sh:#5A7A9A;--eq-a:#D4923A;--eq-sh:#8A7030;--cl-a:#90A8C0;--cl-sh:#5A7A9A;--ga-a:#4A90D0;--ga-b:#2A6BAA;--ga-sh:#1A5090;--td:#1E3350;--tm:#5A7A9A;--tp:#90A8C0;--dn:#D06070;--shc:rgba(0,40,80,.06)}
 html.t-pastel{--brand:#E8A0BF;--brand-mid:#D4789E;--bg-s:#FFF0F5;--bg-e:#E8DDF0;--body-bg:#F8F4F9;--stage-a:#FFF0F5;--stage-b:#E8DDF0;--disp-bg:#FFF0F5;--disp-bd:#E8DDF0;--card-a:#E8A0BF;--card-b:#D4789E;--card-sh:#B06080;--bn-a:#E8A0BF;--bn-b:#D4789E;--bn-sh:#B06080;--op-bg:#FFF;--op-bd:#E8DDF0;--op-tx:#D4789E;--ut-a:#B8AACA;--ut-b:#A098B8;--ut-sh:#8A7A9A;--eq-a:#E8A0BF;--eq-sh:#B06080;--cl-a:#B8AACA;--cl-sh:#8A7A9A;--ga-a:#E8A0BF;--ga-b:#D4789E;--ga-sh:#B06080;--td:#4A3B5C;--tm:#8A7A9A;--tp:#B8AACA;--dn:#E08080;--shc:rgba(180,140,200,.10)}
@@ -59,7 +59,7 @@ body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradie
 .menu-toggle.open .ml:nth-child(2){opacity:0}
 .menu-toggle.open .ml:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .mode-switch{margin-left:auto;display:flex;background:var(--shc);border-radius:10px;padding:2px;gap:1px;flex-shrink:0;border:1.5px solid var(--disp-bd)}
-.mode-sw-btn{border:none;background:transparent;font-family:var(--font);font-size:clamp(.52rem,1.3vw,.62rem);font-weight:800;color:var(--tp);padding:5px 11px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.02em;position:relative}
+.mode-sw-btn{border:none;background:transparent;font-family:var(--font);font-size:clamp(.6rem,1.5vw,.72rem);font-weight:800;color:var(--tm);padding:7px 14px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.02em;position:relative}
 .mode-sw-btn:active{transform:scale(.95)}
 .mode-sw-btn.on{background:var(--brand);color:#fff;box-shadow:0 1px 6px var(--shc)}
 html.t-dark .mode-switch,html.t-night .mode-switch,html.t-purple .mode-switch{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.08)}
@@ -68,7 +68,7 @@ html.t-dark .mode-sw-btn.on,html.t-night .mode-sw-btn.on,html.t-purple .mode-sw-
 .stage.drop-ready{border-color:var(--brand);background:var(--stage-a)}
 .stage-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;pointer-events:none;transition:opacity .28s}
 .stage-hint .si{font-size:clamp(1.05rem,4.4vw,1.65rem);opacity:.2}
-.stage-hint .st{font-size:clamp(.57rem,1.55vw,.7rem);font-weight:700;color:var(--tp);line-height:1.75;text-align:center}
+.stage-hint .st{font-size:clamp(.66rem,1.8vw,.8rem);font-weight:700;color:var(--tm);line-height:1.75;text-align:center}
 .card-count{position:absolute;top:7px;right:9px;display:none;background:var(--brand);color:#fff;border-radius:20px;padding:3px 10px;font-size:clamp(.52rem,1.3vw,.64rem);font-weight:800;pointer-events:none;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.15)}
 .ncard{position:absolute;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(12px,2.5vw,16px);min-width:clamp(110px,28vw,170px);box-shadow:0 3px 0 var(--card-sh),0 4px 10px var(--shc);cursor:grab;z-index:10;perspective:600px;-webkit-tap-highlight-color:transparent}
 .ncard.dragging{cursor:grabbing;z-index:80}
@@ -83,7 +83,7 @@ html.t-dark .mode-sw-btn.on,html.t-night .mode-sw-btn.on,html.t-purple .mode-sw-
 .ncard-front,.ncard-back{backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:clamp(10px,2.2vw,14px) clamp(14px,3.5vw,20px)}
 .ncard-front{display:flex;align-items:center;gap:3px}
 .ncard-back{position:absolute;inset:0;transform:rotateY(180deg);background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:inherit;display:flex;flex-direction:column;gap:4px;padding:clamp(6px,1.5vw,9px)}
-.clbl{font-size:clamp(.5rem,1.2vw,.65rem);font-weight:900;color:rgba(255,255,255,.46);white-space:nowrap}
+.clbl{font-size:clamp(.56rem,1.35vw,.7rem);font-weight:900;color:rgba(255,255,255,.6);white-space:nowrap}
 .cval{font-size:clamp(1.3rem,3.6vw,1.75rem);font-weight:900;color:#fff;white-space:nowrap;flex:1;text-align:right}
 .cdel{width:24px;height:24px;flex-shrink:0;background:rgba(255,255,255,.17);border:none;border-radius:50%;color:rgba(255,255,255,.76);font-size:.65rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
 .cdel:active{background:rgba(210,45,25,.6)}
@@ -93,16 +93,28 @@ html.t-dark .mode-sw-btn.on,html.t-night .mode-sw-btn.on,html.t-purple .mode-sw-
 .memo-edit-btn:active{background:rgba(255,255,255,.35)}
 .flip-hint{position:absolute;top:3px;right:3px;font-size:.5rem;opacity:.35;pointer-events:none}
 /* スワイプガイド帯 */
-.swipe-guide{display:flex;align-items:center;justify-content:center;gap:5px;padding:3px 0;font-size:clamp(.48rem,1.2vw,.56rem);font-weight:700;color:var(--brand);opacity:.55;flex-shrink:0;transition:opacity .3s}
-.swipe-guide.hidden{opacity:0;height:0;padding:0;overflow:hidden}
-.swipe-guide svg{flex-shrink:0;animation:guideFloat 1.8s ease-in-out infinite}
-@keyframes guideFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+/* Quick actions (税込・割り勘) — ゴーストスタイル */
+.quick-row{display:flex;gap:4px;flex-shrink:0;padding:0}
+.qbtn{flex:1;border:none;background:transparent;border-radius:8px;padding:5px 0;font-family:var(--font);font-size:clamp(.58rem,1.45vw,.68rem);font-weight:700;color:var(--tm);cursor:pointer;touch-action:manipulation;transition:transform .06s,background .1s}
+.qbtn:active{transform:scale(.95);background:var(--stage-a)}
+.qbtn.qw{color:var(--brand)}
+/* 割り勘モーダル */
+.wari-total{text-align:center;font-size:clamp(1.1rem,3vw,1.35rem);font-weight:900;color:var(--td);padding:6px 0 14px}
+.wari-people{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:16px}
+.wari-step{width:52px;height:52px;border-radius:50%;border:none;background:var(--brand);color:#fff;font-size:1.5rem;font-weight:900;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center}
+.wari-step:active{transform:scale(.92)}
+.wari-count{font-size:clamp(1.6rem,4.5vw,2rem);font-weight:900;color:var(--td);min-width:80px;text-align:center}
+.wari-unit{font-size:.5em;font-weight:700;color:var(--tm);margin-left:2px}
+.wari-result{background:var(--stage-a);border-radius:14px;padding:16px;text-align:center}
+.wari-result-label{font-size:clamp(.6rem,1.5vw,.7rem);font-weight:700;color:var(--tm);margin-bottom:4px}
+.wari-result-val{font-size:clamp(1.7rem,5vw,2.2rem);font-weight:900;color:var(--brand)}
+.wari-result-note{font-size:clamp(.56rem,1.35vw,.64rem);font-weight:600;color:var(--tp);margin-top:6px}
 .ctrl{display:grid;grid-template-columns:var(--btn) 1fr var(--btn);gap:var(--gap);align-items:center;flex-shrink:0}
 .disp{background:var(--disp-bg);border:2px solid var(--disp-bd);border-radius:clamp(9px,1.9vw,15px);height:var(--btn);padding:3px clamp(9px,2.1vw,13px);display:flex;flex-direction:column;justify-content:center;align-items:flex-end;overflow:hidden;cursor:grab;transition:transform .12s,box-shadow .12s,border-color .13s;position:relative}
 .disp.lift{cursor:grabbing;transform:scale(1.03) translateY(-3px);box-shadow:0 9px 22px var(--shc);border-color:var(--brand)}
 .currency-badge{position:absolute;top:2px;left:6px;font-size:clamp(.38rem,.9vw,.46rem);font-weight:900;color:var(--brand);opacity:.5}
-.d-expr{font-size:clamp(.54rem,1.45vw,.68rem);font-weight:600;color:var(--tp);min-height:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.d-num{font-size:clamp(1.7rem,5.2vw,2.4rem);font-weight:900;color:var(--td);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;line-height:1.05}
+.d-expr{font-size:clamp(.6rem,1.6vw,.74rem);font-weight:700;color:var(--tm);min-height:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.d-num{font-size:clamp(1.9rem,5.8vw,2.7rem);font-weight:900;color:var(--td);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;line-height:1.05}
 .d-num.sm{font-size:clamp(1.3rem,3.9vw,1.8rem)}
 .d-num.xs{font-size:clamp(1rem,2.9vw,1.3rem)}
 @keyframes dfl{0%,100%{background:var(--disp-bg)}40%{background:var(--stage-b)}}
@@ -112,11 +124,11 @@ html.t-dark .disp.flash,html.t-night .disp.flash,html.t-purple .disp.flash{anima
 .ghost-card{position:fixed;pointer-events:none;z-index:9999;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(8px,1.9vw,13px);padding:clamp(5px,1.3vw,8px) clamp(9px,2.3vw,13px);font-family:var(--font);font-size:clamp(.98rem,2.5vw,1.26rem);font-weight:900;color:#fff;box-shadow:0 7px 18px var(--shc);transform:scale(1.06) rotate(-2deg);opacity:.87;white-space:nowrap}
 .btn{border:none;border-radius:50%;width:var(--btn);height:var(--btn);font-family:var(--font);font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;flex-shrink:0;transition:transform .04s,box-shadow .04s}
 .btn:active{transform:scale(.9) translateY(2px)}
-.bn{background:linear-gradient(170deg,var(--bn-a),var(--bn-b));color:#fff;font-size:calc(var(--btn)*.46);box-shadow:0 4px 0 var(--bn-sh),0 5px 12px var(--shc)}.bn:active{box-shadow:0 1px 0 var(--bn-sh)}
-.bop{background:var(--op-bg);color:var(--op-tx);font-size:calc(var(--btn)*.42);border:2px solid var(--op-bd);box-shadow:0 3px 0 var(--stage-b)}.bop:active{box-shadow:0 1px 0 var(--stage-b)}
-.bu{background:linear-gradient(170deg,var(--ut-a),var(--ut-b));color:#fff;font-size:calc(var(--btn)*.32);box-shadow:0 3px 0 var(--ut-sh)}.bu:active{box-shadow:0 1px 0 var(--ut-sh)}
-.bc{background:linear-gradient(170deg,var(--cl-a),var(--cl-sh));color:#fff;font-size:calc(var(--btn)*.36);box-shadow:0 4px 0 var(--cl-sh)}.bc:active{box-shadow:0 1px 0 var(--cl-sh)}
-.beq{background:linear-gradient(170deg,var(--eq-a),var(--eq-sh));color:#fff;font-size:calc(var(--btn)*.44);box-shadow:0 4px 0 var(--eq-sh),0 4px 12px var(--shc)}.beq:active{box-shadow:0 1px 0 var(--eq-sh)}
+.bn{background:linear-gradient(170deg,var(--bn-a),var(--bn-b));color:#fff;font-size:calc(var(--btn)*.52);box-shadow:0 4px 0 var(--bn-sh),0 5px 12px var(--shc)}.bn:active{box-shadow:0 1px 0 var(--bn-sh)}
+.bop{background:var(--op-bg);color:var(--op-tx);font-size:calc(var(--btn)*.48);border:2px solid var(--op-bd);box-shadow:0 3px 0 var(--stage-b)}.bop:active{box-shadow:0 1px 0 var(--stage-b)}
+.bu{background:linear-gradient(170deg,var(--ut-a),var(--ut-b));color:#fff;font-size:calc(var(--btn)*.38);box-shadow:0 3px 0 var(--ut-sh)}.bu:active{box-shadow:0 1px 0 var(--ut-sh)}
+.bc{background:linear-gradient(170deg,var(--cl-a),var(--cl-sh));color:#fff;font-size:calc(var(--btn)*.44);box-shadow:0 4px 0 var(--cl-sh)}.bc:active{box-shadow:0 1px 0 var(--cl-sh)}
+.beq{background:linear-gradient(170deg,var(--eq-a),var(--eq-sh));color:#fff;font-size:calc(var(--btn)*.50);box-shadow:0 4px 0 var(--eq-sh),0 4px 12px var(--shc)}.beq:active{box-shadow:0 1px 0 var(--eq-sh)}
 .bga{background:linear-gradient(170deg,var(--ga-a),var(--ga-b));color:#fff;box-shadow:0 4px 0 var(--ga-sh),0 4px 14px var(--shc);font-size:calc(var(--btn)*.5)}.bga:active{box-shadow:0 1px 0 var(--ga-sh)}
 .bga.has-cards{animation:gaPulse 2s ease-in-out infinite}
 @keyframes gaPulse{0%,100%{box-shadow:0 4px 0 var(--ga-sh),0 4px 14px var(--shc)}50%{box-shadow:0 4px 0 var(--ga-sh),0 6px 22px var(--shc)}}
@@ -166,7 +178,7 @@ html.t-dark .disp.flash,html.t-night .disp.flash,html.t-purple .disp.flash{anima
 .menu-item{display:flex;align-items:center;gap:12px;padding:11px 20px;background:transparent;border:none;width:100%;text-align:left;cursor:pointer;color:var(--td);font-family:var(--font);min-height:48px}
 .menu-item:active{background:var(--shc)}
 .menu-item.active{background:var(--shc);border-left:4px solid var(--brand)}
-.menu-item-icon{font-size:1.15rem;width:26px;text-align:center}
+.menu-item-icon{width:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .menu-item-text{flex:1}
 .menu-item-label{font-size:.78rem;font-weight:800;display:block;margin-bottom:1px}
 .menu-item-desc{font-size:.58rem;font-weight:600;color:var(--tp);opacity:.7}
@@ -314,7 +326,7 @@ html.t-dark .tut-nx,html.t-night .tut-nx,html.t-purple .tut-nx{color:var(--body-
 .cal-list-amt{font-size:clamp(.64rem,1.6vw,.76rem);font-weight:800;color:var(--brand)}
 .cal-list-total{display:flex;justify-content:space-between;padding:8px 10px;background:var(--brand);color:#fff;border-radius:8px;margin-top:4px;font-size:clamp(.6rem,1.5vw,.72rem);font-weight:800}
 /* Theme picker */
-.theme-picks{display:flex;gap:8px;flex-wrap:wrap;padding:0 0 0 40px;width:100%}
+.theme-picks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 6px;padding:4px 0 0;width:100%}
 .tp{display:flex;flex-direction:column;align-items:center;gap:4px;border:none;background:none;cursor:pointer;padding:4px;border-radius:8px;transition:all .15s}
 .tp:active{transform:scale(.93)}
 .tp.on{background:var(--shc)}
@@ -358,15 +370,15 @@ html.t-dark .tut-nx,html.t-night .tut-nx,html.t-purple .tut-nx{color:var(--body-
     </div>
     <div class="fx-rate-bar" id="fxRateLabel">1 USD = ¥149.38</div>
   </div>
-  <!-- スワイプガイド（カードがない時に表示） -->
-  <div class="swipe-guide" id="swipeGuide">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 12V3M3 6l4-4 4 4"/></svg>
-    <span>金額を入力 → ディスプレイを上にスワイプ</span>
-  </div>
   <div class="ctrl">
     <button class="btn bc" onclick="C.clear()">C</button>
     <div class="disp" id="dispBox"><span class="currency-badge" id="curBadge">JPY</span><div class="d-expr" id="exprLine">&nbsp;</div><div class="d-num" id="numLine">0</div></div>
     <button class="btn bga" onclick="C.gather()"><svg viewBox="0 0 36 36" width="58%" height="58%" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l10 10M14 8v6H8"/><path d="M32 4L22 14M22 8v6h6"/><path d="M4 32l10-10M14 28v-6H8"/><path d="M32 32L22 22M22 28v-6h6"/><circle cx="18" cy="18" r="3" fill="#fff" stroke="none" opacity=".4"/></svg></button>
+  </div>
+  <div class="quick-row">
+    <button class="qbtn" onclick="Q.tax(1.10)">税込10%</button>
+    <button class="qbtn" onclick="Q.tax(1.08)">税込8%</button>
+    <button class="qbtn qw" onclick="Q.wariOpen()">👥 割り勘</button>
   </div>
   <div class="kpad">
     <button class="btn bn" onclick="C.inp('7')">7</button><button class="btn bn" onclick="C.inp('8')">8</button><button class="btn bn" onclick="C.inp('9')">9</button><button class="btn bop" onclick="C.op('÷')">÷</button><button class="btn bu" onclick="C.bs()">⌫</button>
@@ -381,20 +393,20 @@ html.t-dark .tut-nx,html.t-night .tut-nx,html.t-purple .tut-nx{color:var(--body-
   <div class="menu-header"><div class="menu-app-name">メモタス</div><div class="menu-app-desc">金額を集めて、まとめて計算</div></div>
   <div class="menu-items">
     <div class="menu-section-label">モード</div>
-    <button class="menu-item" id="m1" onclick="M.mode('simple')"><span class="menu-item-icon">🏠</span><div class="menu-item-text"><span class="menu-item-label">シンプルモード</span><span class="menu-item-desc">通常の電卓＋カード集計</span></div></button>
-    <button class="menu-item" id="m2" onclick="M.mode('memo')"><span class="menu-item-icon">📝</span><div class="menu-item-text"><span class="menu-item-label">メモモード</span><span class="menu-item-desc">タップでカード裏返し・メモ付き</span></div></button>
-    <button class="menu-item" id="m3" onclick="M.mode('travel')"><span class="menu-item-icon">✈️</span><div class="menu-item-text"><span class="menu-item-label">海外旅行モード</span><span class="menu-item-desc">外貨換算＋カード集計</span></div></button>
+    <button class="menu-item" id="m1" onclick="M.mode('simple')"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 2.5 2.5 9h2v8h4.5v-5h2v5H15V9h2L10 2.5z" fill="var(--brand)"/></svg></span><div class="menu-item-text"><span class="menu-item-label">シンプルモード</span><span class="menu-item-desc">通常の電卓＋カード集計</span></div></button>
+    <button class="menu-item" id="m2" onclick="M.mode('memo')"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="3.5" y="2.5" width="13" height="15" rx="2" fill="var(--brand)"/><rect x="6" y="6" width="8" height="1.6" rx=".8" fill="#fff" opacity=".9"/><rect x="6" y="9.2" width="8" height="1.6" rx=".8" fill="#fff" opacity=".7"/><rect x="6" y="12.4" width="5" height="1.6" rx=".8" fill="#fff" opacity=".5"/></svg></span><div class="menu-item-text"><span class="menu-item-label">メモモード</span><span class="menu-item-desc">タップでカード裏返し・メモ付き</span></div></button>
+    <button class="menu-item" id="m3" onclick="M.mode('travel')"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M18 10 3 3.5l2.2 5.6L12 10l-6.8.9L3 16.5 18 10z" fill="var(--brand)"/></svg></span><div class="menu-item-text"><span class="menu-item-label">海外旅行モード</span><span class="menu-item-desc">外貨換算＋カード集計</span></div></button>
     <div class="menu-divider"></div>
     <div class="menu-section-label">データ</div>
-    <button class="menu-item" onclick="M.hist()"><span class="menu-item-icon">📋</span><div class="menu-item-text"><span class="menu-item-label">履歴</span><span class="menu-item-desc">過去の集計・復元</span></div></button>
-    <button class="menu-item" onclick="M.cal()"><span class="menu-item-icon">📅</span><div class="menu-item-text"><span class="menu-item-label">カレンダー</span><span class="menu-item-desc">日別・月別の支出チェック</span></div></button>
+    <button class="menu-item" onclick="M.hist()"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="4" y="3" width="12" height="15" rx="2" fill="var(--brand)"/><rect x="7" y="1.5" width="6" height="3.5" rx="1.2" fill="var(--brand-mid)"/><rect x="6.5" y="8" width="7" height="1.5" rx=".75" fill="#fff" opacity=".85"/><rect x="6.5" y="11" width="7" height="1.5" rx=".75" fill="#fff" opacity=".6"/></svg></span><div class="menu-item-text"><span class="menu-item-label">履歴</span><span class="menu-item-desc">過去の集計・復元</span></div></button>
+    <button class="menu-item" onclick="M.cal()"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="3" y="4" width="14" height="13.5" rx="2" fill="var(--brand)"/><rect x="3" y="4" width="14" height="4" rx="2" fill="var(--brand-mid)"/><circle cx="7" cy="12" r="1.3" fill="#fff" opacity=".9"/><circle cx="10.5" cy="12" r="1.3" fill="#fff" opacity=".7"/><circle cx="14" cy="12" r="1.3" fill="#fff" opacity=".5"/></svg></span><div class="menu-item-text"><span class="menu-item-label">カレンダー</span><span class="menu-item-desc">日別・月別の支出チェック</span></div></button>
     <div class="menu-divider"></div>
     <div class="menu-section-label">ヘルプ</div>
-    <button class="menu-item" onclick="M.guide()"><span class="menu-item-icon">📖</span><div class="menu-item-text"><span class="menu-item-label">使い方ガイド</span><span class="menu-item-desc">各モードの操作方法</span></div></button>
+    <button class="menu-item" onclick="M.guide()"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 4.5C8.5 3 6 2.8 3.5 3.2v12.6c2.5-.4 5 .0 6.5 1.5 1.5-1.5 4-1.9 6.5-1.5V3.2C14 2.8 11.5 3 10 4.5z" fill="var(--brand)"/><path d="M10 4.5v12.8" stroke="#fff" stroke-width="1.2" opacity=".5"/></svg></span><div class="menu-item-text"><span class="menu-item-label">使い方ガイド</span><span class="menu-item-desc">各モードの操作方法</span></div></button>
     <div class="menu-divider"></div>
     <div class="menu-section-label">設定</div>
     <div class="menu-item" style="flex-wrap:wrap;gap:8px;padding-bottom:16px">
-      <div style="width:100%;display:flex;align-items:center;gap:12px"><span class="menu-item-icon">🎨</span><div class="menu-item-text"><span class="menu-item-label">テーマ</span><span class="menu-item-desc">アプリの配色を変更</span></div></div>
+      <div style="width:100%;display:flex;align-items:center;gap:12px"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="var(--brand)"/><path d="M10 2a8 8 0 0 1 0 16z" fill="var(--brand-mid)" opacity=".55"/></svg></span><div class="menu-item-text"><span class="menu-item-label">テーマ</span><span class="menu-item-desc">アプリの配色を変更</span></div></div>
       <div class="theme-picks" id="themePicks">
         <button class="tp" data-t="light" onclick="M.setTheme('light')"><span class="tp-dot" style="background:#F5F5F0;border-color:#5C8E84"></span><span class="tp-name">ライト</span></button>
         <button class="tp" data-t="ocean" onclick="M.setTheme('ocean')"><span class="tp-dot" style="background:#F0F5FA;border-color:#4A90D0"></span><span class="tp-name">オーシャン</span></button>
@@ -433,6 +445,21 @@ html.t-dark .tut-nx,html.t-night .tut-nx,html.t-purple .tut-nx{color:var(--body-
 </div></div>
 <div class="modal" id="memoModal"><div class="modal-content"><div class="modal-title">メモ編集<button class="modal-close" onclick="M.memoClose()">✕</button></div><textarea class="memo-input" id="memoInput" placeholder="この金額について..." maxlength="100"></textarea><div class="memo-actions"><button class="memo-btn" onclick="M.memoClose()">キャンセル</button><button class="memo-btn save" onclick="M.memoSave()">保存</button></div></div></div>
 <div class="modal" id="gatherModal"><div class="modal-content"><div class="modal-title">集計タイトル<button class="modal-close" onclick="M.gatherClose()">✕</button></div><p style="font-size:.72rem;font-weight:600;color:var(--tp);margin-bottom:10px" id="gatherInfo"></p><input class="gather-input" id="gatherTitleInput" placeholder="例: 3月の食費、旅行代..." maxlength="40"><div class="memo-actions"><button class="memo-btn" onclick="M.gatherClose()">キャンセル</button><button class="memo-btn save" onclick="M.gatherConfirm()">集計する</button></div></div></div>
+<!-- 割り勘モーダル -->
+<div class="modal" id="wariModal"><div class="modal-content">
+  <div class="modal-title">割り勘<button class="modal-close" onclick="Q.wariClose()">✕</button></div>
+  <div class="wari-total" id="wariTotal">¥0</div>
+  <div class="wari-people">
+    <button class="wari-step" onclick="Q.wariChange(-1)">−</button>
+    <div class="wari-count"><span id="wariNum">2</span><span class="wari-unit">人</span></div>
+    <button class="wari-step" onclick="Q.wariChange(1)">＋</button>
+  </div>
+  <div class="wari-result">
+    <div class="wari-result-label">1人あたり</div>
+    <div class="wari-result-val" id="wariPer">¥0</div>
+    <div class="wari-result-note" id="wariNote"></div>
+  </div>
+</div></div>
 <div class="modal" id="fxCurModal"><div class="modal-content"><div class="modal-title"><span id="fxCurModalTitle">通貨を選択</span><button class="modal-close" onclick="FX.pickClose()">✕</button></div><div class="fx-cur-list" id="fxCurList"></div></div></div>
 <div class="modal" id="guideModal"><div class="modal-content"><div class="modal-title">使い方ガイド<button class="modal-close" onclick="M.guideClose()">✕</button></div>
 
@@ -688,7 +715,7 @@ const fmt=v=>{if(Number.isInteger(v))return'¥'+v.toLocaleString('ja-JP');return
 const upd=v=>{const s=String(v);NL.textContent=s;NL.className='d-num';const l=s.replace(/[^0-9.]/g,'').length;if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm');FX.updateDisplay()};
 const updS=()=>{SH.style.opacity=S.cards.length?'0':'1';CCB.style.display=S.cards.length?'block':'none';if(S.cards.length)CCN.textContent=S.cards.length+'/20';
   
-  const sg=$('swipeGuide');if(sg)sg.classList.toggle('hidden',S.cards.length>0);
+
   // 集計ボタンのパルス（カードがある時だけ）
   const ga=document.querySelector('.bga');if(ga)ga.classList.toggle('has-cards',S.cards.length>0);
 };
@@ -858,6 +885,43 @@ const M={
   calClose(){$('calModal').classList.remove('show')}
 };
 
+/* ===== Quick actions: 税込・割り勘 ===== */
+const Q={
+  tax(rate){
+    const v=parseFloat(S.cur);
+    if(isNaN(v)||v===0){toast('金額を入力してください');return}
+    const r=Math.floor(v*rate);
+    EL.textContent=fmt(v)+' 税込'+(rate===1.10?'10%':'8%')+' ＝';
+    S.cur=String(r);S.rst=true;S.op=null;upd(r);
+  },
+  people:2,amount:0,
+  wariOpen(){
+    // ディスプレイの金額、なければカード合計を使う
+    let v=parseFloat(S.cur);
+    if(isNaN(v)||v===0){
+      if(S.cards.length){v=parseFloat(S.cards.reduce((a,c)=>a+c.v,0).toPrecision(12))}
+      else{toast('金額を入力するか、カードを集めてください');return}
+    }
+    Q.amount=v;Q.people=2;
+    Q._update();
+    $('wariModal').classList.add('show');
+  },
+  wariClose(){$('wariModal').classList.remove('show')},
+  wariChange(d){
+    Q.people=Math.max(2,Math.min(50,Q.people+d));
+    Q._update();
+  },
+  _update(){
+    $('wariTotal').textContent='合計 '+fmt(Q.amount);
+    $('wariNum').textContent=Q.people;
+    const per=Math.ceil(Q.amount/Q.people);
+    $('wariPer').textContent=fmt(per);
+    const total=per*Q.people;
+    const diff=total-Q.amount;
+    $('wariNote').textContent=diff>0?'端数切り上げ（合計 '+fmt(total)+'・+'+fmt(diff)+'）':'ぴったり割り切れます';
+  }
+};
+
 /* ===== Calendar ===== */
 const CAL={
   year:new Date().getFullYear(),
@@ -1002,11 +1066,21 @@ FX.fetchRates();
 if(!localStorage.getItem('gc_welcomed')){$('welcomeModal').classList.add('show')}
 // PWA Service Worker登録
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').then(r=>console.log('SW registered:',r.scope)).catch(e=>console.log('SW failed:',e))}
-// キーパッドの即時タッチ反応
-document.querySelectorAll('.kpad .btn').forEach(btn=>{
-  btn.addEventListener('touchstart',function(){this.style.transform='scale(.9) translateY(2px)'},{ passive:true});
-  btn.addEventListener('touchend',function(){this.style.transform=''},{ passive:true});
-  btn.addEventListener('touchcancel',function(){this.style.transform=''},{ passive:true});
+// 電卓ボタン: 指が触れた瞬間に入力（iPhone純正電卓と同じ即応性）
+document.querySelectorAll('.kpad .btn, .ctrl .bc, .ctrl .bga, .qbtn').forEach(btn=>{
+  const code=btn.getAttribute('onclick');
+  if(!code)return;
+  btn.removeAttribute('onclick');
+  const fn=new Function(code);
+  btn.addEventListener('pointerdown',e=>{
+    e.preventDefault();
+    btn.style.transform='scale(.9) translateY(2px)';
+    try{fn()}catch(err){console.error(err)}
+  });
+  const reset=()=>{btn.style.transform=''};
+  btn.addEventListener('pointerup',reset);
+  btn.addEventListener('pointercancel',reset);
+  btn.addEventListener('pointerleave',reset);
 });
 </script>
 </body>
