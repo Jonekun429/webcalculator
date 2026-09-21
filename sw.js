@@ -1,9 +1,10 @@
-const CACHE_NAME = 'memotasu-v9';
+const CACHE_NAME = 'memotasu-v16';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  'https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Noto+Sans+JP:wght@400;500;700&display=swap'
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 self.addEventListener('install', e => {
@@ -22,27 +23,33 @@ self.addEventListener('activate', e => {
   );
 });
 
+// 本体(HTML/JS/manifest)はネット優先→失敗時キャッシュ。画像・フォントはキャッシュ優先。
 self.addEventListener('fetch', e => {
-  if (e.request.url.includes('er-api.com') || e.request.url.includes('frankfurter')) {
+  const url = e.request.url;
+  if (e.request.method !== 'GET') return;
+
+  const netFirst = e.request.mode === 'navigate'
+    || url.endsWith('/') || url.endsWith('.html') || url.endsWith('.js') || url.endsWith('.json')
+    || url.includes('er-api.com') || url.includes('frankfurter');
+
+  if (netFirst) {
     e.respondWith(
-      fetch(e.request)
+      fetch(e.request, { cache: 'no-store' })
         .then(res => {
           const clone = res.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
           return res;
         })
-        .catch(() => caches.match(e.request))
+        .catch(() => caches.match(e.request).then(c => c || caches.match('./index.html')))
     );
     return;
   }
 
   e.respondWith(
-    caches.match(e.request)
-      .then(cached => cached || fetch(e.request).then(res => {
-        const clone = res.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
-        return res;
-      }))
-      .catch(() => new Response('オフラインです', { status: 503 }))
+    caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
+      const clone = res.clone();
+      caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
+      return res;
+    })).catch(() => new Response('', { status: 503 }))
   );
 });
