@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>メモタス</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" id="metaTheme" content="#0B7A8A">
+<!-- PWA Manifest (inline) -->
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+button,a,.btn,.menu-item,.modal-close,.fx-cur-btn,.fx-cur-item,.hist-btn,.memo-btn,.cal-nav-btn,.cal-vs,.tp,.tut-b,.tut-x{touch-action:manipulation}
+:root{--font:'DM Sans','Noto Sans JP',sans-serif;--brand:#0B7A8A;--brand-mid:#085C69;--bg-s:#E6F5F6;--bg-e:#D6F0F2;--body-bg:#F5F8F8;--stage-a:#E6F5F6;--stage-b:#D6F0F2;--disp-bg:#E6F5F6;--disp-bd:#BFE3E6;--card-a:#0B7A8A;--card-b:#085C69;--card-sh:#06454F;--bn-a:#0B7A8A;--bn-b:#085C69;--bn-sh:#06454F;--op-bg:#FFF;--op-bd:#BFE3E6;--op-tx:#085C69;--ut-a:#8FB3B8;--ut-b:#74999E;--ut-sh:#5A7E83;--eq-a:#F2A65A;--eq-sh:#C47A38;--cl-a:#8FB3B8;--cl-sh:#5A7E83;--ga-a:#0B7A8A;--ga-b:#085C69;--ga-sh:#06454F;--td:#1E3336;--tm:#4E6A6E;--tp:#86A3A7;--dn:#C06060;--shc:rgba(11,122,138,.08)}
+/* === 6 Themes === */
+html.t-ocean{--brand:#4A90D0;--brand-mid:#2A6BAA;--bg-s:#E8F0FA;--bg-e:#D0DDE8;--body-bg:#F0F5FA;--stage-a:#E8F0FA;--stage-b:#D0DDE8;--disp-bg:#E8F0FA;--disp-bd:#D0DDE8;--card-a:#4A90D0;--card-b:#2A6BAA;--card-sh:#1A5090;--bn-a:#4A90D0;--bn-b:#2A6BAA;--bn-sh:#1A5090;--op-bg:#FFF;--op-bd:#D0DDE8;--op-tx:#2A6BAA;--ut-a:#90A8C0;--ut-b:#7A94B0;--ut-sh:#5A7A9A;--eq-a:#D4923A;--eq-sh:#8A7030;--cl-a:#90A8C0;--cl-sh:#5A7A9A;--ga-a:#4A90D0;--ga-b:#2A6BAA;--ga-sh:#1A5090;--td:#1E3350;--tm:#5A7A9A;--tp:#90A8C0;--dn:#D06070;--shc:rgba(0,40,80,.06)}
+html.t-pastel{--brand:#E8A0BF;--brand-mid:#D4789E;--bg-s:#FFF0F5;--bg-e:#E8DDF0;--body-bg:#F8F4F9;--stage-a:#FFF0F5;--stage-b:#E8DDF0;--disp-bg:#FFF0F5;--disp-bd:#E8DDF0;--card-a:#E8A0BF;--card-b:#D4789E;--card-sh:#B06080;--bn-a:#E8A0BF;--bn-b:#D4789E;--bn-sh:#B06080;--op-bg:#FFF;--op-bd:#E8DDF0;--op-tx:#D4789E;--ut-a:#B8AACA;--ut-b:#A098B8;--ut-sh:#8A7A9A;--eq-a:#E8A0BF;--eq-sh:#B06080;--cl-a:#B8AACA;--cl-sh:#8A7A9A;--ga-a:#E8A0BF;--ga-b:#D4789E;--ga-sh:#B06080;--td:#4A3B5C;--tm:#8A7A9A;--tp:#B8AACA;--dn:#E08080;--shc:rgba(180,140,200,.10)}
+html.t-dark{--brand:#6BA99F;--brand-mid:#8EC8BE;--bg-s:#162220;--bg-e:#121816;--body-bg:#121816;--stage-a:#1E2622;--stage-b:#242E2A;--disp-bg:#1E2622;--disp-bd:#2E3E3A;--card-a:#5C8E84;--card-b:#3A6B60;--card-sh:#2E5A52;--bn-a:#5C8E84;--bn-b:#3A6B60;--bn-sh:#2E5A52;--op-bg:#1E2622;--op-bd:#2E3E3A;--op-tx:#8EC8BE;--ut-a:#4E6860;--ut-b:#3A4E48;--ut-sh:#2E3E3A;--eq-a:#D4923A;--eq-sh:#7A5020;--cl-a:#4E6860;--cl-sh:#2E3E3A;--ga-a:#5C8E84;--ga-b:#3A6B60;--ga-sh:#2E5A52;--td:#C8D8D2;--tm:#7A9A91;--tp:#4E6860;--dn:#D08080;--shc:rgba(0,0,0,.20)}
+html.t-night{--brand:#5B8DEF;--brand-mid:#8AB4FF;--bg-s:#121A30;--bg-e:#0E1525;--body-bg:#0E1525;--stage-a:#161D30;--stage-b:#1C2440;--disp-bg:#161D30;--disp-bd:#243050;--card-a:#5B8DEF;--card-b:#3A68C0;--card-sh:#2050A0;--bn-a:#5B8DEF;--bn-b:#3A68C0;--bn-sh:#2050A0;--op-bg:#161D30;--op-bd:#243050;--op-tx:#8AB4FF;--ut-a:#3A4A68;--ut-b:#2A3A58;--ut-sh:#1A2A48;--eq-a:#D4923A;--eq-sh:#7A5020;--cl-a:#3A4A68;--cl-sh:#1A2A48;--ga-a:#5B8DEF;--ga-b:#3A68C0;--ga-sh:#2050A0;--td:#C8D4E8;--tm:#6880A8;--tp:#3A4A68;--dn:#E07070;--shc:rgba(0,0,30,.30)}
+html.t-purple{--brand:#A78BFA;--brand-mid:#C4B5FD;--bg-s:#1A1428;--bg-e:#120E1E;--body-bg:#120E1E;--stage-a:#1C1630;--stage-b:#242040;--disp-bg:#1C1630;--disp-bd:#2E2445;--card-a:#A78BFA;--card-b:#7C60D0;--card-sh:#5040A0;--bn-a:#A78BFA;--bn-b:#7C60D0;--bn-sh:#5040A0;--op-bg:#1C1630;--op-bd:#2E2445;--op-tx:#C4B5FD;--ut-a:#4A3A60;--ut-b:#3A2A50;--ut-sh:#2A1A40;--eq-a:#D4923A;--eq-sh:#7A5020;--cl-a:#4A3A60;--cl-sh:#2A1A40;--ga-a:#A78BFA;--ga-b:#7C60D0;--ga-sh:#5040A0;--td:#D4CCE8;--tm:#7A6A9A;--tp:#4A3A60;--dn:#D4A0D4;--shc:rgba(20,0,40,.30)}
+/* Dark themes shared overrides */
+html.t-dark body,html.t-night body,html.t-purple body{background:var(--body-bg)}
+html.t-dark .calc,html.t-night .calc,html.t-purple .calc{box-shadow:0 0 0 1px rgba(255,255,255,.04) inset}
+@media (min-width:481px){
+  html.t-dark .calc,html.t-night .calc,html.t-purple .calc{box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.06) inset}
+}
+@media (min-width:769px){
+  html.t-dark .calc,html.t-night .calc,html.t-purple .calc{box-shadow:0 12px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06) inset}
+}
+html.t-dark .modal-content,html.t-night .modal-content,html.t-purple .modal-content{background:var(--stage-a)}
+html.t-dark .memo-input,html.t-dark .gather-input,html.t-night .memo-input,html.t-night .gather-input,html.t-purple .memo-input,html.t-purple .gather-input{background:var(--stage-b);border-color:var(--disp-bd);color:var(--td)}
+html.t-dark .side-menu,html.t-night .side-menu,html.t-purple .side-menu{background:var(--body-bg)}
+html.t-dark .menu-header,html.t-night .menu-header,html.t-purple .menu-header{background:linear-gradient(135deg,var(--stage-a),var(--stage-b))}
+html{height:100%;overflow:hidden}
+body{font-family:var(--font);height:100vh;height:100dvh;background:linear-gradient(150deg,var(--bg-s),var(--bg-e));background-attachment:fixed;display:flex;justify-content:center;align-items:center;padding:0;overflow:hidden;overscroll-behavior:none;position:fixed;width:100%}
+/* タブレット (481px〜768px) */
+@media (min-width:481px){
+  body{padding:16px}
+  .calc{border-radius:24px;box-shadow:0 8px 40px rgba(0,0,0,.12),0 0 0 1px rgba(255,255,255,.5) inset;max-height:calc(100vh - 32px);max-width:420px}
+  .modal-content{max-height:80vh}
+  .fx-row{padding:clamp(12px,2.5vw,16px) clamp(10px,2vw,14px) clamp(8px,1.5vw,10px);flex:0 0 auto;min-height:auto}
+  .fx-label{top:4px}
+}
+/* PC (769px以上) */
+@media (min-width:769px){
+  body{padding:24px}
+  .calc{border-radius:28px;max-width:400px;box-shadow:0 12px 60px rgba(0,0,0,.15),0 0 0 1px rgba(255,255,255,.5) inset}
+  .modal-content{max-width:440px;margin:auto}
+}
+.calc{--gap:clamp(4px,1vw,7px);--inner-w:min(100vw,480px);--pad:clamp(10px,2.5vw,16px);--btn:calc((var(--inner-w) - var(--pad)*2 - var(--gap)*4)/5);width:100%;height:100%;max-width:480px;background:var(--body-bg);padding:env(safe-area-inset-top,6px) var(--pad) env(safe-area-inset-bottom,6px);display:flex;flex-direction:column;gap:clamp(3px,.6vh,6px);box-shadow:0 0 0 1.5px rgba(255,255,255,.88) inset;overflow:hidden;transform:translateZ(0)}
+.app-title{font-size:clamp(.56rem,1.5vw,.72rem);font-weight:900;color:var(--tp);flex-shrink:0;display:flex;align-items:center;gap:6px;padding-top:2px}
+.menu-toggle{width:36px;height:36px;border-radius:11px;background:var(--stage-b);border:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4.5px;cursor:pointer;flex-shrink:0;box-shadow:3px 3px 7px var(--shc),-2px -2px 5px rgba(255,255,255,.45);transition:box-shadow .15s}
+.menu-toggle:active{box-shadow:inset 2px 2px 5px var(--shc),inset -2px -2px 4px rgba(255,255,255,.25)}
+.menu-toggle .ml{width:18px;height:2.5px;background:rgba(255,255,255,.9);border-radius:3px;transition:all .2s}
+.menu-toggle.open .ml:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.menu-toggle.open .ml:nth-child(2){opacity:0}
+.menu-toggle.open .ml:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mode-switch{margin-left:auto;display:flex;background:var(--shc);border-radius:10px;padding:2px;gap:1px;flex-shrink:0;border:1.5px solid var(--disp-bd)}
+.mode-sw-btn{border:none;background:transparent;font-family:var(--font);font-size:clamp(.6rem,1.5vw,.72rem);font-weight:800;color:var(--tm);padding:7px 14px;border-radius:8px;cursor:pointer;transition:all .2s;white-space:nowrap;letter-spacing:.02em;position:relative}
+.mode-sw-btn:active{transform:scale(.95)}
+.mode-sw-btn.on{background:var(--brand);color:#fff;box-shadow:0 1px 6px var(--shc)}
+html.t-dark .mode-switch,html.t-night .mode-switch,html.t-purple .mode-switch{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.08)}
+html.t-dark .mode-sw-btn.on,html.t-night .mode-sw-btn.on,html.t-purple .mode-sw-btn.on{box-shadow:0 1px 6px rgba(0,0,0,.3)}
+.stage{position:relative;width:100%;flex:1 1 0;min-height:80px;background:linear-gradient(138deg,var(--stage-a),var(--stage-b));border-radius:clamp(9px,2vw,16px);border:2px dashed var(--disp-bd);overflow:hidden;transition:background .2s,border-color .2s}
+.stage.drop-ready{border-color:var(--brand);background:var(--stage-a)}
+.stage-hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;pointer-events:none;transition:opacity .28s}
+.stage-hint .si{font-size:clamp(1.05rem,4.4vw,1.65rem);opacity:.2}
+.stage-hint .st{font-size:clamp(.66rem,1.8vw,.8rem);font-weight:700;color:var(--tm);line-height:1.75;text-align:center}
+.card-count{position:absolute;top:7px;right:9px;display:none;background:var(--brand);color:#fff;border-radius:20px;padding:3px 10px;font-size:clamp(.52rem,1.3vw,.64rem);font-weight:800;pointer-events:none;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.ncard{position:absolute;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(12px,2.5vw,16px);min-width:clamp(110px,28vw,170px);box-shadow:0 3px 0 var(--card-sh),0 4px 10px var(--shc);cursor:grab;z-index:10;perspective:600px;-webkit-tap-highlight-color:transparent}
+.ncard.dragging{cursor:grabbing;z-index:80}
+.ncard.enter{animation:cIn .3s cubic-bezier(.34,1.56,.64,1)}
+.ncard.leaving{animation:cOut .17s ease-in forwards}
+@keyframes cIn{from{transform:scale(.3) translateY(15px);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes cOut{to{transform:scale(.4);opacity:0}}
+@keyframes nudge{0%,100%{transform:scale(1)}25%{transform:scale(1.08) rotate(-2deg)}50%{transform:scale(1.05) rotate(1deg)}75%{transform:scale(1.08) rotate(-1deg)}}
+.ncard.nudge{animation:nudge .5s ease;z-index:90!important}
+.ncard-inner{position:relative;width:100%;height:100%;transition:transform .4s ease;transform-style:preserve-3d}
+.ncard.flipped .ncard-inner{transform:rotateY(180deg)}
+.ncard-front,.ncard-back{backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:clamp(10px,2.2vw,14px) clamp(14px,3.5vw,20px)}
+.ncard-front{display:flex;align-items:center;gap:3px}
+.ncard-back{position:absolute;inset:0;transform:rotateY(180deg);background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:inherit;display:flex;flex-direction:column;gap:4px;padding:clamp(6px,1.5vw,9px)}
+.clbl{font-size:clamp(.56rem,1.35vw,.7rem);font-weight:900;color:rgba(255,255,255,.6);white-space:nowrap}
+.cval{font-size:clamp(1.3rem,3.6vw,1.75rem);font-weight:900;color:#fff;white-space:nowrap;flex:1;text-align:right}
+.cdel{width:24px;height:24px;flex-shrink:0;background:rgba(255,255,255,.17);border:none;border-radius:50%;color:rgba(255,255,255,.76);font-size:.65rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.cdel:active{background:rgba(210,45,25,.6)}
+.memo-label{font-size:clamp(.4rem,.95vw,.52rem);font-weight:800;color:rgba(255,255,255,.5);text-transform:uppercase}
+.memo-text{font-size:clamp(.62rem,1.65vw,.78rem);font-weight:700;color:#fff;line-height:1.4;word-break:break-word;flex:1;max-height:3.6em;overflow:hidden}
+.memo-edit-btn{background:rgba(255,255,255,.2);border:none;border-radius:6px;padding:4px 8px;font-size:clamp(.48rem,1.1vw,.58rem);font-weight:800;color:#fff;cursor:pointer;align-self:flex-end}
+.memo-edit-btn:active{background:rgba(255,255,255,.35)}
+.flip-hint{position:absolute;top:3px;right:3px;font-size:.5rem;opacity:.35;pointer-events:none}
+/* スワイプガイド帯 */
+/* Quick actions (税込・割り勘) — ゴーストスタイル */
+.quick-row{display:flex;gap:4px;flex-shrink:0;padding:0}
+.qbtn{flex:1;border:none;background:transparent;border-radius:8px;padding:5px 0;font-family:var(--font);font-size:clamp(.58rem,1.45vw,.68rem);font-weight:700;color:var(--tm);cursor:pointer;touch-action:manipulation;transition:transform .06s,background .1s}
+.qbtn:active{transform:scale(.95);background:var(--stage-a)}
+.qbtn.qw{color:var(--brand)}
+/* 割り勘モーダル */
+.wari-total{text-align:center;font-size:clamp(1.1rem,3vw,1.35rem);font-weight:900;color:var(--td);padding:6px 0 14px}
+.wari-people{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:16px}
+.wari-step{width:52px;height:52px;border-radius:50%;border:none;background:var(--brand);color:#fff;font-size:1.5rem;font-weight:900;cursor:pointer;touch-action:manipulation;display:flex;align-items:center;justify-content:center}
+.wari-step:active{transform:scale(.92)}
+.wari-count{font-size:clamp(1.6rem,4.5vw,2rem);font-weight:900;color:var(--td);min-width:80px;text-align:center}
+.wari-unit{font-size:.5em;font-weight:700;color:var(--tm);margin-left:2px}
+.wari-result{background:var(--stage-a);border-radius:14px;padding:16px;text-align:center}
+.wari-result-label{font-size:clamp(.6rem,1.5vw,.7rem);font-weight:700;color:var(--tm);margin-bottom:4px}
+.wari-result-val{font-size:clamp(1.7rem,5vw,2.2rem);font-weight:900;color:var(--brand)}
+.wari-result-note{font-size:clamp(.56rem,1.35vw,.64rem);font-weight:600;color:var(--tp);margin-top:6px}
+.ctrl{display:grid;grid-template-columns:var(--btn) 1fr var(--btn);gap:var(--gap);align-items:center;flex-shrink:0}
+.disp{background:var(--disp-bg);border:2px solid var(--disp-bd);border-radius:clamp(9px,1.9vw,15px);height:var(--btn);padding:3px clamp(9px,2.1vw,13px);display:flex;flex-direction:column;justify-content:center;align-items:flex-end;overflow:hidden;cursor:grab;transition:transform .12s,box-shadow .12s,border-color .13s;position:relative}
+.disp.lift{cursor:grabbing;transform:scale(1.03) translateY(-3px);box-shadow:0 9px 22px var(--shc);border-color:var(--brand)}
+.currency-badge{position:absolute;top:2px;left:6px;font-size:clamp(.38rem,.9vw,.46rem);font-weight:900;color:var(--brand);opacity:.5}
+.d-expr{font-size:clamp(.6rem,1.6vw,.74rem);font-weight:700;color:var(--tm);min-height:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.d-num{font-size:clamp(1.9rem,5.8vw,2.7rem);font-weight:900;color:var(--td);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;line-height:1.05}
+.d-num.sm{font-size:clamp(1.3rem,3.9vw,1.8rem)}
+.d-num.xs{font-size:clamp(1rem,2.9vw,1.3rem)}
+@keyframes dfl{0%,100%{background:var(--disp-bg)}40%{background:var(--stage-b)}}
+html.t-dark .disp.flash,html.t-night .disp.flash,html.t-purple .disp.flash{animation:dflD .36s ease}
+@keyframes dflD{0%,100%{background:var(--disp-bg)}40%{background:var(--disp-bd)}}
+.disp.flash{animation:dfl .36s ease}
+.ghost-card{position:fixed;pointer-events:none;z-index:9999;background:linear-gradient(145deg,var(--card-a),var(--card-b));border-radius:clamp(8px,1.9vw,13px);padding:clamp(5px,1.3vw,8px) clamp(9px,2.3vw,13px);font-family:var(--font);font-size:clamp(.98rem,2.5vw,1.26rem);font-weight:900;color:#fff;box-shadow:0 7px 18px var(--shc);transform:scale(1.06) rotate(-2deg);opacity:.87;white-space:nowrap}
+.btn{border:none;border-radius:50%;width:var(--btn);height:var(--btn);font-family:var(--font);font-weight:800;cursor:pointer;display:flex;justify-content:center;align-items:center;flex-shrink:0;transition:transform .04s,box-shadow .04s}
+.btn:active{transform:scale(.9) translateY(2px)}
+.bn{background:linear-gradient(170deg,var(--bn-a),var(--bn-b));color:#fff;font-size:calc(var(--btn)*.52);box-shadow:0 4px 0 var(--bn-sh),0 5px 12px var(--shc)}.bn:active{box-shadow:0 1px 0 var(--bn-sh)}
+.bop{background:var(--op-bg);color:var(--op-tx);font-size:calc(var(--btn)*.48);border:2px solid var(--op-bd);box-shadow:0 3px 0 var(--stage-b)}.bop:active{box-shadow:0 1px 0 var(--stage-b)}
+.bu{background:linear-gradient(170deg,var(--ut-a),var(--ut-b));color:#fff;font-size:calc(var(--btn)*.38);box-shadow:0 3px 0 var(--ut-sh)}.bu:active{box-shadow:0 1px 0 var(--ut-sh)}
+.bc{background:linear-gradient(170deg,var(--cl-a),var(--cl-sh));color:#fff;font-size:calc(var(--btn)*.44);box-shadow:0 4px 0 var(--cl-sh)}.bc:active{box-shadow:0 1px 0 var(--cl-sh)}
+.beq{background:linear-gradient(170deg,var(--eq-a),var(--eq-sh));color:#fff;font-size:calc(var(--btn)*.50);box-shadow:0 4px 0 var(--eq-sh),0 4px 12px var(--shc)}.beq:active{box-shadow:0 1px 0 var(--eq-sh)}
+.bga{background:linear-gradient(170deg,var(--ga-a),var(--ga-b));color:#fff;box-shadow:0 4px 0 var(--ga-sh),0 4px 14px var(--shc);font-size:calc(var(--btn)*.5)}.bga:active{box-shadow:0 1px 0 var(--ga-sh)}
+.bga.has-cards{animation:gaPulse 2s ease-in-out infinite}
+@keyframes gaPulse{0%,100%{box-shadow:0 4px 0 var(--ga-sh),0 4px 14px var(--shc)}50%{box-shadow:0 4px 0 var(--ga-sh),0 6px 22px var(--shc)}}
+.bfx{background:linear-gradient(170deg,var(--brand),var(--brand-mid));color:#fff;flex-direction:column;gap:1px;box-shadow:0 3px 0 var(--bn-sh)}
+.bfx-ico{display:flex;width:calc(var(--btn)*.40);height:calc(var(--btn)*.40)}.bfx-ico svg{width:100%;height:100%}
+.bfx-lbl{font-size:calc(var(--btn)*.17);font-weight:800;line-height:1;opacity:.9;letter-spacing:.02em}.bfx:active{box-shadow:0 1px 0 var(--bn-sh)}
+.kpad{display:grid;grid-template-columns:repeat(5,var(--btn));gap:var(--gap);justify-content:center;flex-shrink:0}
+
+/* ===== FX Converter Panel (iPhone style) ===== */
+.fx-panel{display:none;flex-direction:column;flex:1 1 0;min-height:0}
+.fx-panel.active{display:flex}
+.stage.fx-hidden{display:none}
+.fx-label{font-size:clamp(.44rem,1vw,.52rem);font-weight:700;color:var(--tp);letter-spacing:.1em;text-transform:uppercase;position:absolute;top:6px;left:clamp(10px,2.5vw,16px)}
+.fx-row{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:clamp(14px,3vw,20px) clamp(10px,2.5vw,16px) clamp(8px,2vw,12px);flex:1;min-height:44px;position:relative}
+.fx-row.from{background:var(--stage-a);border-radius:clamp(9px,2vw,16px) clamp(9px,2vw,16px) 0 0}
+.fx-row.to{background:linear-gradient(135deg,var(--stage-b),var(--disp-bd));border-radius:0 0 clamp(9px,2vw,16px) clamp(9px,2vw,16px)}
+.fx-amount{font-family:var(--font);font-size:clamp(1.5rem,4.8vw,2.1rem);font-weight:900;color:var(--td);flex:1;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fx-amount.secondary{color:var(--brand);opacity:.85}
+.fx-cur-btn{background:var(--shc);border:2px solid var(--disp-bd);border-radius:12px;padding:7px 12px;font-family:var(--font);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;min-width:82px;justify-content:center}
+.fx-cur-btn:active{background:var(--stage-b)}
+.fx-cur-code{font-size:clamp(.82rem,2.2vw,1rem);font-weight:800;color:var(--td)}
+.fx-cur-name{font-size:clamp(.44rem,1vw,.52rem);font-weight:600;color:var(--tp)}
+.chevron{font-size:.5em;opacity:.4;margin-left:2px;color:var(--tp)}
+.fx-divider{display:flex;align-items:center;gap:0;margin:-6px 0;z-index:2;position:relative;padding:0 clamp(10px,2.5vw,16px)}
+.fx-divider-line{flex:1;height:1.5px;background:var(--disp-bd)}
+.fx-swap-btn{width:34px;height:34px;border-radius:50%;background:var(--brand);border:3px solid var(--body-bg);color:#fff;font-size:.9rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:3;transition:transform .15s}
+.fx-swap-btn:active{transform:rotate(180deg) scale(.9)}
+.fx-rate-bar{text-align:center;font-size:clamp(.48rem,1.15vw,.58rem);font-weight:600;color:var(--tp);padding:5px 0 2px;opacity:.7}
+
+/* FX Currency picker modal */
+.fx-cur-list{max-height:50vh;overflow-y:auto}
+.fx-cur-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:none;background:transparent;width:100%;text-align:left;cursor:pointer;font-family:var(--font);border-bottom:1px solid var(--shc)}
+.fx-cur-item:active{background:var(--shc)}
+.fx-cur-item.selected{background:var(--shc)}
+.fx-cur-item .fx-flag{font-size:1.2rem;width:28px;text-align:center}
+.fx-cur-item .fx-info{flex:1}
+.fx-cur-item .fx-code{font-size:.78rem;font-weight:900;color:var(--td);display:block}
+.fx-cur-item .fx-name{font-size:.6rem;font-weight:600;color:var(--tp);opacity:.7}
+.fx-cur-item .fx-check{color:var(--brand);font-weight:900;font-size:.9rem}
+
+/* Hamburger is now in title bar, remove fixed button styles */
+.side-menu{position:fixed;top:0;left:-290px;width:290px;height:100vh;height:100dvh;background:var(--body-bg);box-shadow:4px 0 20px rgba(0,20,16,.2);z-index:400;transition:left .3s;overflow-y:auto;display:flex;flex-direction:column}
+.side-menu.open{left:0}
+.menu-header{background:linear-gradient(135deg,var(--brand),var(--brand-mid));color:#fff;padding:calc(env(safe-area-inset-top,20px) + 4px) 20px 18px}
+.menu-app-name{font-size:1rem;font-weight:900;margin-bottom:3px}
+.menu-app-desc{font-size:.62rem;font-weight:600;opacity:.85}
+.menu-items{flex:1;padding:8px 0}
+.menu-section-label{padding:10px 20px 4px;font-size:.52rem;font-weight:800;color:var(--tp);text-transform:uppercase;letter-spacing:.12em;opacity:.6}
+.menu-item{display:flex;align-items:center;gap:12px;padding:11px 20px;background:transparent;border:none;width:100%;text-align:left;cursor:pointer;color:var(--td);font-family:var(--font);min-height:48px}
+.menu-item:active{background:var(--shc)}
+.menu-item.active{background:var(--shc);border-left:4px solid var(--brand)}
+.menu-item-icon{width:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.menu-item-text{flex:1}
+.menu-item-label{font-size:.78rem;font-weight:800;display:block;margin-bottom:1px}
+.menu-item-desc{font-size:.58rem;font-weight:600;color:var(--tp);opacity:.7}
+.menu-divider{height:1px;background:var(--shc);margin:6px 20px}
+.menu-footer{padding:14px 20px;border-top:1px solid var(--shc);display:flex;flex-direction:column;gap:8px}
+.menu-footer-links{display:flex;gap:12px;flex-wrap:wrap}
+.menu-footer-link{background:none;border:none;font-family:var(--font);font-size:.56rem;font-weight:700;color:var(--tp);opacity:.7;cursor:pointer;padding:0;text-decoration:underline}
+.menu-footer-link:active{opacity:1}
+.menu-footer-ver{font-size:.52rem;color:var(--tp);opacity:.4}
+.menu-overlay{position:fixed;inset:0;background:rgba(0,20,16,.5);opacity:0;pointer-events:none;z-index:399;transition:opacity .3s}
+.menu-overlay.show{opacity:1;pointer-events:auto}
+.modal{position:fixed;inset:0;background:rgba(0,20,16,.7);display:none;align-items:center;justify-content:center;z-index:500;padding:16px}
+.modal.show{display:flex}
+.modal-content{background:var(--body-bg);border-radius:16px;width:min(440px,100%);max-height:85vh;overflow-y:auto;padding:20px;box-shadow:0 20px 60px rgba(0,20,16,.4)}
+.modal-title{font-size:1rem;font-weight:900;color:var(--td);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.modal-close{width:36px;height:36px;border-radius:50%;background:var(--shc);border:none;color:var(--tm);font-size:.9rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.modal-close:active{background:var(--shc)}
+.history-item{background:var(--shc);border-radius:8px;padding:10px 12px;margin-bottom:8px;border-left:3px solid var(--brand)}
+.hist-date{font-size:.54rem;font-weight:700;color:var(--tp);opacity:.6;margin-bottom:3px}
+.hist-title{font-size:.72rem;font-weight:800;color:var(--brand);margin-bottom:3px;display:flex;align-items:center;gap:4px}
+.hist-title-icon{font-size:.65rem}
+.hist-formula{font-size:.64rem;font-weight:600;color:var(--tm);margin-bottom:3px}
+.hist-total{font-size:.9rem;font-weight:900;color:var(--brand)}
+.hist-actions{display:flex;gap:6px;margin-top:6px}
+.hist-btn{background:var(--shc);border:none;border-radius:6px;padding:5px 10px;font-family:var(--font);font-size:.56rem;font-weight:800;color:var(--tm);cursor:pointer}
+.hist-btn:active{background:var(--shc)}
+.hist-btn.restore{background:var(--brand);color:#fff}
+.hist-btn.restore:active{background:var(--brand-mid)}
+.hist-empty{text-align:center;padding:30px;color:var(--tp);opacity:.5;font-size:.7rem}
+.hist-del-all{display:block;width:100%;margin-top:16px;padding:12px;background:none;border:1.5px solid rgba(179,96,96,.25);border-radius:10px;font-family:var(--font);font-size:.68rem;font-weight:700;color:var(--dn);cursor:pointer;transition:all .15s}
+.hist-del-all:active{background:rgba(179,96,96,.08)}
+.memo-input,.gather-input{width:100%;background:#fff;border:2px solid var(--op-bd);border-radius:8px;padding:12px;font-size:.82rem;font-weight:600;color:var(--td);font-family:var(--font);-webkit-user-select:text;user-select:text}
+.memo-input{resize:vertical;min-height:80px}
+.memo-actions{display:flex;gap:8px;margin-top:12px}
+.memo-btn{flex:1;background:var(--shc);border:none;border-radius:8px;padding:10px;font-family:var(--font);font-size:.72rem;font-weight:800;color:var(--tm);cursor:pointer;min-height:44px}
+.memo-btn:active{background:var(--shc)}
+.memo-btn.save{background:var(--brand);color:#fff}
+.memo-btn.save:active{background:var(--brand-mid)}
+.guide-section{margin-bottom:16px}
+.guide-section-title{font-size:.82rem;font-weight:900;color:var(--brand);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.guide-section-title .gs-icon{font-size:1rem}
+.guide-step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.guide-step-num{width:22px;height:22px;border-radius:50%;background:var(--brand);color:#fff;font-size:.6rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.guide-step-text{font-size:.72rem;font-weight:600;color:var(--tm);line-height:1.6}
+.guide-step-text strong{color:var(--brand)}
+.guide-tip{background:var(--shc);border-radius:8px;padding:10px 12px;font-size:.66rem;font-weight:600;color:var(--tm);line-height:1.6;margin-top:6px}
+.guide-tip::before{content:'💡';margin-right:4px}
+.guide-usecase{background:var(--shc);border:1.5px solid var(--disp-bd);border-radius:10px;padding:10px 12px;margin-top:8px}
+.gu-title{font-size:.62rem;font-weight:900;color:var(--brand);margin-bottom:6px;letter-spacing:.04em}
+.gu-item{font-size:.64rem;font-weight:600;color:var(--tm);line-height:1.6;margin-bottom:5px;display:flex;gap:6px;align-items:flex-start}
+.gu-item:last-child{margin-bottom:0}
+.gu-dot{width:5px;height:5px;border-radius:50%;background:var(--brand);flex-shrink:0;margin-top:5px;opacity:.5}
+.privacy-section{margin-bottom:14px}
+.privacy-h{font-size:.78rem;font-weight:900;color:var(--brand);margin-bottom:6px}
+.privacy-p{font-size:.68rem;font-weight:600;color:var(--tm);line-height:1.7;margin-bottom:6px}
+/* Tutorial fullscreen */
+.tut{position:fixed;inset:0;z-index:9999;display:none;background:var(--brand);flex-direction:column}
+.tut.show{display:flex}
+.tut-head{padding:env(safe-area-inset-top,14px) 20px 0;flex-shrink:0}
+.tut-x{width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.1);border:none;color:rgba(255,255,255,.6);font-size:1rem;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.tut-x:active{background:rgba(0,0,0,.18)}
+.tut-wrap{flex:1;overflow:hidden}
+.tut-track{display:flex;height:100%;transition:transform .4s cubic-bezier(.4,0,.2,1);width:300%}
+.tut-p{width:calc(100%/3);flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 clamp(30px,8vw,48px)}
+.tut-icon{width:clamp(160px,44vw,210px);height:clamp(140px,38vw,180px);border-radius:clamp(20px,5vw,28px);background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin-bottom:clamp(24px,5vh,36px);padding:16px}
+/* Demo illustrations (text-based, clear) */
+.tut-demo{width:100%;display:flex;flex-direction:column;align-items:center;gap:6px}
+.td-row{display:flex;align-items:center;gap:6px}
+.td-label{font-size:clamp(.5rem,1.2vw,.6rem);color:rgba(255,255,255,.4);font-weight:700}
+.td-val{font-size:clamp(1.1rem,3.5vw,1.4rem);font-weight:900;color:#fff}
+.td-arrow{font-size:clamp(.6rem,1.5vw,.72rem);font-weight:800;color:rgba(255,255,255,.5);animation:tdBounce 1.5s ease-in-out infinite}
+@keyframes tdBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.td-cards{display:flex;flex-direction:column;gap:4px;width:100%}
+.td-card{background:rgba(255,255,255,.18);border-radius:8px;padding:5px 12px;font-size:clamp(.7rem,1.8vw,.82rem);font-weight:800;color:#fff;width:fit-content}
+/* Flip demo */
+.td-flip{display:flex;align-items:center;gap:8px;width:100%}
+.td-card-lg{background:rgba(255,255,255,.18);border-radius:8px;padding:8px 12px;font-size:clamp(.82rem,2.2vw,.96rem);font-weight:900;color:#fff;flex:1;text-align:center}
+.td-arrow-sm{font-size:clamp(.5rem,1.2vw,.58rem);font-weight:700;color:rgba(255,255,255,.35);white-space:nowrap}
+.td-card-back{background:rgba(255,255,255,.12);border-radius:8px;padding:8px 10px;flex:1;text-align:center}
+.td-memo-label{display:block;font-size:clamp(.4rem,.9vw,.48rem);font-weight:800;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:2px}
+.td-memo-val{font-size:clamp(.62rem,1.5vw,.72rem);font-weight:700;color:#fff;line-height:1.4}
+/* FX demo */
+.td-fx-row{display:flex;align-items:center;justify-content:space-between;width:100%;background:rgba(255,255,255,.12);border-radius:8px;padding:8px 12px}
+.td-fx-amt{font-size:clamp(.92rem,2.5vw,1.1rem);font-weight:900;color:#fff}
+.td-fx-result{color:rgba(255,255,255,.65)}
+.td-fx-cur{font-size:clamp(.5rem,1.2vw,.6rem);font-weight:800;color:rgba(255,255,255,.5);background:rgba(255,255,255,.1);padding:2px 8px;border-radius:6px}
+.td-fx-mid{font-size:clamp(.7rem,1.8vw,.82rem);font-weight:900;color:rgba(255,255,255,.35);text-align:center;padding:2px 0}
+.tut-sub{font-size:clamp(.54rem,1.3vw,.64rem);font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:12px;width:100%}
+.tut-h{font-size:clamp(1.4rem,6vw,1.9rem);font-weight:900;color:#fff;line-height:1.3;width:100%;margin-bottom:clamp(14px,3vh,22px)}
+.tut-h span{color:rgba(255,255,255,.55)}
+.tut-txt{font-size:clamp(.76rem,2.2vw,.92rem);font-weight:600;color:rgba(255,255,255,.6);line-height:1.8;width:100%}
+.tut-foot{padding:16px clamp(28px,7vw,44px) env(safe-area-inset-bottom,26px);display:flex;align-items:center;gap:12px;flex-shrink:0}
+.tut-dots{display:flex;gap:8px;flex:1;justify-content:center}
+.tut-d{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18);transition:all .3s}
+.tut-d.on{background:#fff;width:24px;border-radius:5px}
+.tut-b{border:none;border-radius:14px;padding:16px 0;font-family:var(--font);font-size:clamp(.8rem,2.2vw,.94rem);font-weight:800;cursor:pointer;transition:all .12s}
+.tut-b:active{transform:scale(.97)}
+.tut-sk{background:rgba(0,0,0,.08);color:rgba(255,255,255,.55);flex:0 0 26%}
+.tut-nx{background:#fff;color:var(--brand-mid);flex:1;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+html.t-dark .tut,html.t-night .tut,html.t-purple .tut{background:var(--body-bg)}
+html.t-dark .tut-icon,html.t-night .tut-icon,html.t-purple .tut-icon{background:rgba(255,255,255,.05)}
+html.t-dark .tut-x,html.t-night .tut-x,html.t-purple .tut-x{background:rgba(255,255,255,.08)}
+html.t-dark .tut-sk,html.t-night .tut-sk,html.t-purple .tut-sk{background:rgba(255,255,255,.06)}
+html.t-dark .tut-nx,html.t-night .tut-nx,html.t-purple .tut-nx{color:var(--body-bg)}
+@media (min-width:481px){.tut{border-radius:24px;inset:16px;position:fixed}.tut-p{max-width:400px;margin:0 auto}}
+@media (min-width:769px){.tut{border-radius:28px;inset:24px;max-width:500px;margin:auto}}
+/* Calendar */
+.cal-content{padding:16px}
+.cal-view-sw{display:flex;background:var(--stage-a);border-radius:8px;padding:2px;gap:1px}
+.cal-vs{border:none;background:transparent;font-family:var(--font);font-size:clamp(.56rem,1.4vw,.66rem);font-weight:700;color:var(--tp);padding:5px 14px;border-radius:7px;cursor:pointer;transition:all .15s}
+.cal-vs.on{background:var(--brand);color:#fff}
+.cal-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:10px}
+.cal-nav-btn{width:32px;height:32px;border-radius:50%;background:var(--stage-a);border:none;font-size:1.1rem;font-weight:700;color:var(--tm);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cal-nav-btn:active{background:var(--stage-b)}
+.cal-month{font-size:clamp(.82rem,2.2vw,.96rem);font-weight:800;color:var(--td);min-width:120px;text-align:center}
+.cal-summary{display:flex;gap:8px;margin-bottom:12px}
+.cal-sum-box{flex:1;background:var(--stage-a);border-radius:10px;padding:10px 12px;text-align:center}
+.cal-sum-label{font-size:clamp(.48rem,1.1vw,.56rem);font-weight:700;color:var(--tp);margin-bottom:4px}
+.cal-sum-val{font-size:clamp(.9rem,2.5vw,1.1rem);font-weight:800;color:var(--brand)}
+.cal-sum-sub{font-size:clamp(.44rem,1vw,.52rem);font-weight:600;color:var(--tp);margin-top:2px}
+/* Calendar grid */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-dow{font-size:clamp(.44rem,1vw,.52rem);font-weight:700;color:var(--tp);text-align:center;padding:4px 0}
+.cal-dow:first-child{color:var(--dn)}
+.cal-dow:last-child{color:#4A90D0}
+.cal-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;transition:background .12s;position:relative;gap:1px}
+.cal-cell:active{background:var(--stage-b)}
+.cal-cell.empty{cursor:default}
+.cal-cell.today{background:var(--stage-a)}
+.cal-day{font-size:clamp(.52rem,1.3vw,.62rem);font-weight:700;color:var(--td)}
+.cal-cell.empty .cal-day{color:transparent}
+.cal-cell.sun .cal-day{color:var(--dn)}
+.cal-cell.sat .cal-day{color:#4A90D0}
+.cal-dot{width:5px;height:5px;border-radius:50%;background:var(--brand)}
+.cal-dot.lg{width:7px;height:7px}
+.cal-dot.xl{width:9px;height:9px}
+.cal-amt{font-size:clamp(.36rem,.85vw,.42rem);font-weight:700;color:var(--brand);white-space:nowrap}
+/* List view */
+.cal-list-empty{text-align:center;padding:30px;color:var(--tp);opacity:.5;font-size:.7rem}
+.cal-list-day{margin-bottom:10px}
+.cal-list-date{font-size:clamp(.56rem,1.4vw,.66rem);font-weight:800;color:var(--td);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.cal-list-dow{font-size:clamp(.48rem,1.1vw,.56rem);font-weight:600;color:var(--tp)}
+.cal-list-item{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--stage-a);border-radius:8px;margin-bottom:3px}
+.cal-list-title{font-size:clamp(.56rem,1.3vw,.64rem);font-weight:600;color:var(--tm);flex:1}
+.cal-list-amt{font-size:clamp(.64rem,1.6vw,.76rem);font-weight:800;color:var(--brand)}
+.cal-list-total{display:flex;justify-content:space-between;padding:8px 10px;background:var(--brand);color:#fff;border-radius:8px;margin-top:4px;font-size:clamp(.6rem,1.5vw,.72rem);font-weight:800}
+/* Theme picker */
+.theme-picks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 6px;padding:4px 0 0;width:100%}
+.tp{display:flex;flex-direction:column;align-items:center;gap:4px;border:none;background:none;cursor:pointer;padding:4px;border-radius:8px;transition:all .15s}
+.tp:active{transform:scale(.93)}
+.tp.on{background:var(--shc)}
+.tp-dot{width:28px;height:28px;border-radius:50%;border:2.5px solid #ccc;transition:all .2s;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.tp.on .tp-dot{transform:scale(1.1);box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.tp-name{font-family:var(--font);font-size:.48rem;font-weight:700;color:var(--tm)}
+.toast{position:fixed;bottom:18%;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brand);color:#fff;padding:14px 28px;border-radius:14px;font-family:var(--font);font-size:.82rem;font-weight:700;box-shadow:0 8px 28px rgba(0,20,16,.25);opacity:0;pointer-events:none;z-index:600;transition:opacity .3s,transform .3s;text-align:center;max-width:90vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="calc">
+  <div class="app-title">
+    <button class="menu-toggle" id="menuToggle" onclick="M.toggle()"><span class="ml"></span><span class="ml"></span><span class="ml"></span></button>
+    <div class="mode-switch" id="modeSwitch">
+      <button class="mode-sw-btn on" id="msSimple" onclick="M.mode('simple')">計算</button>
+      <button class="mode-sw-btn" id="msMemo" onclick="M.mode('memo')">メモ</button>
+      <button class="mode-sw-btn" id="msTravel" onclick="M.mode('travel')">換算</button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="stage-hint" id="stageHint"><span class="si">🃏</span><span class="st" id="hintText">数字を入力して<br>ディスプレイを<strong>上にスワイプ</strong>でカード追加</span></div>
+    <div class="card-count" id="cardCount"><span id="cardCountNum">0/20</span></div>
+  </div>
+  <!-- FX Panel (shown in travel mode, replaces stage) -->
+  <div class="fx-panel" id="fxPanel">
+    <div class="fx-row from">
+      <div class="fx-label">FROM</div>
+      <div class="fx-amount" id="fxFromAmt">0</div>
+      <button class="fx-cur-btn" id="fxFromBtn" onclick="FX.pickCur('from')"><span class="fx-cur-code" id="fxFromCode">USD</span><span class="fx-cur-name" id="fxFromName">米ドル</span><span class="chevron">▼</span></button>
+    </div>
+    <div class="fx-divider">
+      <div class="fx-divider-line"></div>
+      <button class="fx-swap-btn" onclick="FX.swap()">⇅</button>
+      <div class="fx-divider-line"></div>
+    </div>
+    <div class="fx-row to">
+      <div class="fx-label">TO</div>
+      <div class="fx-amount secondary" id="fxToAmt">0.00</div>
+      <button class="fx-cur-btn" id="fxToBtn" onclick="FX.pickCur('to')"><span class="fx-cur-code" id="fxToCode">JPY</span><span class="fx-cur-name" id="fxToName">日本円</span><span class="chevron">▼</span></button>
+    </div>
+    <div class="fx-rate-bar" id="fxRateLabel">1 USD = ¥149.38</div>
+  </div>
+  <div class="ctrl">
+    <button class="btn bc" onclick="C.clear()">C</button>
+    <div class="disp" id="dispBox"><span class="currency-badge" id="curBadge">JPY</span><div class="d-expr" id="exprLine">&nbsp;</div><div class="d-num" id="numLine">0</div></div>
+    <button class="btn bga" onclick="C.gather()"><svg viewBox="0 0 36 36" width="58%" height="58%" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l10 10M14 8v6H8"/><path d="M32 4L22 14M22 8v6h6"/><path d="M4 32l10-10M14 28v-6H8"/><path d="M32 32L22 22M22 28v-6h6"/><circle cx="18" cy="18" r="3" fill="#fff" stroke="none" opacity=".4"/></svg></button>
+  </div>
+  <div class="quick-row">
+    <button class="qbtn" onclick="Q.tax(1.10)">税込10%</button>
+    <button class="qbtn" onclick="Q.tax(1.08)">税込8%</button>
+    <button class="qbtn qw" onclick="Q.wariOpen()">👥 割り勘</button>
+  </div>
+  <div class="kpad">
+    <button class="btn bn" onclick="C.inp('7')">7</button><button class="btn bn" onclick="C.inp('8')">8</button><button class="btn bn" onclick="C.inp('9')">9</button><button class="btn bop" onclick="C.op('÷')">÷</button><button class="btn bu" onclick="C.bs()">⌫</button>
+    <button class="btn bn" onclick="C.inp('4')">4</button><button class="btn bn" onclick="C.inp('5')">5</button><button class="btn bn" onclick="C.inp('6')">6</button><button class="btn bop" onclick="C.op('×')">×</button><button class="btn bu" onclick="C.sign()">±</button>
+    <button class="btn bn" onclick="C.inp('1')">1</button><button class="btn bn" onclick="C.inp('2')">2</button><button class="btn bn" onclick="C.inp('3')">3</button><button class="btn bop" onclick="C.op('−')">−</button><button class="btn bu" onclick="C.pct()">%</button>
+    <button class="btn bn" onclick="C.inp('0')">0</button><button class="btn bn" onclick="C.inp('.')">.</button><button class="btn beq" onclick="C.eq()">＝</button><button class="btn bop" onclick="C.op('＋')">＋</button><button class="btn bfx" id="fxBtn" onclick="M.cycle()" aria-label="モード切替"><span class="bfx-ico" id="fxIco"></span><span class="bfx-lbl" id="fxLbl"></span></button>
+  </div>
+</div>
+
+<div class="menu-overlay" id="menuOverlay" onclick="M.close()"></div>
+<nav class="side-menu" id="sideMenu">
+  <div class="menu-header"><div class="menu-app-name">メモタス</div><div class="menu-app-desc">金額を集めて、まとめて計算</div></div>
+  <div class="menu-items">
+    <div class="menu-section-label">データ</div>
+    <button class="menu-item" onclick="M.hist()"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="4" y="3" width="12" height="15" rx="2" fill="var(--brand)"/><rect x="7" y="1.5" width="6" height="3.5" rx="1.2" fill="var(--brand-mid)"/><rect x="6.5" y="8" width="7" height="1.5" rx=".75" fill="#fff" opacity=".85"/><rect x="6.5" y="11" width="7" height="1.5" rx=".75" fill="#fff" opacity=".6"/></svg></span><div class="menu-item-text"><span class="menu-item-label">履歴</span><span class="menu-item-desc">過去の集計・復元</span></div></button>
+    <button class="menu-item" onclick="M.cal()"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><rect x="3" y="4" width="14" height="13.5" rx="2" fill="var(--brand)"/><rect x="3" y="4" width="14" height="4" rx="2" fill="var(--brand-mid)"/><circle cx="7" cy="12" r="1.3" fill="#fff" opacity=".9"/><circle cx="10.5" cy="12" r="1.3" fill="#fff" opacity=".7"/><circle cx="14" cy="12" r="1.3" fill="#fff" opacity=".5"/></svg></span><div class="menu-item-text"><span class="menu-item-label">カレンダー</span><span class="menu-item-desc">日別・月別の支出チェック</span></div></button>
+    <div class="menu-divider"></div>
+    <div class="menu-section-label">ヘルプ</div>
+    <button class="menu-item" onclick="M.guide()"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M10 4.5C8.5 3 6 2.8 3.5 3.2v12.6c2.5-.4 5 .0 6.5 1.5 1.5-1.5 4-1.9 6.5-1.5V3.2C14 2.8 11.5 3 10 4.5z" fill="var(--brand)"/><path d="M10 4.5v12.8" stroke="#fff" stroke-width="1.2" opacity=".5"/></svg></span><div class="menu-item-text"><span class="menu-item-label">使い方ガイド</span><span class="menu-item-desc">各モードの操作方法</span></div></button>
+    <div class="menu-divider"></div>
+    <div class="menu-section-label">設定</div>
+    <div class="menu-item" style="flex-wrap:wrap;gap:8px;padding-bottom:16px">
+      <div style="width:100%;display:flex;align-items:center;gap:12px"><span class="menu-item-icon"><svg width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="var(--brand)"/><path d="M10 2a8 8 0 0 1 0 16z" fill="var(--brand-mid)" opacity=".55"/></svg></span><div class="menu-item-text"><span class="menu-item-label">テーマ</span><span class="menu-item-desc">アプリの配色を変更</span></div></div>
+      <div class="theme-picks" id="themePicks">
+        <button class="tp" data-t="light" onclick="M.setTheme('light')"><span class="tp-dot" style="background:#F5F8F8;border-color:#0B7A8A"></span><span class="tp-name">ライト</span></button>
+        <button class="tp" data-t="ocean" onclick="M.setTheme('ocean')"><span class="tp-dot" style="background:#F0F5FA;border-color:#4A90D0"></span><span class="tp-name">オーシャン</span></button>
+        <button class="tp" data-t="pastel" onclick="M.setTheme('pastel')"><span class="tp-dot" style="background:linear-gradient(135deg,#F5E6F0,#E8F0FA,#FFF0F5);border-color:#E8A0BF"></span><span class="tp-name">パステル</span></button>
+        <button class="tp" data-t="dark" onclick="M.setTheme('dark')"><span class="tp-dot" style="background:#121816;border-color:#6BA99F"></span><span class="tp-name">ダーク</span></button>
+        <button class="tp" data-t="night" onclick="M.setTheme('night')"><span class="tp-dot" style="background:#0E1525;border-color:#5B8DEF"></span><span class="tp-name">ナイト</span></button>
+        <button class="tp" data-t="purple" onclick="M.setTheme('purple')"><span class="tp-dot" style="background:#1A0E2E;border-color:#A78BFA"></span><span class="tp-name">パープル</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="menu-footer">
+    <div class="menu-footer-links">
+      <button class="menu-footer-link" onclick="M.openLink('request')">機能リクエスト</button>
+      <button class="menu-footer-link" onclick="M.openLink('contact')">お問合せ</button>
+      <button class="menu-footer-link" onclick="M.privacy()">プライバシーポリシー</button>
+    </div>
+    <div class="menu-footer-ver" id="appVer">メモタス</div>
+  </div>
+</nav>
+
+<!-- Modals -->
+<div class="modal" id="historyModal"><div class="modal-content"><div class="modal-title">履歴<button class="modal-close" onclick="M.histClose()">✕</button></div><div id="historyList"></div></div></div>
+<!-- Calendar Modal -->
+<div class="modal" id="calModal"><div class="modal-content cal-content">
+  <div class="modal-title">
+    <div class="cal-view-sw"><button class="cal-vs on" id="calVsCal" onclick="CAL.setView('cal')">カレンダー</button><button class="cal-vs" id="calVsList" onclick="CAL.setView('list')">リスト</button></div>
+    <button class="modal-close" onclick="M.calClose()">✕</button>
+  </div>
+  <div class="cal-nav">
+    <button class="cal-nav-btn" onclick="CAL.prev()">‹</button>
+    <span class="cal-month" id="calMonth"></span>
+    <button class="cal-nav-btn" onclick="CAL.next()">›</button>
+  </div>
+  <div class="cal-summary" id="calSummary"></div>
+  <div id="calBody"></div>
+</div></div>
+<div class="modal" id="memoModal"><div class="modal-content"><div class="modal-title">メモ編集<button class="modal-close" onclick="M.memoClose()">✕</button></div><textarea class="memo-input" id="memoInput" placeholder="この金額について..." maxlength="100"></textarea><div class="memo-actions"><button class="memo-btn" onclick="M.memoClose()">キャンセル</button><button class="memo-btn save" onclick="M.memoSave()">保存</button></div></div></div>
+<div class="modal" id="gatherModal"><div class="modal-content"><div class="modal-title">集計タイトル<button class="modal-close" onclick="M.gatherClose()">✕</button></div><p style="font-size:.72rem;font-weight:600;color:var(--tp);margin-bottom:10px" id="gatherInfo"></p><input class="gather-input" id="gatherTitleInput" placeholder="例: 3月の食費、旅行代..." maxlength="40"><div class="memo-actions"><button class="memo-btn" onclick="M.gatherClose()">キャンセル</button><button class="memo-btn save" onclick="M.gatherConfirm()">集計する</button></div></div></div>
+<!-- 割り勘モーダル -->
+<div class="modal" id="wariModal"><div class="modal-content">
+  <div class="modal-title">割り勘<button class="modal-close" onclick="Q.wariClose()">✕</button></div>
+  <div class="wari-total" id="wariTotal">¥0</div>
+  <div class="wari-people">
+    <button class="wari-step" onclick="Q.wariChange(-1)">−</button>
+    <div class="wari-count"><span id="wariNum">2</span><span class="wari-unit">人</span></div>
+    <button class="wari-step" onclick="Q.wariChange(1)">＋</button>
+  </div>
+  <div class="wari-result">
+    <div class="wari-result-label">1人あたり</div>
+    <div class="wari-result-val" id="wariPer">¥0</div>
+    <div class="wari-result-note" id="wariNote"></div>
+  </div>
+</div></div>
+<div class="modal" id="fxCurModal"><div class="modal-content"><div class="modal-title"><span id="fxCurModalTitle">通貨を選択</span><button class="modal-close" onclick="FX.pickClose()">✕</button></div><div class="fx-cur-list" id="fxCurList"></div></div></div>
+<div class="modal" id="guideModal"><div class="modal-content"><div class="modal-title">使い方ガイド<button class="modal-close" onclick="M.guideClose()">✕</button></div>
+
+  <div class="guide-section"><div class="guide-section-title"><span class="gs-icon">🧮</span>基本操作</div>
+    <div class="guide-step"><span class="guide-step-num">1</span><div class="guide-step-text">キーパッドで<strong>金額を入力</strong>。四則演算もOK。</div></div>
+    <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text">ディスプレイを<strong>上にスワイプ</strong>でカードをステージに追加。</div></div>
+    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text">カードが溜まったら右の<strong>集計ボタン</strong>で合計。</div></div>
+    <div class="guide-tip">カードはドラッグで並べ替え自由。✕ボタンで個別削除もできます。</div>
+    <div class="guide-usecase">
+      <div class="gu-title">こんな時に便利</div>
+      <div class="gu-item"><span class="gu-dot"></span>割り勘の計算 — 各自の注文額をカードにして合計→人数で割る</div>
+      <div class="gu-item"><span class="gu-dot"></span>買い物リスト — 店内で商品の価格を次々カードに入れて予算チェック</div>
+      <div class="gu-item"><span class="gu-dot"></span>経費の集計 — レシートの金額を1枚ずつ入力して月末にまとめる</div>
+    </div>
+  </div>
+
+  <div class="guide-section"><div class="guide-section-title"><span class="gs-icon">📝</span>メモモード</div>
+    <div class="guide-step"><span class="guide-step-num">1</span><div class="guide-step-text">右上の「メモ」タブ、または右下の切替ボタンでメモモードへ。</div></div>
+    <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text">カード追加時に<strong>自動でメモ入力</strong>が開きます。</div></div>
+    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text">カードを<strong>タップ</strong>でメモ面に裏返し。もう一度で戻ります。</div></div>
+    <div class="guide-tip">「ランチ代」「タクシー」などメモしておくと何の出費か一目瞭然。</div>
+    <div class="guide-usecase">
+      <div class="gu-title">こんな時に便利</div>
+      <div class="gu-item"><span class="gu-dot"></span>出張の経費精算 — 「新幹線 ¥14,000」「ホテル ¥8,500」と内訳メモ付きで記録</div>
+      <div class="gu-item"><span class="gu-dot"></span>イベント準備 — 「会場費」「ケータリング」「装飾」と費目を残して予算管理</div>
+    </div>
+  </div>
+
+  <div class="guide-section"><div class="guide-section-title"><span class="gs-icon">✈️</span>海外旅行モード</div>
+    <div class="guide-step"><span class="guide-step-num">1</span><div class="guide-step-text">右上の「換算」タブ、または右下の切替ボタンで換算モードへ。</div></div>
+    <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text">金額を入力すると<strong>リアルタイムで換算</strong>表示。</div></div>
+    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text">通貨ボタンで通貨変更。<strong>⇅</strong>で入れ替え。</div></div>
+    <div class="guide-step"><span class="guide-step-num">4</span><div class="guide-step-text">スワイプで<strong>カードに追加</strong>→旅行中の出費をまとめて集計。</div></div>
+    <div class="guide-tip">レートは起動時に自動取得。オフライン時は前回のキャッシュを使用します。</div>
+    <div class="guide-usecase">
+      <div class="gu-title">こんな時に便利</div>
+      <div class="gu-item"><span class="gu-dot"></span>旅行中の出費管理 — 現地通貨で支払った金額をカードに入れて、帰国後に円換算で合計を確認</div>
+      <div class="gu-item"><span class="gu-dot"></span>海外通販の比較 — ドル建ての商品を日本円で「結局いくら？」をサッと確認</div>
+      <div class="gu-item"><span class="gu-dot"></span>複数通貨の旅行 — タイ→ベトナム→韓国、国ごとの出費を通貨を切り替えながら記録</div>
+    </div>
+  </div>
+
+  <div class="guide-section"><div class="guide-section-title"><span class="gs-icon">📋</span>履歴機能</div>
+    <div class="guide-step"><span class="guide-step-num">1</span><div class="guide-step-text">集計するたびに<strong>履歴に自動保存</strong>。タイトルも付けられます。</div></div>
+    <div class="guide-step"><span class="guide-step-num">2</span><div class="guide-step-text">メニューの「履歴」から過去の集計を確認。</div></div>
+    <div class="guide-step"><span class="guide-step-num">3</span><div class="guide-step-text"><strong>「復元する」</strong>でカードを復元して再編集。<strong>「編集」</strong>でタイトル変更。</div></div>
+    <div class="guide-tip">最大50件まで保存。個別削除も可能です。</div>
+  </div>
+</div></div>
+<div class="modal" id="privacyModal"><div class="modal-content"><div class="modal-title">プライバシーポリシー<button class="modal-close" onclick="M.privacyClose()">✕</button></div>
+  <div class="privacy-section"><div class="privacy-h">1. はじめに</div><div class="privacy-p">メモタス（以下「本アプリ」）は、ユーザーのプライバシーを尊重し、個人情報の保護に努めます。</div></div>
+  <div class="privacy-section"><div class="privacy-h">2. 収集するデータ</div><div class="privacy-p">本アプリは、サーバーへのデータ送信を一切行いません。すべてのデータはお使いのデバイスのlocalStorageにのみ保存されます。</div></div>
+  <div class="privacy-section"><div class="privacy-h">3. データの保存場所</div><div class="privacy-p">入力された金額・メモ・集計履歴はすべてブラウザのlocalStorageに保存され、外部サーバーへの送信は行いません。</div></div>
+  <div class="privacy-section"><div class="privacy-h">4. 第三者への提供</div><div class="privacy-p">本アプリは個人情報を第三者に提供、共有、販売することはありません。トラッキングツールも使用していません。</div></div>
+  <div class="privacy-section"><div class="privacy-h">5. 外部サービス</div><div class="privacy-p">本アプリはGoogle Fonts（フォント）および為替レートAPI（open.er-api.com / frankfurter.dev）に通信します。これらの外部サービスへの接続時、通信の仕組み上、お使いの端末のIPアドレスが相手先サーバーに渡ります。金額・メモ・履歴などアプリ内のデータは一切送信されません。</div></div>
+  <div class="privacy-section"><div class="privacy-h">6. お子様のプライバシー</div><div class="privacy-p">個人情報の収集を行わないため、お子様にも安心してご利用いただけます。</div></div>
+  <div class="privacy-section"><div class="privacy-h">7. ポリシーの変更</div><div class="privacy-p">本ポリシーは予告なく変更する場合があります。最新のポリシーはアプリ内で確認できます。</div></div>
+  <div class="privacy-section"><div class="privacy-h">8. お問い合わせ</div><div class="privacy-p">プライバシーに関するご質問は、メニューの「お問合せ」よりご連絡ください。</div></div>
+  <div class="privacy-p" style="opacity:.5;margin-top:12px;font-size:.6rem">最終更新日: 2026年4月1日</div>
+</div></div>
+<!-- Welcome Onboarding (初回のみ) -->
+<!-- Tutorial -->
+<div class="tut" id="welcomeModal">
+  <div class="tut-head"><button class="tut-x" onclick="M.welcomeClose()">✕</button></div>
+  <div class="tut-wrap"><div class="tut-track" id="tutSlider">
+    <div class="tut-p">
+      <div class="tut-icon"><div class="tut-demo">
+        <div class="td-row"><span class="td-label">入力</span><span class="td-val">1,280</span></div>
+        <div class="td-arrow">↑ スワイプ</div>
+        <div class="td-cards"><span class="td-card">¥1,280</span><span class="td-card">¥850</span><span class="td-card">¥2,400</span></div>
+      </div></div>
+      <div class="tut-sub">Step 1</div>
+      <div class="tut-h">金額を集めて<br><span>まとめて計算。</span></div>
+      <div class="tut-txt">金額を入力 → ディスプレイを上にスワイプ → カードが溜まる → ワンタップで合計。割り勘・買い物・経費精算に。</div>
+    </div>
+    <div class="tut-p">
+      <div class="tut-icon"><div class="tut-demo">
+        <div class="td-flip">
+          <div class="td-card-lg">¥14,000</div>
+          <div class="td-arrow-sm">← タップ →</div>
+          <div class="td-card-back"><span class="td-memo-label">MEMO</span><span class="td-memo-val">新幹線<br>東京→大阪</span></div>
+        </div>
+      </div></div>
+      <div class="tut-sub">Step 2</div>
+      <div class="tut-h">メモを残して<br><span>あとで見返す。</span></div>
+      <div class="tut-txt">メモモードに切替 → カードをタップで裏返し → メモを入力。「新幹線」「ホテル」と何の出費か残せます。</div>
+    </div>
+    <div class="tut-p">
+      <div class="tut-icon"><div class="tut-demo">
+        <div class="td-fx-row"><span class="td-fx-amt">¥5,000</span><span class="td-fx-cur">JPY</span></div>
+        <div class="td-fx-mid">⇅</div>
+        <div class="td-fx-row"><span class="td-fx-amt td-fx-result">$33.47</span><span class="td-fx-cur">USD</span></div>
+      </div></div>
+      <div class="tut-sub">Step 3</div>
+      <div class="tut-h">海外旅行の出費を<br><span>まとめて管理。</span></div>
+      <div class="tut-txt">換算モードで現地通貨をリアルタイム変換。カードに集めて、日本円でいくら使ったか一目でわかります。</div>
+    </div>
+  </div></div>
+  <div class="tut-foot">
+    <button class="tut-b tut-sk" onclick="M.welcomeClose()">スキップ</button>
+    <div class="tut-dots"><span class="tut-d on" id="td0"></span><span class="tut-d" id="td1"></span><span class="tut-d" id="td2"></span></div>
+    <button class="tut-b tut-nx" id="tutNextBtn" onclick="M.tutNext()">次へ</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const NL=$('numLine'),EL=$('exprLine'),DB=$('dispBox'),ST=$('stage');
+const SH=$('stageHint'),CCB=$('cardCount'),CCN=$('cardCountNum');
+const HT=$('hintText');
+
+const S={cur:'0',prev:'',op:null,rst:false,cards:[],id:0,mode:'simple',editId:null,hist:[],links:{request:'',contact:''}};
+
+const MODES={
+  simple:{h:'数字を入力して<br>ディスプレイを<strong>ダブルタップ</strong>か<strong>上スワイプ</strong>でカード追加<br><small style="opacity:.5">右上からメモモードに切替でメモも残せます</small>',},
+  memo:{h:'ディスプレイ<strong>ダブルタップ</strong>でカード追加<br><small style="opacity:.6">カードをタップでメモ面に裏返し</small>',},
+  travel:{h:'金額を入力すると自動換算<br><strong>ダブルタップ</strong>か<strong>スワイプ</strong>でカード追加'}
+};
+
+const MODE_ORDER=['simple','memo','travel'];
+const MODE_UI={
+  simple:{lbl:'計算',ico:'<svg viewBox="0 0 20 20"><rect x="4" y="2.5" width="12" height="15" rx="2.5" fill="#fff"/><rect x="6.2" y="4.8" width="7.6" height="3.2" rx="1" fill="var(--brand-mid)"/><circle cx="7.4" cy="11" r="1.1" fill="var(--brand-mid)"/><circle cx="10" cy="11" r="1.1" fill="var(--brand-mid)"/><circle cx="12.6" cy="11" r="1.1" fill="var(--brand-mid)"/><circle cx="7.4" cy="14.2" r="1.1" fill="var(--brand-mid)"/><circle cx="10" cy="14.2" r="1.1" fill="var(--brand-mid)"/><circle cx="12.6" cy="14.2" r="1.1" fill="var(--brand-mid)"/></svg>'},
+  memo:{lbl:'メモ',ico:'<svg viewBox="0 0 20 20"><rect x="3.5" y="2.5" width="13" height="15" rx="2" fill="#fff"/><rect x="6" y="6" width="8" height="1.6" rx=".8" fill="var(--brand-mid)"/><rect x="6" y="9.2" width="8" height="1.6" rx=".8" fill="var(--brand-mid)" opacity=".75"/><rect x="6" y="12.4" width="5" height="1.6" rx=".8" fill="var(--brand-mid)" opacity=".5"/></svg>'},
+  travel:{lbl:'換算',ico:'<svg viewBox="0 0 20 20"><path d="M6.5 4v9.2M3.6 10.4l2.9 2.9 2.9-2.9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.5 16V6.8m2.9 2.8-2.9-2.9-2.9 2.9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
+};
+
+/* ===== Currency Data (rates to JPY, offline reference) ===== */
+const CURRENCIES=[
+  {code:'JPY',name:'日本円',flag:'🇯🇵',rate:1},
+  {code:'USD',name:'米ドル',flag:'🇺🇸',rate:156.9},
+  {code:'EUR',name:'ユーロ',flag:'🇪🇺',rate:176.5},
+  {code:'GBP',name:'英ポンド',flag:'🇬🇧',rate:209.8},
+  {code:'CNY',name:'中国人民元',flag:'🇨🇳',rate:22.7},
+  {code:'KRW',name:'韓国ウォン',flag:'🇰🇷',rate:0.114},
+  {code:'TWD',name:'新台湾ドル',flag:'🇹🇼',rate:5.08},
+  {code:'HKD',name:'香港ドル',flag:'🇭🇰',rate:20.2},
+  {code:'THB',name:'タイバーツ',flag:'🇹🇭',rate:4.68},
+  {code:'SGD',name:'シンガポールドル',flag:'🇸🇬',rate:121.5},
+  {code:'AUD',name:'豪ドル',flag:'🇦🇺',rate:103.2},
+  {code:'CAD',name:'カナダドル',flag:'🇨🇦',rate:114.8},
+  {code:'CHF',name:'スイスフラン',flag:'🇨🇭',rate:188.5},
+  {code:'NZD',name:'NZドル',flag:'🇳🇿',rate:94.2},
+  {code:'PHP',name:'フィリピンペソ',flag:'🇵🇭',rate:2.78},
+  {code:'VND',name:'ベトナムドン',flag:'🇻🇳',rate:0.00618},
+  {code:'INR',name:'インドルピー',flag:'🇮🇳',rate:1.85},
+  {code:'MYR',name:'マレーシアリンギット',flag:'🇲🇾',rate:36.8},
+  {code:'IDR',name:'インドネシアルピア',flag:'🇮🇩',rate:0.00962},
+  {code:'ZAR',name:'南アフリカランド',flag:'🇿🇦',rate:8.72},
+];
+
+/* ===== FX Converter State ===== */
+const FX={
+  from:'USD',to:'JPY',picking:null,
+  rateDate:'内蔵レート', // 表示用の日付
+  getRate(from,to){
+    const f=CURRENCIES.find(c=>c.code===from);
+    const t=CURRENCIES.find(c=>c.code===to);
+    if(!f||!t)return 1;
+    return f.rate/t.rate;
+  },
+  convert(amount,from,to){return amount*FX.getRate(from,to)},
+  updateDisplay(){
+    if(S.mode!=='travel')return;
+    const v=parseFloat(S.cur)||0;
+    const converted=FX.convert(v,FX.from,FX.to);
+    $('fxFromAmt').textContent=v===0?'0':v.toLocaleString('ja-JP',{maximumFractionDigits:2});
+    const dp=FX.to==='JPY'||FX.to==='KRW'||FX.to==='VND'||FX.to==='IDR'?0:2;
+    $('fxToAmt').textContent=converted===0?'0.00':converted.toLocaleString('ja-JP',{minimumFractionDigits:dp,maximumFractionDigits:dp});
+    $('fxFromCode').textContent=FX.from;
+    $('fxToCode').textContent=FX.to;
+    // 通貨名を表示
+    const fromC=CURRENCIES.find(c=>c.code===FX.from);
+    const toC=CURRENCIES.find(c=>c.code===FX.to);
+    $('fxFromName').textContent=fromC?fromC.name:FX.from;
+    $('fxToName').textContent=toC?toC.name:FX.to;
+    // レート表示
+    const r=FX.getRate(FX.from,FX.to);
+    const rDp=r<0.01?6:r<1?4:2;
+    $('fxRateLabel').textContent='1 '+FX.from+' = '+r.toFixed(rDp)+' '+FX.to+'  ('+FX.rateDate+')';
+    $('curBadge').textContent=FX.from;
+  },
+  swap(){
+    const tmp=FX.from;FX.from=FX.to;FX.to=tmp;
+    localStorage.setItem('gc_fx',JSON.stringify({from:FX.from,to:FX.to}));
+    FX.updateDisplay();
+  },
+  pickCur(which){
+    FX.picking=which;
+    $('fxCurModalTitle').textContent=which==='from'?'変換元の通貨':'変換先の通貨';
+    const sel=which==='from'?FX.from:FX.to;
+    $('fxCurList').innerHTML=CURRENCIES.map(c=>`<button class="fx-cur-item${c.code===sel?' selected':''}" onclick="FX.selectCur('${c.code}')"><span class="fx-flag">${c.flag}</span><div class="fx-info"><span class="fx-code">${c.code}</span><span class="fx-name">${c.name}</span></div>${c.code===sel?'<span class="fx-check">✓</span>':''}</button>`).join('');
+    $('fxCurModal').classList.add('show');
+  },
+  pickClose(){$('fxCurModal').classList.remove('show');FX.picking=null},
+  selectCur(code){
+    if(FX.picking==='from'){
+      FX.from=code;
+      if(FX.from===FX.to)FX.to=FX.from==='JPY'?'USD':'JPY';
+    }else{
+      FX.to=code;
+      if(FX.to===FX.from)FX.from=FX.to==='JPY'?'USD':'JPY';
+    }
+    localStorage.setItem('gc_fx',JSON.stringify({from:FX.from,to:FX.to}));
+    FX.pickClose();
+    FX.updateDisplay();
+  },
+  // レート自動取得（起動時に実行）
+  async fetchRates(){
+    // キャッシュ確認（6時間以内なら再取得しない）
+    const cached=localStorage.getItem('gc_rates');
+    if(cached){
+      try{
+        const c=JSON.parse(cached);
+        if(c.ts&&Date.now()-c.ts<6*60*60*1000){
+          FX._applyRates(c.rates,c.date);return;
+        }
+      }catch(e){}
+    }
+    // API1: exchangerate-api (無料・キー不要)
+    try{
+      const r=await fetch('https://open.er-api.com/v6/latest/JPY');
+      const d=await r.json();
+      if(d.result==='success'&&d.rates){
+        const rates={};const map={USD:1,EUR:1,GBP:1,CNY:1,KRW:1,TWD:1,HKD:1,THB:1,SGD:1,AUD:1,CAD:1,CHF:1,NZD:1,PHP:1,VND:1,INR:1,MYR:1,IDR:1,ZAR:1};
+        for(const code in map){if(d.rates[code])rates[code]=1/d.rates[code]}
+        rates.JPY=1;
+        const dateStr=d.time_last_update_utc?d.time_last_update_utc.split(' ').slice(1,4).join(' '):'取得済';
+        FX._applyRates(rates,dateStr);
+        localStorage.setItem('gc_rates',JSON.stringify({rates,date:dateStr,ts:Date.now()}));
+        return;
+      }
+    }catch(e){}
+    // API2: frankfurter (フォールバック)
+    try{
+      const r=await fetch('https://api.frankfurter.dev/v1/latest?base=JPY');
+      const d=await r.json();
+      if(d.rates){
+        const rates={JPY:1};
+        for(const code in d.rates){rates[code]=1/d.rates[code]}
+        const dateStr=d.date||'取得済';
+        FX._applyRates(rates,dateStr);
+        localStorage.setItem('gc_rates',JSON.stringify({rates,date:dateStr,ts:Date.now()}));
+        return;
+      }
+    }catch(e){}
+    // フォールバック：キャッシュがあれば使う
+    if(cached){try{const c=JSON.parse(cached);const days=Math.floor((Date.now()-(c.ts||Date.now()))/864e5);FX._applyRates(c.rates,days<=0?'本日取得・オフライン':days+'日前のレート')}catch(e){}}
+  },
+  _applyRates(rates,dateStr){
+    CURRENCIES.forEach(c=>{
+      if(rates[c.code]!==undefined)c.rate=rates[c.code];
+    });
+    FX.rateDate=dateStr;
+    FX.updateDisplay();
+  }
+};
+
+const fmt=v=>{if(Number.isInteger(v))return'¥'+v.toLocaleString('ja-JP');return'¥'+parseFloat(v.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:2})};
+const upd=v=>{const s=String(v);NL.textContent=s;NL.className='d-num';const l=s.replace(/[^0-9.]/g,'').length;if(l>12)NL.classList.add('xs');else if(l>8)NL.classList.add('sm');FX.updateDisplay()};
+const updS=()=>{SH.style.opacity=S.cards.length?'0':'1';CCB.style.display=S.cards.length?'block':'none';if(S.cards.length)CCN.textContent=S.cards.length+'/20';
+  
+
+  // 集計ボタンのパルス（カードがある時だけ）
+  const ga=document.querySelector('.bga');if(ga)ga.classList.toggle('has-cards',S.cards.length>0);
+};
+const toast=(msg,dur=1800)=>{const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove('show'),dur)};
+
+const C={
+  inp(c){if(S.rst){S.cur='';S.rst=false}if(S.cur==='0'&&c!=='.')S.cur='';if(c==='.'&&S.cur.includes('.'))return;if(S.cur.replace('-','').length>=13)return;S.cur+=c;if(!S.cur||S.cur==='-')S.cur='0';upd(S.cur)},
+  op(o){if(S.op&&!S.rst)C.eq(true);S.prev=S.cur;S.op=o;EL.textContent=S.cur+' '+o;S.rst=true},
+  eq(chain){if(!S.op)return false;const p=parseFloat(S.prev),c=parseFloat(S.cur);if(isNaN(p)||isNaN(c))return false;let r;switch(S.op){case'＋':r=p+c;break;case'−':r=p-c;break;case'×':r=p*c;break;case'÷':r=c===0?null:p/c;break}if(r===null){EL.textContent='0除算エラー';S.cur='0';S.op=null;upd('Error');return false}r=parseFloat(r.toPrecision(12));EL.textContent=S.prev+' '+S.op+' '+S.cur+' ＝';S.prev=String(r);S.cur=String(r);S.op=chain?S.op:null;S.rst=!chain;upd(r);return r},
+  clear(){S.cur='0';S.prev='';S.op=null;S.rst=false;upd('0');EL.textContent=''},
+  bs(){if(S.rst)return;S.cur=S.cur.slice(0,-1)||'0';upd(S.cur)},
+  sign(){const n=parseFloat(S.cur);if(!isNaN(n)&&n!==0){S.cur=String(n*-1);upd(S.cur)}},
+  pct(){const n=parseFloat(S.cur);if(!isNaN(n)){S.cur=String(n/100);upd(S.cur)}},
+
+  add(v,m=''){
+    if(S.cards.length>=20){toast('カードは最大20件までです');return}
+    S.id++;const id=S.id,sw=ST.offsetWidth,cw=Math.max(110,fmt(v).length*15+60);
+    let x,y;
+    if(!S.cards.length){x=Math.min(6+Math.random()*12,sw-cw-6);y=6}
+    else{const last=S.cards[S.cards.length-1];x=last.x+10+Math.random()*10-5;y=last.y+50+Math.random()*5-2;x=Math.max(4,Math.min(x,sw-cw-5));y=Math.max(4,Math.min(y,ST.clientHeight-50-5))}
+    const el=document.createElement('div');el.className='ncard';el.dataset.cardId=id;
+    const isMemo=S.mode==='memo';
+    el.innerHTML=`<div class="ncard-inner"><div class="ncard-front"><span class="clbl">#${id}</span><span class="cval">${fmt(v)}</span><button class="cdel" data-del="${id}">✕</button>${isMemo?'<span class="flip-hint">↻</span>':''}</div><div class="ncard-back"><span class="memo-label">MEMO</span><div class="memo-text">${m||'（メモなし）'}</div><button class="memo-edit-btn" data-memo="${id}">編集</button></div></div>`;
+    el.style.left=x+'px';el.style.top=y+'px';ST.appendChild(el);
+    const card={id,v,x,y,m,el,flipped:false};S.cards.push(card);C._bindCard(card);
+    el.classList.add('enter');el.addEventListener('animationend',()=>el.classList.remove('enter'),{once:true});updS();
+    if(S.mode==='memo'){setTimeout(()=>{S.editId=card.id;$('memoInput').value='';$('memoModal').classList.add('show');setTimeout(()=>$('memoInput').focus(),100)},350)}
+  },
+
+  _bindCard(card){
+    const el=card.el;let ds=null;
+    const onS=(cx,cy,e)=>{if(e.target.dataset.del||e.target.dataset.memo)return;ds={sx:cx,sy:cy,startX:card.x,startY:card.y,moved:false};el.classList.add('dragging');document.querySelectorAll('.ncard').forEach(n=>n.style.zIndex=10);el.style.zIndex=80};
+    const onM=(cx,cy,e)=>{if(!ds)return;e.preventDefault();const dx=cx-ds.sx,dy=cy-ds.sy;if(!ds.moved&&Math.abs(dx)<5&&Math.abs(dy)<5)return;ds.moved=true;let nx=ds.startX+dx,ny=ds.startY+dy;nx=Math.max(4,Math.min(nx,ST.clientWidth-el.offsetWidth-4));ny=Math.max(4,Math.min(ny,ST.clientHeight-el.offsetHeight-4));card.x=nx;card.y=ny;el.style.left=nx+'px';el.style.top=ny+'px'};
+    const onE=()=>{if(!ds)return;const wasDrag=ds.moved;ds=null;el.classList.remove('dragging');
+      if(!wasDrag&&S.mode==='memo'){
+        card.flipped=!card.flipped;
+        el.classList.toggle('flipped',card.flipped);
+        // フリップしてメモ面になったら即メモ編集を開く
+        if(card.flipped){setTimeout(()=>{S.editId=card.id;$('memoInput').value=card.m||'';$('memoModal').classList.add('show');setTimeout(()=>$('memoInput').focus(),100)},300)}
+      }
+    };
+    el.addEventListener('touchstart',e=>{const t=e.touches[0];onS(t.clientX,t.clientY,e)},{passive:true});
+    const tmH=e=>{if(!ds)return;const t=e.touches[0];onM(t.clientX,t.clientY,e)};const teH=()=>onE();
+    document.addEventListener('touchmove',tmH,{passive:false});document.addEventListener('touchend',teH);
+    el.addEventListener('mousedown',e=>{if(e.button!==0)return;e.preventDefault();onS(e.clientX,e.clientY,e);const mm=ev=>onM(ev.clientX,ev.clientY,ev);const mu=()=>{onE();document.removeEventListener('mousemove',mm);document.removeEventListener('mouseup',mu)};document.addEventListener('mousemove',mm);document.addEventListener('mouseup',mu)});
+    card._cleanup=()=>{document.removeEventListener('touchmove',tmH);document.removeEventListener('touchend',teH)};
+    el.addEventListener('click',e=>{const d=e.target.closest('[data-del]');if(d){e.stopPropagation();C.del(Number(d.dataset.del));return}const m=e.target.closest('[data-memo]');if(m){e.stopPropagation();M.memoEdit(Number(m.dataset.memo))}})
+  },
+
+  del(id){const i=S.cards.findIndex(c=>c.id===id);if(i<0)return;const card=S.cards[i];if(card._cleanup)card._cleanup();card.el.classList.add('leaving');setTimeout(()=>{card.el.remove();S.cards.splice(i,1);updS()},200)},
+
+  gather(){
+    // ディスプレイに入力中の数値があれば自動でカードに追加
+    try{
+      const cur=parseFloat(S.cur);
+      if(!isNaN(cur)&&cur!==0){
+        C.add(cur);
+        S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';
+      }
+    }catch(e){}
+    if(!S.cards.length){toast('カードがありません');return}
+    const n=S.cards.length,s=S.cards.reduce((a,c)=>a+c.v,0),t=parseFloat(s.toPrecision(12));
+    S._gatherTemp={n,t,cards:S.cards.map(c=>({id:c.id,v:c.v,m:c.m}))};
+    if(S.mode==='simple'){M._doGather('');return}
+    $('gatherInfo').textContent=n+'件 合計: '+fmt(t);$('gatherTitleInput').value='';
+    $('gatherModal').classList.add('show');setTimeout(()=>$('gatherTitleInput').focus(),100)
+  }
+};
+
+const M={
+  toggle(){const m=$('sideMenu'),o=$('menuOverlay'),b=$('menuToggle');if(m.classList.contains('open'))M.close();else{m.classList.add('open');o.classList.add('show');b.classList.add('open')}},
+  close(){$('sideMenu').classList.remove('open');$('menuOverlay').classList.remove('show');$('menuToggle').classList.remove('open')},
+  mode(m){
+    const prev=S.mode;
+    S.mode=m;const md=MODES[m];HT.innerHTML=md.h;
+    // 右下ボタン：次のモードを表示
+    const nx=MODE_ORDER[(MODE_ORDER.indexOf(m)+1)%MODE_ORDER.length];
+    $('fxIco').innerHTML=MODE_UI[nx].ico;$('fxLbl').textContent=MODE_UI[nx].lbl;
+    // セグメントコントロール更新
+    $('msSimple').classList.toggle('on',m==='simple');
+    $('msMemo').classList.toggle('on',m==='memo');
+    $('msTravel').classList.toggle('on',m==='travel');
+    localStorage.setItem('gc_m',m);
+    // Toggle FX panel vs stage
+    const isTr=m==='travel';
+    if(isTr){
+      // 換算モード：FXパネル表示、ステージ非表示
+      $('fxPanel').classList.add('active');
+      ST.classList.add('fx-hidden');
+      $('curBadge').textContent=FX.from;
+      FX.updateDisplay();
+    }else{
+      // 通常モード：FXパネル非表示、ステージ表示
+      $('fxPanel').classList.remove('active');
+      ST.classList.remove('fx-hidden');
+      $('curBadge').textContent='JPY';
+    }
+    // Card flip hints
+    S.cards.forEach(c=>{c.flipped=false;c.el.classList.remove('flipped');const h=c.el.querySelector('.flip-hint');if(m==='memo'&&!h){const s=document.createElement('span');s.className='flip-hint';s.textContent='↻';c.el.querySelector('.ncard-front').appendChild(s)}else if(m!=='memo'&&h){h.remove()}});
+    // メモモード切替時：カードがあれば最初のカードをナッジ（タップ誘導）
+    if(m==='memo'&&S.cards.length){const first=S.cards[0].el;first.classList.add('nudge');first.addEventListener('animationend',()=>first.classList.remove('nudge'),{once:true})}
+    M.close();
+    // モード切替トースト（初回ロード時以外）
+    if(prev!==undefined&&prev!==m){
+      toast({simple:'計算',memo:'メモ',travel:'換算'}[m],800);
+    }
+  },
+  cycle(){
+    const nx=MODE_ORDER[(MODE_ORDER.indexOf(S.mode)+1)%MODE_ORDER.length];
+    M.mode(nx);
+  },
+  hist(){M.close();const l=$('historyList');if(!S.hist.length){l.innerHTML='<div class="hist-empty">まだ履歴がありません</div>'}else{l.innerHTML=S.hist.map((h,idx)=>{const d=new Date(h.d),ds=d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');const title=h.title||'無題の集計',hasCards=h.cards&&h.cards.length;return`<div class="history-item"><div class="hist-date">${ds}</div><div class="hist-title"><span class="hist-title-icon">📌</span>${title}</div><div class="hist-formula">${h.n}件を集計</div><div class="hist-total">${fmt(h.t)}</div><div class="hist-actions">${hasCards?`<button class="hist-btn restore" onclick="M.histRestore(${idx})">復元する</button>`:''}<button class="hist-btn" onclick="M.histEdit(${idx})">編集</button><button class="hist-btn" onclick="M.histDel(${idx})">削除</button></div></div>`}).join('')+'<button class="hist-del-all" onclick="M.histDelAll()">履歴を全件削除</button>'}$('historyModal').classList.add('show')},
+  histClose(){$('historyModal').classList.remove('show')},
+  histRestore(idx){const h=S.hist[idx];if(!h||!h.cards||!h.cards.length){toast('復元データがありません');return}if(S.cards.length&&!confirm('現在のカードを置き換えますか？'))return;S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];S.id=0;
+    // 旅行モード中はカードタブに切替
+    
+    h.cards.forEach(c=>C.add(c.v,c.m||''));M.histClose();toast('「'+(h.title||'無題')+'」を復元しました')},
+  histDel(idx){S.hist.splice(idx,1);localStorage.setItem('gc_h',JSON.stringify(S.hist));M.hist();toast('履歴を削除しました')},
+  histDelAll(){if(!confirm(S.hist.length+'件の履歴を全て削除しますか？'))return;S.hist=[];localStorage.removeItem('gc_h');M.hist();toast('履歴を全件削除しました')},
+  histEdit(idx){const h=S.hist[idx];if(!h)return;const nw=prompt('タイトルを編集',h.title||'');if(nw===null)return;h.title=nw.trim();localStorage.setItem('gc_h',JSON.stringify(S.hist));M.hist();toast('タイトルを更新しました')},
+
+  memoEdit(id){if(S.mode!=='memo'){toast('メモ機能は「メモモード」で使えます');return}const c=S.cards.find(c=>c.id===id);if(!c)return;S.editId=id;$('memoInput').value=c.m||'';$('memoModal').classList.add('show');setTimeout(()=>$('memoInput').focus(),100)},
+  memoClose(){$('memoModal').classList.remove('show');S.editId=null},
+  memoSave(){if(S.editId===null)return;const c=S.cards.find(c=>c.id===S.editId);if(!c)return;c.m=$('memoInput').value.trim();const mt=c.el.querySelector('.memo-text');if(mt)mt.textContent=c.m||'（メモなし）';M.memoClose();toast('メモを保存しました')},
+
+  gatherClose(){$('gatherModal').classList.remove('show');S._gatherTemp=null},
+  gatherConfirm(){const title=$('gatherTitleInput').value.trim()||'';$('gatherModal').classList.remove('show');M._doGather(title)},
+  _doGather(title){const gt=S._gatherTemp;if(!gt)return;S.hist.unshift({d:new Date().toISOString(),n:gt.n,t:gt.t,title,cards:gt.cards});if(S.hist.length>50)S.hist=S.hist.slice(0,50);localStorage.setItem('gc_h',JSON.stringify(S.hist));S.cards.forEach(c=>c.el.classList.add('leaving'));setTimeout(()=>{S.cards.forEach(c=>{if(c._cleanup)c._cleanup();c.el.remove()});S.cards=[];updS()},210);S.cur=String(gt.t);S.rst=true;S.op=null;
+    // 旅行モードでは入力通貨の記号を使う
+    const sym=S.mode==='travel'&&FX.from!=='JPY'?FX.from+' ':'¥';
+    const fmtResult=Number.isInteger(gt.t)?sym+gt.t.toLocaleString('ja-JP'):sym+parseFloat(gt.t.toPrecision(10)).toLocaleString('ja-JP',{maximumFractionDigits:2});
+    upd(fmtResult);EL.textContent=gt.n+'件 合計 ＝';S._gatherTemp=null;toast('✓ 集計完了 '+fmtResult+'（'+gt.n+'件）',2500)},
+
+  guide(){M.close();$('guideModal').classList.add('show')},
+  guideClose(){$('guideModal').classList.remove('show')},
+  welcomeClose(){$('welcomeModal').classList.remove('show');localStorage.setItem('gc_welcomed','1')},
+  tutPage:0,
+  tutNext(){
+    M.tutPage++;
+    if(M.tutPage>=3){M.welcomeClose();return}
+    $('tutSlider').style.transform='translateX(-'+M.tutPage*(100/3)+'%)';
+    for(let i=0;i<3;i++)$('td'+i).classList.toggle('on',i===M.tutPage);
+    $('tutNextBtn').textContent=M.tutPage===2?'はじめる':'次へ';
+  },
+  setTheme(t){
+    const themes=['light','ocean','pastel','dark','night','purple'];
+    // Remove all theme classes
+    themes.forEach(th=>document.documentElement.classList.remove('t-'+th));
+    // Apply new (light has no class)
+    if(t!=='light')document.documentElement.classList.add('t-'+t);
+    // Update meta theme color
+    const metas={light:'#0B7A8A',ocean:'#4A90D0',pastel:'#E8A0BF',dark:'#121816',night:'#0E1525',purple:'#120E1E'};
+    $('metaTheme').content=metas[t]||'#0B7A8A';
+    // Update body bg for dark themes
+    document.body.style.background='';
+    // Update picker UI
+    document.querySelectorAll('.tp').forEach(el=>el.classList.toggle('on',el.dataset.t===t));
+    localStorage.setItem('gc_theme',t);
+    toast({light:'ライト',ocean:'オーシャン',pastel:'パステル',dark:'ダーク',night:'ナイト',purple:'パープル'}[t]+'テーマ',1200);
+  },
+  privacy(){M.close();$('privacyModal').classList.add('show')},
+  privacyClose(){$('privacyModal').classList.remove('show')},
+  openLink(type){const url=S.links[type];if(url){window.open(url,'_blank')}else{toast(type==='request'?'機能リクエストURLは準備中です':'お問合せURLは準備中です')}M.close()},
+  cal(){M.close();CAL.open()},
+  calClose(){$('calModal').classList.remove('show')}
+};
+
+/* ===== Quick actions: 税込・割り勘 ===== */
+const Q={
+  tax(rate){
+    const v=parseFloat(S.cur);
+    if(isNaN(v)||v===0){toast('金額を入力してください');return}
+    const r=Math.floor(v*rate);
+    EL.textContent=fmt(v)+' 税込'+(rate===1.10?'10%':'8%')+' ＝';
+    S.cur=String(r);S.rst=true;S.op=null;upd(r);
+  },
+  people:2,amount:0,
+  wariOpen(){
+    // ディスプレイの金額、なければカード合計を使う
+    let v=parseFloat(S.cur);
+    if(isNaN(v)||v===0){
+      if(S.cards.length){v=parseFloat(S.cards.reduce((a,c)=>a+c.v,0).toPrecision(12))}
+      else{toast('金額を入力するか、カードを集めてください');return}
+    }
+    Q.amount=v;Q.people=2;
+    Q._update();
+    $('wariModal').classList.add('show');
+  },
+  wariClose(){$('wariModal').classList.remove('show')},
+  wariChange(d){
+    Q.people=Math.max(2,Math.min(50,Q.people+d));
+    Q._update();
+  },
+  _update(){
+    $('wariTotal').textContent='合計 '+fmt(Q.amount);
+    $('wariNum').textContent=Q.people;
+    const per=Math.ceil(Q.amount/Q.people);
+    $('wariPer').textContent=fmt(per);
+    const total=per*Q.people;
+    const diff=total-Q.amount;
+    $('wariNote').textContent=diff>0?'端数切り上げ（合計 '+fmt(total)+'・+'+fmt(diff)+'）':'ぴったり割り切れます';
+  }
+};
+
+/* ===== Calendar ===== */
+const CAL={
+  year:new Date().getFullYear(),
+  month:new Date().getMonth(),
+  view:'cal',
+  open(){
+    CAL.year=new Date().getFullYear();
+    CAL.month=new Date().getMonth();
+    CAL.render();
+    $('calModal').classList.add('show');
+  },
+  setView(v){
+    CAL.view=v;
+    $('calVsCal').classList.toggle('on',v==='cal');
+    $('calVsList').classList.toggle('on',v==='list');
+    CAL.render();
+  },
+  prev(){CAL.month--;if(CAL.month<0){CAL.month=11;CAL.year--}CAL.render()},
+  next(){CAL.month++;if(CAL.month>11){CAL.month=0;CAL.year++}CAL.render()},
+  _getMonthData(){
+    const y=CAL.year,m=CAL.month;
+    const days={};let total=0,count=0;
+    S.hist.forEach(h=>{
+      const d=new Date(h.d);
+      if(d.getFullYear()===y&&d.getMonth()===m){
+        const day=d.getDate();
+        if(!days[day])days[day]={items:[],total:0};
+        days[day].items.push(h);
+        days[day].total+=h.t;
+        total+=h.t;count++;
+      }
+    });
+    return{days,total,count};
+  },
+  render(){
+    const y=CAL.year,m=CAL.month;
+    const MNAMES=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+    $('calMonth').textContent=y+'年 '+MNAMES[m];
+    const data=CAL._getMonthData();
+    // Summary
+    const avg=data.count?Math.round(data.total/Object.keys(data.days).length):0;
+    $('calSummary').innerHTML=`<div class="cal-sum-box"><div class="cal-sum-label">月合計</div><div class="cal-sum-val">${fmt(data.total)}</div><div class="cal-sum-sub">${data.count}件の集計</div></div><div class="cal-sum-box"><div class="cal-sum-label">日平均</div><div class="cal-sum-val">${fmt(avg)}</div><div class="cal-sum-sub">${Object.keys(data.days).length}日</div></div>`;
+    if(CAL.view==='cal')CAL._renderCal(y,m,data);
+    else CAL._renderList(y,m,data);
+  },
+  _renderCal(y,m,data){
+    const firstDay=new Date(y,m,1).getDay();
+    const daysInMonth=new Date(y,m+1,0).getDate();
+    const today=new Date();const isThisMonth=today.getFullYear()===y&&today.getMonth()===m;
+    const DOWS=['日','月','火','水','木','金','土'];
+    let html='<div class="cal-grid">';
+    DOWS.forEach((d,i)=>html+=`<div class="cal-dow">${d}</div>`);
+    for(let i=0;i<firstDay;i++)html+='<div class="cal-cell empty"><span class="cal-day"></span></div>';
+    for(let d=1;d<=daysInMonth;d++){
+      const dow=(firstDay+d-1)%7;
+      const isToday=isThisMonth&&d===today.getDate();
+      const dd=data.days[d];
+      let cls='cal-cell';
+      if(isToday)cls+=' today';
+      if(dow===0)cls+=' sun';
+      if(dow===6)cls+=' sat';
+      html+=`<div class="${cls}"><span class="cal-day">${d}</span>`;
+      if(dd){
+        const sz=dd.total>=10000?'xl':dd.total>=3000?'lg':'';
+        html+=`<span class="cal-dot ${sz}"></span>`;
+      }
+      html+='</div>';
+    }
+    html+='</div>';
+    $('calBody').innerHTML=html;
+  },
+  _renderList(y,m,data){
+    const DOWS=['日','月','火','水','木','金','土'];
+    const sortedDays=Object.keys(data.days).map(Number).sort((a,b)=>b-a);
+    if(!sortedDays.length){$('calBody').innerHTML='<div class="cal-list-empty">この月の記録はありません</div>';return}
+    let html='';
+    sortedDays.forEach(d=>{
+      const dd=data.days[d];
+      const dow=new Date(y,m,d).getDay();
+      html+=`<div class="cal-list-day"><div class="cal-list-date">${m+1}/${d} <span class="cal-list-dow">${DOWS[dow]}</span></div>`;
+      dd.items.forEach(h=>{
+        html+=`<div class="cal-list-item"><span class="cal-list-title">${h.title||'無題'}</span><span class="cal-list-amt">${fmt(h.t)}</span></div>`;
+      });
+      if(dd.items.length>1)html+=`<div class="cal-list-total"><span>日計</span><span>${fmt(dd.total)}</span></div>`;
+      html+='</div>';
+    });
+    $('calBody').innerHTML=html;
+  }
+};
+
+/* Display drag → add card + tap to add */
+(()=>{
+  let dr=false,gh=null,sy=0;const TH=50;
+  const gV=()=>{if(S.op&&!S.rst){const r=C.eq(false);return r===false?null:r}const n=parseFloat(S.cur);return isNaN(n)?null:n};
+  const mG=v=>{const e=document.createElement('div');e.className='ghost-card';e.textContent=fmt(v);document.body.appendChild(e);return e};
+  const mvG=(x,y)=>{if(!gh)return;gh.style.left=(x-gh.offsetWidth/2)+'px';gh.style.top=(y-gh.offsetHeight/2)+'px'};
+  const inS=(x,y)=>{const r=ST.getBoundingClientRect();return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom};
+  const doAdd=()=>{const v=gV();if(v!==null&&v!==0){
+    C.add(v);S.cur='0';S.rst=false;S.op=null;upd('0');EL.textContent='';DB.classList.remove('flash');void DB.offsetWidth;DB.classList.add('flash');
+  }};
+  const fin=(cx,cy)=>{dr=false;DB.classList.remove('lift');ST.classList.remove('drop-ready');if(gh){gh.remove();gh=null}
+    const dropOk=S.mode==='travel'?(cy<sy-TH):(inS(cx,cy)||cy<sy-TH);
+    if(dropOk){doAdd()}};
+
+  // Double-tap to add card
+  let lastTap=0;
+  // Mouse double-click
+  DB.addEventListener('dblclick',e=>{e.preventDefault();doAdd()});
+
+  DB.addEventListener('touchstart',e=>{e.preventDefault();const v=gV();if(v===null)return;const t=e.touches[0];dr=true;sy=t.clientY;DB._touchStartX=t.clientX;DB._touchStartY=t.clientY;DB._touchMoved=false;DB.classList.add('lift');gh=mG(v);mvG(t.clientX,t.clientY)},{passive:false});
+  document.addEventListener('touchmove',e=>{if(!dr)return;e.preventDefault();const t=e.touches[0];mvG(t.clientX,t.clientY);
+    // 5px以上動いたらドラッグ確定
+    if(DB._touchStartX!==undefined){const dx=t.clientX-DB._touchStartX,dy=t.clientY-DB._touchStartY;if(Math.abs(dx)>5||Math.abs(dy)>5)DB._touchMoved=true}
+    const ok=S.mode==='travel'?(t.clientY<sy-TH):(inS(t.clientX,t.clientY)||t.clientY<sy-TH);ST.classList.toggle('drop-ready',ok)},{passive:false});
+  document.addEventListener('touchend',e=>{if(!dr)return;const t=e.changedTouches[0];
+    const wasMoved=DB._touchMoved;
+    fin(t.clientX,t.clientY);
+    // ドラッグせず短タップだった場合→ダブルタップ判定
+    if(!wasMoved){const now=Date.now();if(now-lastTap<400){lastTap=0;doAdd()}else{lastTap=now}}
+  });
+  DB.addEventListener('mousedown',e=>{if(e.button!==0)return;e.preventDefault();const v=gV();if(v===null)return;dr=true;sy=e.clientY;DB.classList.add('lift');gh=mG(v);mvG(e.clientX,e.clientY);
+    const mm=ev=>{if(!dr)return;ev.preventDefault();mvG(ev.clientX,ev.clientY);const ok=S.mode==='travel'?(ev.clientY<sy-TH):(inS(ev.clientX,ev.clientY)||ev.clientY<sy-TH);ST.classList.toggle('drop-ready',ok)};
+    const mu=ev=>{if(!dr)return;fin(ev.clientX,ev.clientY);document.removeEventListener('mousemove',mm);document.removeEventListener('mouseup',mu)};
+    document.addEventListener('mousemove',mm);document.addEventListener('mouseup',mu)});
+})();
+
+/* Init */
+const sm=localStorage.getItem('gc_m'),sh=localStorage.getItem('gc_h'),sf=localStorage.getItem('gc_fx');
+if(sh){try{S.hist=JSON.parse(sh)}catch(e){S.hist=[]}}
+if(sf){try{const p=JSON.parse(sf);if(p.from)FX.from=p.from;if(p.to)FX.to=p.to}catch(e){}}
+M.mode(sm&&MODES[sm]?sm:'simple');
+upd('0');
+// テーマ復元
+const savedTheme=localStorage.getItem('gc_theme')||'light';
+if(savedTheme!=='light'){document.documentElement.classList.add('t-'+savedTheme)}
+document.querySelectorAll('.tp').forEach(el=>el.classList.toggle('on',el.dataset.t===savedTheme));
+const themeMetas={light:'#0B7A8A',ocean:'#4A90D0',pastel:'#E8A0BF',dark:'#121816',night:'#0E1525',purple:'#120E1E'};
+$('metaTheme').content=themeMetas[savedTheme]||'#0B7A8A';
+// 為替レート取得（非同期・バックグラウンド）
+FX.fetchRates();
+// 初回のみウェルカムガイド表示
+if(!localStorage.getItem('gc_welcomed')){$('welcomeModal').classList.add('show')}
+const APP_VER='v16';$('appVer').textContent='メモタス '+APP_VER;
+// PWA Service Worker登録
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(r=>{r.update().catch(()=>{})}).catch(e=>console.log('SW failed:',e));
+  // 新しい版に切り替わったら一度だけ自動リロード（次回から更新が即反映）
+  let reloaded=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloaded)return;reloaded=true;location.reload()});
+}
+// 電卓ボタン: 指が触れた瞬間に入力（iPhone純正電卓と同じ即応性）
+document.querySelectorAll('.kpad .btn, .ctrl .bc, .ctrl .bga, .qbtn').forEach(btn=>{
+  const code=btn.getAttribute('onclick');
+  if(!code)return;
+  btn.removeAttribute('onclick');
+  const fn=new Function(code);
+  btn.addEventListener('pointerdown',e=>{
+    e.preventDefault();
+    btn.style.transform='scale(.9) translateY(2px)';
+    try{fn()}catch(err){console.error(err)}
+  });
+  const reset=()=>{btn.style.transform=''};
+  btn.addEventListener('pointerup',reset);
+  btn.addEventListener('pointercancel',reset);
+  btn.addEventListener('pointerleave',reset);
+});
+</script>
+</body>
+</html>
